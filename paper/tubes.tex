@@ -9,6 +9,15 @@
 \item fully closed - no openings on system or user side (e.g. air bubbles, resonance chambers)
 \end{itemize}
 
+\subsection{Topology of Tubes}
+
+\begin{itemize}
+\item splitting - one tube becomes two (e.g., for grounding several components)
+\item mixing - two tubes become one (e.g., for mixing liquids)
+\item star - several tubes meet at a point (good for mixing I guess?)
+\item tree - a.. tree.  easy to inject with goo.
+\end{itemize}
+
 \subsection{Features of Tubes}
 
 \begin{itemize}
@@ -21,7 +30,7 @@
 \begin{itemize}
 \item Gas (compressible).  Air with smells.  Air with fog.
 \item Liquid (incompressible).  Clear, colored, conductive, heated, flavored (smoothie!).  Fill or coat.
-\item Particles.  Sparse for haptic feedback.  Dense for jamming.
+\item Particles.  Single for games/display.  Sparse for haptic feedback.  Dense for jamming.
 \item Threadables.  EL wire, conductive wire, fiberoptic cable, muscle wire.
 \end{itemize}
 
@@ -29,9 +38,15 @@
 
 \subsubsection{Two Tools for Design}
 
-\textbf{designing interior paths}
+\textbf{designing interior paths} -- take into account bend radius of desired material
 
-\textbf{designing exterior connection points}
+\textbf{designing exterior connection points} -- focus on either \emph{shape} or \emph{location}
+
+\subsubsection{Fabrication Techniques}
+
+\textbf{printing} - different strategies with Objet (all print-in-place) and Makerbot (may need to add things like balloons afterwards).  Ryan just got flexible material, we should see how stretchy it is...!  We could also consider assembleable things that are easier to create using parts that clip together... probably out of scope.
+
+\textbf{hand tools} - post-fabrication modification is possible using hand tools.  We can mark the surface to show where conduits are and how deep.  I can also use this to test things beforehand.
 
 \subsection{Inputs}
 
@@ -40,13 +55,13 @@
 Much like \cite{Slyper-shape}, we can sense flexing and bending of prints made on the Objet.  We can make prints on the Objet and tunnel through them, though, without making crazytastic silicone molds.
 
 \subsubsection{Touch}
-Capacitance (digital).  
+Capacitance (digital).  SFCS (possible with mixed resistance things).
 
 \subsubsection{Pressure}
 Pressure (capacitance (ish) or fluid pressure). 
 
 \subsubsection{Tapping}
- Tapping (audio/resonance?) carried through particular tubes, like we talked about hard tubes in a soft thing.
+ Tapping (audio/resonance?) carried through particular tubes, like we talked about hard tubes in a soft thing.  We use hard tubes in soft things, anyway, for the conductive goo.
 
 \subsubsection{Other stuff?}
 Could be.
@@ -57,7 +72,7 @@ Obviously you can hook up traditional buttons, etc., the same way as always.  Wi
 \subsection{Outputs}
 
 \subsubsection{Visual}
-EL wire.  Colored liquids.  Mechanical motion by pushing light stuff with air.
+EL wire.  Colored liquids.  Mechanical motion by pushing light or plugging (like a big ball) stuff with fluid.
 
 \subsubsection{Aural}
 Resonance chambers.  Air cavity design for sound/amplification (see passive iPhone speakers).  I mean, this is basically just 3D printing instruments, which we know has been done.

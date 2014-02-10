@@ -1,5 +1,29 @@
 \section{Related Work}
-This should be thought about soon!
+
+\begin{itemize}
+\item \cite{Sarik-tracebrush} - this uses an airspray machine to add conductive paths to surface of 3D prints
+\item \cite{Harrison-buttons} - fabricate latex + acrylic buttons and pressurize with air
+\item \cite{Hashimoto-squirming} - hold a speaker in your hands, and air pressure changes make it feel like you're holidng a living, squirming thing
+\item \cite{Kim-inflatablemouse} - a basic mouse, but it inflates so you can store it and also use it more reasonably than a flat mouse
+\item \cite{Ono-touchandactivate} - the Touch\'{e} with sound paper from last year's UIST
+\item \cite{Iwata-volflex} - a display made up of many balloons that inflate and deflate to change the shape
+\item \cite{Sells-reprap} - the RepRap people using a syringe of hot solder to squirt flat circuits into flat channels
+\item \cite{Majidi-curvature} - inject liquid metal into really thin tubes in a soft substrate, sense stretching by changing resistance
+\item \cite{Navarrette-gps} - I'm a little unclear on what they did, but they fabbed something with a "3D circuitboard" that has a bypass that goes into 3D.  they don't offer a routing algorithm or anything, though.
+\item \cite{Optomec} - fancy machines that spray conductive film
+\item \cite{Slyper-pressure} - robots that are made of squishy stuff where air pressure changes are sensed.  input components designed to react to different manipulations (pushing, squeezing, twisting, etc.)
+\item \cite{icecats-conductivepaint} - an instructable I followed to make my first batch of conductive paint
+\item \cite{Follmer-jamming} - Jamming User Interfaces
+\item \cite{Park-microchannels} - similar to injection of liquid metal, above
+\item \cite{Slyper-shape} - creating silicone bendy things with embedded electronics to sense flexing, stretching, etc., supported by those shapes.
+\item \cite{Yao-pneui} - PneUIs, creating interfaces with pneumatics
+\item \cite{Willis-infrastructs} - InfraStructs, identification of 3d printed objects using Terahertz imaging
+\item \cite{Willis-printedoptics} - Printed Optics.  doing cool stuff with clear material (touch sensing and display)
+\item \cite{Sodhi-aireal} - air vortex generation in free space.  air haptics.
+\item \cite{Savage-midas} - Midas.  routing in 2D to connect up capacitive sensors
+\item \cite{Savage-sauron} - Sauron.  computer vision of mechanical components obviates electronics installation.
+\item \cite{Sato-touche} - Touch\'{e}.  It's like Touch\'{e} with sound, but without sound.  SFCS.
+\end{itemize}
 
 \subsection{Fabrication}
 
@@ -12,15 +36,17 @@ This should be thought about soon!
 \subsection{The Design Space}
 
 \begin{table*}[t]
+\caption{Existing systems are written in regular font.  What's in \emph{italic} are things that I think we could make.  I don't know what else might go in the blank spaces... looking for suggestions!  Also, I'm not confident this breakdown is the most clear: for example, the "liquids" category includes the copper paint, which functions as wires ("threadables"), but takes the form of a liquid...}
 \begin{tabular}{ r || p{3cm} | p{3cm} | p{3cm} | p{3cm} }
   \hline
    & Gas & Liquid & Particles & Threadables\\ \hline \hline
   Visual & \parbox{3cm}{PneUIs, \\Harrison latex thingy, \\ \emph{smoke display}} & \parbox{3cm}{Splash Controllers, \\ \emph{paint mixer}} &\parbox{3cm}{\emph{clear thing with popcorn}} &\parbox{3cm}{\emph{neon sign}} \\ \hline
-  Aural & \parbox{3cm}{\emph{resonance}} & \parbox{3cm}{} &\parbox{3cm}{\emph{CNC maracas}} &\parbox{3cm}{} \\ \hline
+  Aural & \parbox{3cm}{\emph{resonance}} & \parbox{3cm}{\emph{bubbling/splashing noises}} &\parbox{3cm}{\emph{CNC maracas}} &\parbox{3cm}{} \\ \hline
   Tactile/Haptic & \parbox{3cm}{PneUIs,\\ \emph{haptic textures}} & \parbox{3cm}{Splash Controllers,\\ \emph{warm/cold liquid}} &\parbox{3cm}{Jamming UIs, \\ \emph{sparse particle haptic textures}} &\parbox{3cm}{Otherlab robots} \\ \hline
   Olfactory/Gustatory & \parbox{3cm}{\emph{scents}} & \parbox{3cm}{\emph{smoothie mixer!}} &\parbox{3cm}{} &\parbox{3cm}{} \\ \hline
   Touch Input & \parbox{3cm}{Harrison latex thingy} & \parbox{3cm}{Harrison SFCS, \\ \emph{injectable capacitive sensors}} &\parbox{3cm}{Jamming UIs} &\parbox{3cm}{\emph{capacitance on wires}} \\ \hline
   Pressure Input & \parbox{3cm}{Slyper printed doodads} & \parbox{3cm}{\emph{capacitance, flow meter}} &\parbox{3cm}{} &\parbox{3cm}{} \\ \hline
-  Other Input & \parbox{3cm}{Slyper (twist, bend, flex, etc.), \\ \emph{printed flex sensors}} & \parbox{3cm}{} &\parbox{3cm}{} &\parbox{3cm}{\emph{use traditional components}} \\ \hline
+  Other Input & \parbox{3cm}{Slyper (twist, bend, flex, etc.), \\ \emph{printed flex sensors}} & \parbox{3cm}{\emph{use traditional components}} &\parbox{3cm}{} &\parbox{3cm}{\emph{use traditional components}} \\ \hline
 \end{tabular}
 \end{table*}
+\
