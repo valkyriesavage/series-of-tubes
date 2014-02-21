@@ -1,87 +1,45 @@
 \section{A Series of Tubes}
 
-\subsection{Types of Tubes}
+\subsection{Tool for Tube Design}
 
-\begin{itemize}
-\item open - system to user, both ends open
-\item return - system to system, both ends open
-\item semi-closed - system to user, system side open, user side covered (e.g. elastic material)
-\item fully closed - no openings on system or user side (e.g. air bubbles, resonance chambers)
-\end{itemize}
+We created a tool which novice designers can use to create tube-powered interfaces in arbitrary 3D models.  This tool allows users to brush over the surface of their model to either select exterior connection points of their tubes (see Figure \ref{fig:tool-process-interior}) or to author the tubes' interior paths (see Figure \ref{fig:tool-process-exterior}).  Once the user's selections are made, our tool creates an initial shortest-path routing using A* to estimate the routed distance between points.  This routing is used to create a rod; we run physics-based simulation steps on the rod to minimize its bending energy (and thereby minimize the bend radius of the tubes).  The resultant routing is subtracted from the user's mesh.  The modified mesh can then be 3D printed.
 
-\subsection{Topology of Tubes}
+\subsubsection{Selection}
 
-\begin{itemize}
-\item splitting - one tube becomes two (e.g., for grounding several components)
-\item mixing - two tubes become one (e.g., for mixing liquids)
-\item star - several tubes meet at a point (good for mixing I guess?)
-\item tree - a.. tree.  easy to inject with goo.
-\end{itemize}
+\textbf{Exterior Connection Points}
 
-\subsection{Features of Tubes}
+\begin{figure}[h!]
+\centering
+    \includegraphics[width=3.4in]{figures/series-of-tubes.jpg}
+\caption{This figure has several sub-figures.  a) shows a model with exterior connection points brushed.  b) shows initial routing with A*.  c) shows our physics-based, energy-minimizing rod/tube, d) shows the printed object with the tube (with something in it, copper paint presumably)}
+\label{fig:tool-process-exterior}
+\end{figure}
 
-\begin{itemize}
-\item emphasize exterior connection points
-\item emphasize interior design/path of tubes (for display)
-\end{itemize}
+Focus on shape of points and location of points.
 
-\subsection{Media in Tubes}
+\textbf{Designing Interior Paths}
 
-\begin{itemize}
-\item Gas (compressible).  Air with smells.  Air with fog.
-\item Liquid (incompressible).  Clear, colored, conductive, heated, flavored (smoothie!).  Fill or coat.
-\item Particles.  Single for games/display.  Sparse for haptic feedback.  Dense for jamming.
-\item Threadables.  EL wire, conductive wire, fiberoptic cable, muscle wire.
-\end{itemize}
+\begin{figure}[h!]
+\centering
+    \includegraphics[width=3.4in]{figures/series-of-tubes.jpg}
+\caption{This figure has several sub-figures.  a) shows a model with path shape and exterior connection point(s) brushed.  b) highlights the points which can't be tubed as drawn (if they are not connected, too tight, etc.).  c) shows our physics-based, energy-minimizing rod/tube and any path-smoothing that we do, d) shows the printed object with the tube (with something in it, EL wire presumably)}
+\label{fig:tool-process-interior}
+\end{figure}
 
-\subsection{Design, Fabrication, Construction}
+take into account bend radius of desired material - no need, we just do the minimum-bending path
 
-\subsubsection{Two Tools for Design}
+\subsubsection{Routing}
 
-\textbf{designing interior paths} -- take into account bend radius of desired material
+Our basic first-pass routing algorithm uses the A* routing algorithm \cite{Hart-Astar}.  The path cost in our implementation is based only on shortest distance between the starting and ending points, without weighting for distance from the surface.
 
-\textbf{designing exterior connection points} -- focus on either \emph{shape} or \emph{location}
+\subsubsection{Physical Simulation}
 
-\subsubsection{Fabrication Techniques}
+\subsubsection{Mesh Modification}
 
-\textbf{printing} - different strategies with Objet (all print-in-place) and Makerbot (may need to add things like balloons afterwards).  Ryan just got flexible material, we should see how stretchy it is...!  We could also consider assembleable things that are easier to create using parts that clip together... probably out of scope.
 
-\textbf{hand tools} - post-fabrication modification is possible using hand tools.  We can mark the surface to show where conduits are and how deep.  I can also use this to test things beforehand.
 
-\subsection{Inputs}
+\subsection{Fabrication Techniques}
 
-\subsubsection{Flexing}
+\subsubsection{printing} - different strategies with Objet (all print-in-place) and Makerbot (may need to add things like balloons afterwards).  Ryan just got flexible material, we should see how stretchy it is...!  We could also consider assembleable things that are easier to create using parts that clip together... probably out of scope.
 
-Much like \cite{Slyper-shape}, we can sense flexing and bending of prints made on the Objet.  We can make prints on the Objet and tunnel through them, though, without making crazytastic silicone molds.
-
-\subsubsection{Touch}
-Capacitance (digital).  SFCS (possible with mixed resistance things).
-
-\subsubsection{Pressure}
-Pressure (capacitance (ish) or fluid pressure). 
-
-\subsubsection{Tapping}
- Tapping (audio/resonance?) carried through particular tubes, like we talked about hard tubes in a soft thing.  We use hard tubes in soft things, anyway, for the conductive goo.
-
-\subsubsection{Other stuff?}
-Could be.
-
-\subsubsection{Traditional Components}
-Obviously you can hook up traditional buttons, etc., the same way as always.  With copper paint instead of traditional wiring, we can share grounds, and we don't have to solder.
-
-\subsection{Outputs}
-
-\subsubsection{Visual}
-EL wire.  Colored liquids.  Mechanical motion by pushing light or plugging (like a big ball) stuff with fluid.
-
-\subsubsection{Aural}
-Resonance chambers.  Air cavity design for sound/amplification (see passive iPhone speakers).  I mean, this is basically just 3D printing instruments, which we know has been done.
-
-\subsubsection{Haptic}
-Compressible and incompressible fluids for actuation.  Recreation of PneUIs.  Tactile output.  Adding particles to add extra feedback.
-
-\subsubsection{Olfactory/Gustatory}
-Different chambers filled with different scented/flavored fluids.  We can mix them using pipes and pressure.
-
-\subsection{Identity}
-Resonance chambers for identification.
+\subsubsection{hand tools} - post-fabrication modification is possible using hand tools.  We can mark the surface to show where conduits are and how deep.  I can also use this to test things beforehand.
