@@ -32,14 +32,20 @@ take into account bend radius of desired material - no need, we just do the mini
 
 Our basic first-pass routing algorithm uses the A* routing algorithm \cite{Hart-Astar}.  The path cost in our implementation is based only on shortest distance between the starting and ending points, without weighting for distance from the surface.
 
-\subsubsection{Physical Simulation}
+Physical Simulation : 
+
+How does it actually work?
+
+Bend Minimization
+
+Collision detection
 
 \subsubsection{Mesh Modification}
 
-
+How we actually cut stuff and make tubes happen.
 
 \subsection{Fabrication Techniques}
 
-\subsubsection{printing} - different strategies with Objet (all print-in-place) and Makerbot (may need to add things like balloons afterwards).  Ryan just got flexible material, we should see how stretchy it is...!  We could also consider assembleable things that are easier to create using parts that clip together... probably out of scope.
+\subsubsection{Printing} - different strategies with Objet (all print-in-place) and Makerbot (may need to add things like balloons afterwards).  Ryan just got flexible material, we should see how stretchy it is...!  We could also consider assembleable things that are easier to create using parts that clip together... probably out of scope.
 
-\subsubsection{hand tools} - post-fabrication modification is possible using hand tools.  We can mark the surface to show where conduits are and how deep.  I can also use this to test things beforehand.
+\subsubsection{Hand Tools} - post-fabrication modification is possible using hand tools.  We can mark the surface to show where conduits are and how deep.  I can also use this to test things before spending time printing them using a big ol' block o' plastic.
