@@ -23,6 +23,12 @@
 \usepackage{times}    % comment if you want LaTeX's default font
 \usepackage{url}      % llt: nicely formatted URLs
 
+\usepackage[]{algorithm2e}
+\let\proof\relax
+\let\endproof\relax
+\usepackage{amsthm}
+\newtheorem{theorem}{Theorem}
+
 % llt: Define a global style for URLs, rather that the default one
 \makeatletter
 \def\url@leostyle{%
@@ -87,7 +93,7 @@ breaklinks=true,
 \input{abstract}
 
 \keywords{
-	Prototyping; Fabrication; 3D Printing; Electronics
+	Prototyping; Fabrication; 3D Printing; Electronics; Hardware \valkyrie{aw, let's keep it on one line. but what do we drop?}
 }
 
 
@@ -96,9 +102,9 @@ Prototyping.}
 
 \input{Introduction}
 
-\input{RelatedWork}
-
 \input{DesignSpace}
+
+\input{RelatedWork}
 
 \input{Tubes}
 
