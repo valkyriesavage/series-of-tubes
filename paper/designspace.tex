@@ -51,21 +51,9 @@ Tubes may emphasize either their exterior features (connection points) or their 
 
 \subsubsection{Dimensions of Tubes}
 
-\valkyrie{Reference those pages from Bjoern:
-
-http://ttb.com/recent-news/diagrams/
-
-We can talk about wall thickness, tangent length, degree of bend, arg bend angle, inner and outer diameters, centerline radius, etc.}
+\valkyrie{Reference those pages from Bjoern: http://ttb.com/recent-news/diagrams/ We can talk about wall thickness, tangent length, degree of bend, arg bend angle, inner and outer diameters, centerline radius, etc.}
 
 \subsection{Inputs and Outputs}
-
-\subsection{Interaction Techniques}
-These didn't get discussed yet.
-\begin{itemize}
-\item \cite{Iwata-volflex} - a display made up of many balloons that inflate and deflate to change the shape
-\item \cite{Kim-inflatablemouse} - a basic mouse, but it inflates so you can store it and also use it more reasonably than a flat mouse
-\item \cite{Hashimoto-squirming} - hold a speaker in your hands, and air pressure changes make it feel like you're holidng a living, squirming thing
-\end{itemize}
 
 \valkyrie{this section includes related work.  is that ok?  it's in the table, and I think we should cover the related input techniques here rather than in the designated related work section (which I think is more suited to fabrication and routing stuff).}
 
@@ -82,7 +70,7 @@ By crossing tube types, topologies, and inserted media, we create a space of pos
 
 Tubes create opportunities for many types of input sensing across the surface of printed devices.  We describe sensing touch, pressure, grasp, flexing, tapping, and manipulation of traditional electronic components.  We recognize that there are likely more input sensing techniques, both existing and on the horizon, that are compatible with the use of tubes.
 
-Touch sensing is enabled through tubes filled with conductive media.  Traditional wires (threadable) may be used, but we have had success with conductive paint (liquid).  Using conductive paint and Swept Frequency Capacitve Sensing (SFCS \cite{Sato-touche}), an interior star tube topology can enable single-wire touch- and grasp-sensing at any set of points on a printed object's surface (see Figure \cite{fig:toy}).  Simple capacitance measurements are possible using the same media, and custom-designed sensors like those created in Savage, et al.,'s Midas system are also possible \cite{Savage-midas}.
+Touch sensing is enabled through tubes filled with conductive media.  Traditional wires (threadable) may be used, but we have had success with conductive paint (liquid).  Using conductive paint and Swept Frequency Capacitive Sensing (SFCS \cite{Sato-touche}), an interior star tube topology can enable single-wire touch- and grasp-sensing at any set of points on a printed object's surface (see Figure \cite{fig:toy}).  Simple capacitance measurements are possible using the same media, and custom-designed sensors like those created in Savage, et al.,'s Midas system are also possible \cite{Savage-midas}.
 
 Pressure can be sensed in multiple ways.  Slyper, et al., in \cite{Slyper-pressure} contribute a set of semi-closed fabricatable primitives that respond to particular actions, like twisting or pushing, with changes in internal air pressure.  \valkyrie{that sentence is not clear}  These primitives can be attached at the terminus of any semi-closed tube; the user can manipulate the printed endpoint and the system can sense air pressure changes.  Pressure can also be more simply sensed via capacitance using those techniques.
 
@@ -105,7 +93,7 @@ Sensing via traditional electronic components (e.g., potentiometers, alcohol gas
 
 While many input techniques require the use of conductive media inserted into tubes, output media are more varied.  We describe potential tube-based outputs organized by the five senses: visual, aural, haptic, and olfactory/gustatory.  In addition to outputs we mention explicitly, any outputs possible using traditional electronic components are possible as described above.
 
-\emph{Visual} outputs can be mediated by gases, liquids, solid, particulates, or threadables.  EL wire can be threaded through custom paths to create neon signs, as in Figure \ref{fig:neon}.  Colored liquids can be mixed and split before exiting an opaque device, or in a transparent device their mixing, splitting, and paths could be used for dispaly.  PneUIs \cite{Yao-pneui} can be fabricated as single parts: the rubberlike material offered by our Objet is inflatable when thin (200\% elongation at break), and a PneUI located at the terminus of a tube could be actuated by a system-side air pump (see Figure \ref{fig:braille}).  Mechanical motion can be mediated through fluids (a light object which is partially contained in a tube or located at its end could be pushed by the fluid pressure of the tube) or threadables (e.g., muscle wire).  Large particles trapped in tubes visible to the user can be used for, e.g., maze games (see Figure \ref{fig:maze}).  Using techniques like those described by Harrison, et al., in \cite{Harrison-buttons}  \valkyrie{this paragraph seems terrible.  I think all these paragraphs might seem terrible...}
+\emph{Visual} outputs can be mediated by gases, liquids, solid, particulates, or threadables.  EL wire can be threaded through custom paths to create neon signs, as in Figure \ref{fig:neon}.  Colored liquids can be mixed and split before exiting an opaque device, or in a transparent device their mixing, splitting, and paths could be used for display.  PneUIs \cite{Yao-pneui} can be fabricated as single parts: the rubberlike material offered by our Objet is inflatable when thin (200\% elongation at break), and a PneUI located at the terminus of a tube could be actuated by a system-side air pump (see Figure \ref{fig:breathe}).  Mechanical motion can be mediated through fluids (a light object which is partially contained in a tube or located at its end could be pushed by the fluid pressure of the tube) or threadables (e.g., muscle wire).  Large particles trapped in tubes visible to the user can be used for, e.g., maze games (see Figure \ref{fig:maze}).  Using techniques like those described by Harrison, et al., in \cite{Harrison-buttons}  \valkyrie{this paragraph seems terrible.  I think all these paragraphs might seem terrible...}
 
 \emph{Aural} outputs can be created with gases.  Zoran has successfully 3D printed a functional flute, which in essence is a long open open tube with semi-closed tubes coverable by keys \cite{Zoran-flute}.  Helmholz resonance (the phenomenon that creates noise when you blow into the top of a glass bottle, which is also how some musical instruments, like ocarinas, work) can be leveraged to create computer-controllable sound chambers.  All that is necessary for this is an enclosed chamber with a tube connected to it via a narrow neck-point (see Figure \ref{fig:ocarina}).  Passive sound amplification (like a phonograph horn) and sound redirection are also possible using tubes.
 
@@ -113,10 +101,10 @@ While many input techniques require the use of conductive media inserted into tu
 \centering
     \includegraphics[width=3.4in]{figures/series-of-tubes.jpg}
 \caption{This box (a) contains an enclosed Helmholz resonator, seen in the cutaway view (b).  This resonator creates a sound when air is blown through the tube at the top, because air compresses at the small neck joint between the chamber and the tube.  \valkyrie{need to get a test print of this that actually works}}
-\label{fig:embeddedcomponents}
+\label{fig:ocarina}
 \end{figure}
 
-\emph{Haptic} outputs are possible through compressible and incompressible fluids.  Fluids can actuate particulates and create programmable pliability (as discussed above and in \cite{Follmer-jamming}).  Additionally, use of semi-closed tubes with rubberlike material as the caps allows for gases to actuate surface features (see Figure \ref{fig:braille}).  Sodhi, et al., in \cite{Sodhi-aireal} created free-air haptic feedback using controlled vortex generation: this technique could also be reproduced using a series of tubes.
+\emph{Haptic} outputs are possible through compressible and incompressible fluids.  Fluids can actuate particulates and create programmable pliability (as discussed above and in \cite{Follmer-jamming}).  Additionally, use of semi-closed tubes with rubberlike material as the caps allows for gases to actuate surface features (see Figure \ref{fig:breathe}).  Sodhi, et al., in \cite{Sodhi-aireal} created free-air haptic feedback using controlled vortex generation: this technique could also be reproduced using a series of tubes.  Iwata, et al., explored volumetric fluid-based interactions with programmatically inflatable balloons and an overhead projector in \cite{Iwata-volflex}, and additionally haptic outputs can be used to increase ergonomics, as in the inflatable mouse by Kim, et al. \cite{Kim-inflatablemouse}.
 
 \emph{Olfactory} and \emph{gustatory} outputs can be created through the mixing and splitting of tubes carrying scented or flavored fluids, respectively.
 
@@ -124,7 +112,7 @@ While many input techniques require the use of conductive media inserted into tu
 
 Tubes included in printed objects allow for their identification.  While the tubes need not be visible (especially in the case of fully-enclosed tubes), their presence, location, and length change the acoustic resonance properties of a printed object.
 
-Both identification by recall and intentional encoding are possible.  As seen in \cite{Ono-touchandactivate}, different objects have different acoustic signatures.  Additionally, two objects that are visually identical but which have fully enclosed (or other types) of tubes on their interior can be distinguised acoustically.  Thus we can recall an object's identity once its acoustic signature has been recorded.
+Both identification by recall and intentional encoding are possible.  As seen in \cite{Ono-touchandactivate}, different objects have different acoustic signatures.  Additionally, two objects that are visually identical but which have fully enclosed (or other types) of tubes on their interior can be distinguished acoustically.  Thus we can recall an object's identity once its acoustic signature has been recorded.
 
 We have also experimented with intentional encoding.  Semi-closed tubes can function as resonance chambers: the first resonant frequency $F_1$ Hz of a semi-closed tube length $L$ meters can be found by $F_1 = \frac{c}{4L}$ (where $c$ is the speed of sound).  All odd harmonics (i.e., $3*F_1$, $5*F_1$, $7*F_1$, ...) of this frequency are also resonant frequencies of the tube. \valkyrie{need to provide some guidelines for the number of IDs we can create in this way, and where in the sound spectrum they are.  my sense is that this will depend highly upon the i/o sensitivities of the mic and speaker selected.}
 
