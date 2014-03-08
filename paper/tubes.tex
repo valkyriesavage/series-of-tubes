@@ -6,7 +6,7 @@ Our tool is implemented as a part of Meshmixer, a consumer mesh editing tool, in
 
 \subsection{Exterior Connection Points}
 
-Our tool creates an initial shortest-path routing using A* to estimate the routed distance between points.  This routing is used to create a rod; we run physics-based simulation steps on the rod to minimize its bending energy (and thereby minimize the bend radius of the tubes).
+To create tubes in which the location and shape of exterior connection points matters, we first allow users to select the connection points on the mesh's surface using a brush. Our tool then creates an initial shortest-path routing using A* to estimate the routed distance between points.  This routing is used to create a rod; we run physics-based simulation steps on the rod to minimize its bending energy (and thereby minimize the bend radius of the tubes).
 
 \begin{figure}[h!]
 \centering
@@ -17,9 +17,9 @@ Our tool creates an initial shortest-path routing using A* to estimate the route
 
 \subsubsection{Routing}
 
-Focus on shape of points and location of points.
+Our basic first-pass routing algorithm uses the A* routing algorithm \cite{Hart-Astar}.  The path cost in our implementation is based only on shortest distance between the starting and ending points, without weighting for distance from the surface.  We only permit the routing within the voxel grid of the mesh: i.e., the routing is not permitted to traverse through space outside the mesh itself.
 
-Our basic first-pass routing algorithm uses the A* routing algorithm \cite{Hart-Astar}.  The path cost in our implementation is based only on shortest distance between the starting and ending points, without weighting for distance from the surface.
+Given this initial routing, we create a rod of slightly longer proportional length.  The rod must be longer, as the A* routing can follow the mesh boundaries and the rod requires extra length to be pushed away from the mesh surface.  While we do not have a theoretical basis for this proportional increase, \valkyrie{yet.  what might it be related to?  we can test how much of the A* path is outside the model, and how much is inside; further we can consider the distance from the A* path that is outside the model to the surface.  I think there's a good way to do this.  It might even just mean iteratively changing the rod length until we get something reasonably short and also smooth.  we can also return to the A* that I wrote which finds a routing through the mesh that respects its boundaries; this would get us closer to what we need for length in the first place.}, we have found 1.15 to be a reasonable multiplier in practice.  A too-long rod is forced to kink and expand further than necessary inside the model, while a too-short rod must be stretched, leading to non-smooth bending.
 
 Physical Simulation : 
 
@@ -35,8 +35,7 @@ To allow designers to create tubes with multiple endpoints (like the star topolo
 
 \subsection{Designing Interior Paths}
 
-A user can import a vector graphics file (such as SVG) describing the path she desires for her tubes.  We create a graph based on this input data, then add edges to make it connected and semi-Eulerian.  We create an Euler tour on the graph, and then thicken the path to create tubes.  Templates are used to resolve tube crossings in the plane.
-
+A user can import a vector graphics file (such as SVG) describing the path she desires for her tubes.  We create a graph based on this input data, then add edges to make it connected and semi-Eulerian.  We create an Euler tour on the modified graph, and thicken the path to create tubes.  3D templates are used to resolve tube crossings in the plane.
 
 \begin{figure}[h!]
 \centering
@@ -57,8 +56,9 @@ At this stage, we want an Eulerian graph: i.e., we need every vertex to be of ev
 
 Now to remove our temporary edge and make the graph semi-Eulerian instead of Eulerian, let $E' = E' \setminus e_{temp}$.
 
+\valkyrie{does the proof of this theorem belong in the paper, or in the appendix?  we can push it back there if need be, although it's not super long.}
 \begin{theorem}
- $G' = (V, E')$ is a connected, semi-Eulerian graph for which $E \subseteq E'$.
+ $G' = (V, E')$ is a connected, semi-Eulerian graph for which $E \subseteq E'$. \valkyrie{why is there such a huge space after this paragraph?}
 \end{theorem}
 \begin{proof}
 $E \subseteq E'$ : we never remove edges from $E$ in our algorithm.  $\therefore E \subseteq E'$.
@@ -70,13 +70,27 @@ $G' = (V, E')$ is semi-Eulerian : Each edge $e$ in our minimum weight matching c
 
 We believe that a lower total weight matching is possible by connecting components and ensuring edge degree evenness together in a global process, however it this not crucial for our purposes.
 
-Once we have a semi-Eulerian graph, we need to create an Euler tour.  An Euler tour is a path that touches every edge once, beginning and ending at the two nodes of odd degree: in this case, those are the user-selected start and end nodes.  We use a sligh modification of Fleury's algorithm\footnote{\url{http://en.wikipedia.org/wiki/Eulerian_path\#Fleury.27s_algorithm}} for this, where instead of randomly selecting from non-bridge paths at each node, we select the path which turns the least from the most recent path (i.e., we prefer to pass straight through a node, if possible).  This minimizes turns in the final artifact, which eases support material removal and assembly.
+Once we have a semi-Eulerian graph, we need to create an Euler tour.  An Euler tour is a path that touches every edge once, beginning and ending at the two nodes of odd degree: in this case, those are the user-selected start and end nodes.  We use a weighted modification of Fleury's algorithm\footnote{\url{http://en.wikipedia.org/wiki/Eulerian_path\#Fleury.27s_algorithm}} for this, where instead of randomly selecting from non-bridge paths at each node, we select the path which turns the least from the most recent path (i.e., we prefer to pass straight through a node, if possible).  This minimizes turns in the final artifact, which eases support material removal and assembly.
+
+\begin{figure}[h!]
+\centering
+    \includegraphics[width=3.4in]{figures/series-of-tubes.jpg}
+\caption{When edges intersect in the plane (a), we match them to the nearest of our several intersection templates (b) to create 3D paths that do not interfere with each other.}
+\label{fig:templates}
+\end{figure}
+
+\subsubsection{Edges that Intersect in the Plane}
+Once we have a tour, we must resolve tubes that intersect in the plane.  Because we have a 3-dimensional canvas in which to work, we can push overlapping paths into the third dimension.
+
+To detect intersecting edges, we \valkyrie{I'm not sure what we do.}.  We also consider edges at nodes with degree $>2$, as these edges are considered to cross.  When intersections have been detected, we match one of several templates to the affected edges (see Figure \ref{fig:templates}) using a nearest neighbors technique.  Our templates are parameterized, so the templates can be modified to accommodate precise intersection characteristics.
 
 \subsection{Mesh Modification}
 
-How we actually cut stuff and make tubes happen. \valkyrie{Ryan?}
+How we actually cut stuff and make tubes happen. \valkyrie{Ryan?}  We have to actually respect whatever shapes people drew on the surface in the case of the exterior connection tubes (I mean, ideally, we would do a loft operation here).
 
 \subsection{Fabrication Techniques}
+
+\valkyrie{this section may not be at all important.  I was thinking to use it to talk about different ways you can actually build the tubed things, and also constraints set down by the Makerbot vs. the Objet, but maybe that discussion is best made really short and moved to elsewhere}
 
 \subsubsection{Printing} - different strategies with Objet (all print-in-place) and Makerbot (may need to add things like balloons afterwards).  Ryan just got flexible material, we should see how stretchy it is...!  We could also consider assembleable things that are easier to create using parts that clip together... probably out of scope.
 

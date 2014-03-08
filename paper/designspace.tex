@@ -62,7 +62,7 @@ By crossing tube types, topologies, and inserted media, we create a space of pos
 \begin{figure*}[t]
 \centering
     \includegraphics[width=\textwidth]{figures/designspace.png}
-\caption{The design space of tube-based interactions.  Existing systems are written in regular font.  Those created with fabrication are in {\color{blue}blue}. In \emph{{\color{red}red italic}} are unexplored interactions creatable with custom-fabricated tubes.  Darker grey is output.  Lighter grey is input.  \valkyrie{I don't know what else might go in the blank spaces... looking for suggestions!  Also, I'm not confident this breakdown is the most clear: for example, the "liquids" category includes the copper paint, which functions as wires ("threadables"), but takes the form of a liquid...  and the general presentation of the table could probably be better in some way.}}
+\caption{The design space of tube-based interactions.  Existing systems are written in regular font.  Those created with fabrication are in {\color{blue}blue}. In \emph{{\color{red}red italic}} are unexplored interactions creatable with custom-fabricated tubes.  Darker grey is output.  Lighter grey is input.  \valkyrie{I don't know what else might go in the blank spaces... looking for suggestions!  Also, I'm not confident this breakdown is the most clear: for example, the "liquids" category includes the copper paint, which functions as wires ("threadables"), but takes the form of a liquid...  and the general presentation of the table could probably be better in some way.  also, hello, make this wayyyyyy smaller.}}
 \label{fig:designspace}
 \end{figure*}
 
@@ -80,14 +80,7 @@ Some 3D printers, like our Objet Connex 260, can fabricate rubber-like materials
 
 Tapping is another input possibility.  Due to differential sound conductivity in different printed materials (in particular, the rubberlike Objet material compared to the hard Objet material \valkyrie{presumably we should get or take some measurements of this and include it in the appendix?}), tubes of a greater conducting material can be embedded in a model of a lesser conducting material.  A microphone or piezo placed at the system-side of these sound-conducting tubes can determine where the model was tapped and how it was tapped.  Active acoustic sensing as described in Touch \& Activate \cite{Ono-touchandactivate} is also possible; this technique would allow for particular areas of interest (connected to sound-conducting tubes) to be touch sensitive, while other areas (made of non-conducting material) are not sensed.
 
-Sensing via traditional electronic components (e.g., potentiometers, alcohol gas sensors) can be accomplished by conductive inserted media.  Components can be recessed into a print's surface, with their leads implanted into open tubes.  By inserting liquid copper paint instead of threading traditional wires, all components in a model can share a ground line, and the paint's drying process obviates the use of solder or glue to affix the components in place (see Figure \ref{fig:embeddedcomponents}).
-
-\begin{figure}[h]
-\centering
-    \includegraphics[width=3.4in]{figures/series-of-tubes.jpg}
-\caption{This sphere has a recessed space to hold a potentiometer.  The potentiometer and the LEDs share a ground, seen by the translucent rendered view in (b).}
-\label{fig:embeddedcomponents}
-\end{figure}
+Sensing via traditional electronic components (e.g., potentiometers, alcohol gas sensors) can be accomplished by conductive inserted media.  Components can be recessed into a print's surface, with their leads implanted into open tubes.  By inserting liquid copper paint instead of threading traditional wires, all components in a model can share a ground line, and the paint's drying process obviates the use of solder or glue to affix the components in place (see Figure \ref{fig:radio}).
 
 \subsubsection{Outputs}
 
