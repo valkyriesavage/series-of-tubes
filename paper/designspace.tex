@@ -5,31 +5,26 @@ We propose the use of tubes to redirect active components through the core and o
 \begin{figure}[h]
 \centering
     \includegraphics[width=3.4in]{figures/tubespace.png}
-\caption{The design space of tubes.  Tube types, media, topologies, and design are discussed more fully in the text.}
+\caption{The design space of tubes.  Tube types, media, topologies, and design are discussed more fully in the text.  \tovi{May want star, tree added to 
+your figure}
+}
 \label{fig:tubespace}
 \end{figure}
 
 \subsection{Types of Tubes}\tovi{Maybe rename types to 
 "openings"?}
 
-Tubes can come in four types: open, return, semi-closed, and fully enclosed.  Each of these types offers distinct interaction capabilities (see Figure \ref{fig:tubespace}).\tovi{Need to clarify if the type is defined by the 3D model at the time it 
-is printed, or by any alternations made after the print. For example, 
-if I print semiclosed, fill with water, then close it manually with a lit, 
-is it a semclsoed tube or a fully enclosed tube?}
+Tubes can come in four types: open, return, semi-closed, and fully enclosed.  Each of these types offers distinct interaction capabilities (see Figure \ref{fig:tubespace}).  Definitionally, in the following paragraphs we refer to a tube which is ``open on the user side'' to have its contents physically accessible to an interacting user at interaction time.  This includes tubes which function as fountains, but it does not include tubes whose ends have been capped to keep water inside (whether this capping was done at print time, or later as a manual modification).  Tubes whose contents are not physically accessible to the user are ``closed on the user side''.  A tube which is ``open on the system side'' can have its contents manipulated by a machine, e.g., by resonating, pressurizing, or passing electricity through those contents.  The system does not need to have physical access to the contents in order to manipulate them.
 
-Open tubes originate from the system side and connect the user side, with both ends of the tube open. \tovi{Not clear what 
-"system side and user 
-site means.}  This type of tube may be used to create, for example, capacitive sensors: an open tube filled with conductive paint can be connected to a sensing platform (e.g., Arduino) on the system side, while a user can touch the uncapped other end of the tube.  Using Swept Frequency Capacitive Sensing \cite{Sato-touche} or other techniques, a user's touch of the open end can be sensed.  An open tube can also be used for output, for example by creating in-air vortices as in \cite{Sodhi-aireal}.
+Open tubes originate from the system side and connect the user side, with both ends of the tube open. This type of tube may be used to create, for example, capacitive sensors: an open tube filled with conductive paint can be connected to a sensing platform (e.g., Arduino) on the system side, while a user can touch the uncapped other end of the tube.  Using Swept Frequency Capacitive Sensing \cite{Sato-touche} or other techniques, a user's touch of the open end can be sensed.  An open tube can also be used for output, for example by creating in-air vortices as in \cite{Sodhi-aireal}.
 
 A return tube originates at the system and returns back to it.  By threading an electroluminescent (EL) wire through a clear return tube, a maker can create a custom piece of neon art.  If a return tube passes very close to the surface of a 3D printed model, warm or cold water passed through the tube could be used for temperature-based haptic feedback.
 
-Semi-closed tubes are open at the system end (for control of the enclosed medium) and closed at the user end.  We believe \tovi{Reword ("we believe" is strange)} this closed interface is most interesting when it is fabricated from a mobile material \tovi{Do you mean mobile materials or flexible material?}\valkyrie{I think mobile... we can cap them with solid pieces that can be blown around by air, for example.  how do I make this clear?}: for example, a series of tubes terminated in thin rubber membranes on the user side can be actuated by an air pump to create haptic feedback.  Without a printer capable of fabricating flexible material, a maker could affix a balloon to an open tube's end to behave similarly; another possibility is to use semi-closed tubes as audio-generating resonance chambers.
-
-While possible to create, a tube which is open on the user side and closed on the system side is outside our focus on computer-mediated interaction, and we therefore do not discuss these tubes. \tovi{Reword, and may not be necceary}
+Semi-closed tubes are open at the system end (for control of the enclosed medium) and closed at the user end.  The closed interface is interesting when it fabricated from a mobile material: for example, a series of tubes terminated in thin rubber membranes on the user side can be actuated by an air pump to create haptic feedback, or a hinged cap which can be blown open by air pressure.  Without a printer capable of fabricating flexible material, a maker could affix a balloon to an open tube's end to behave similarly; another possibility is to use semi-closed tubes as audio-generating resonance chambers.
 
 A fully enclosed tube has no openings on either the system side or the user side.  Fully enclosed tubes can be used as resonance chambers (e.g., for object identification), or as air bubbles (e.g., as used in \cite{Willis-printedoptics} for internal display). \tovi{used as a container for water 
 or other particles that would 
-otherwise fall out?}  Their physical design space is very limited, as any support material required to create their internal geometry cannot be accessed for removal.
+otherwise fall out?}  \valkyrie{I re-worded above.  please check.}  Their physical design space is very limited, as any support material required to create their internal geometry cannot be accessed for removal.
 
 \subsection{Media in Tubes}
 
@@ -44,17 +39,15 @@ Incompressible fluids (``liquids'') can perform many of the same interface tasks
 
 \tovi{Again, this raises the question of how we are applying the design 
 space - is it based on its properties when it is printed, or based on 
-any post-print modifications}Tubes need not have hollow centers: in the case where routed tubes are filled with solid material---in particular, a solid material different from the model material---, interactions such as those in \cite{Willis-printedoptics} are possible.
+any post-print modifications}\valkyrie{re-worded above.  I think we are basing it on status at ``interaction time"}Tubes need not have hollow centers: in the case where routed tubes are filled with solid material---in particular, a solid material different from the model material---, interactions such as those in \cite{Willis-printedoptics} are possible.
 
 Particulates, either printed in-place or inserted, can be of varying densities.  A single particle can be used for display.  Sparse particles in a stream of fluid can provide haptic feedback.  Dense particles in a semi-closed tube allow for jamming-based interactions at any point on the surface of an object \cite{Follmer-jamming}.
 
 Threadable inserted elements, such as electroluminescent (EL) wire or fiberoptic cables, are those that can be threaded through tubes post-printing.  This allows overcoming limitations of printers: for example, a Printed Optics-style interface can be created on an inexpensive consumer-grade 3D printer using tubes and inserted fiber optic cable.
 
-\subsection{Topological variations}
+\subsection{Tube Topologies}
 
-Tube topology enables different types of interactions. \tovi{How about "newwork 
-topologies", since this 
-applies to groups of tubes.}
+Tube network topologies enable different types of interactions.
 
 Splitting or mixing tubes offer flexibility in output.  If a maker wished to create a painting device, she might wish to have two system-side tubes feeding in primary-colored red and blue paints which mix in varying ratios, allowing their pigments to combine before purple exits from the device (see Figure \ref{fig:tubespace}).  Splitting can also be useful, for example if our maker wants red paint output in two locations from her painting device, she could have one system-side tube, but split the tube into two (see Figure \ref{fig:tubespace}).\tovi{How about multiple in/
 multiple out (in contrast to 
@@ -63,27 +56,17 @@ single in multiple out)} \tovi{This seciton should refer to the
 possibilities, not to what we 
 actually did.}
 
-Star and tree topologies are extensions of the splitting and mixing primitives.  Using a star topology in which the tubes were filled with conductive paint, we created a toy with several touch-sensitive areas, see Figure \ref{fig:toy}. \tovi{May want star, tree added to 
-your figure}
+Star and tree topologies are extensions of the splitting and mixing primitives.  Using a star topology in which the tubes were filled with conductive paint, we created toys with several touch-sensitive areas, see Figure \ref{fig:toys}. 
 
-\subsection{Features of Tubes}
+\subsection{Design of Tubes}
 
-Tubes may emphasize either their exterior features (connection points) or their interior paths.  These two features lead to different kinds of interfaces.  An example interface that focuses on the exterior connection points is the touch sensitive toy in Figure \ref{fig:toy}, where tubes must exit the toy at the eyes, ears, tail, etc.  An interface focused on the internal path of the tube is the neon sign in Figure \ref{fig:neon}: output is based on the shape of the tube. \tovi{This is not consistent with the 
-fourth row of your table. Not sure 
-this paragraph is needed.}
+Tube designs may emphasize either their exterior features (connection points) or their interior paths.  These two features lead to different kinds of interfaces.  An example interface that focuses on the exterior connection points is the touch sensitive toy in Figure \ref{fig:toy}, where tubes must exit the toy at the eyes, ears, tail, etc.  An interface focused on the internal path of the tube is the neon sign in Figure \ref{fig:neon}: output is based on the shape of the tube.
 
 \subsubsection{Dimensions of Tubes}
 
 \valkyrie{Reference those pages from Bjoern: http://ttb.com/recent-news/diagrams/ We can talk about wall thickness, tangent length, degree of bend, arg bend angle, inner and outer diameters, centerline radius, etc.}
 
 \subsection{Inputs and Outputs}
-
-\valkyrie{this section includes related work.  is that ok?  it's in the table, and I think we should cover the related input techniques here rather than in the designated related work section (which I think is more suited to fabrication and routing stuff).} \tovi{Yes, related work here is ok, if it 
-doesnt belong in the realted 
-work section. Agreed that 
-seciton should be highler level 
-discussion of fabrication and 
-routing.}
 
 By crossing tube types, topologies, and inserted media, we create a space of possible inputs and outputs that can be tube-mediated.  We offer a table (see Figure \ref{fig:designspace}) containing these possibilities, referencing previous work on input/output techniques where appropriate, noting that many of these techniques have not been attempted using digital fabrication.  We suggest new points in the design space that have been unexplored or not yet explored with digital fabrication.
 
