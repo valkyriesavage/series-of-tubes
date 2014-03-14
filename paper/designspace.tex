@@ -5,10 +5,7 @@ We propose the use of tubes to redirect active components through the core and o
 \begin{figure}[h]
 \centering
     \includegraphics[width=3.4in]{figures/tubespace.png}
-\caption{The design space of tubes.  Tube types, media, topologies, and design are discussed more fully in the text.  \tovi{May want star, tree added to 
-your figure
-}
-}
+\caption{The design space of tubes.  Tube types, media, topologies, and design are discussed more fully in the text.}
 \label{fig:tubespace}
 \end{figure}
 
@@ -62,7 +59,7 @@ Star and tree topologies are extensions of the splitting and mixing primitives. 
 
 \subsection{Design of Tubes}
 
-Tube designs may emphasize either their exterior features (connection points) or their interior paths.  These two features lead to different kinds of interfaces.  An example interface that focuses on the exterior connection points is the touch sensitive toy in Figure \ref{fig:toy}, where tubes must exit the toy at the eyes, ears, tail, etc.  An interface focused on the internal path of the tube is the neon sign in Figure \ref{fig:neon}: output is based on the shape of the tube.
+Tube designs may emphasize either their exterior features (connection points) or their interior paths.  These two features lead to different kinds of interfaces.  An example interface that focuses on the exterior connection points is the touch sensitive toy in Figure \ref{fig:toys}, where tubes must exit the toy at the eyes, ears, tail, etc.  An interface focused on the internal path of the tube is the neon sign in Figure \ref{fig:neon}: output is based on the shape of the tube.
 
 \subsubsection{Dimensions of Tubes}
 
@@ -75,7 +72,7 @@ By crossing tube types, topologies, and inserted media, we create a space of pos
 \begin{figure*}[t]
 \centering
     \includegraphics[width=\textwidth]{figures/designspace.png}
-\caption{The design space of tube-based interactions.  Existing systems are written in regular font.  Those created with fabrication are in {\color{blue}blue}. In \emph{{\color{red}red italic}} are unexplored interactions creatable with custom-fabricated tubes.  Darker grey is output.  Lighter grey is input.  \valkyrie{I don't know what else might go in the blank spaces... looking for suggestions!  Also, I'm not confident this breakdown is the most clear: for example, the "liquids" category includes the copper paint, which functions as wires ("threadables"), but takes the form of a liquid...  and the general presentation of the table could probably be better in some way.  also, hello, make this wayyyyyy smaller.}}
+\caption{The design space of tube-based interactions.  Existing systems are written in regular font.  Those created with fabrication are in {\color{blue}blue}. In \emph{{\color{red}red italic}} are unexplored interactions creatable with custom-fabricated tubes.}
 \label{fig:designspace}
 \end{figure*}
 
@@ -85,9 +82,9 @@ Tubes create opportunities for many types of input sensing across the surface of
 
 Touch sensing is enabled through tubes filled with conductive media.  Traditional wires (threadable) may be used, but we have had success with conductive paint (liquid).  Using conductive paint and Swept Frequency Capacitive Sensing (SFCS \cite{Sato-touche}), an interior star tube topology can enable single-wire touch- and grasp-sensing at any set of points on a printed object's surface (see Figure \cite{fig:toy}).  Simple capacitance measurements are possible using the same media, and custom-designed sensors like those created in Savage, et al.,'s Midas system are also possible \cite{Savage-midas}.
 
-Pressure can be sensed in multiple ways.  Slyper, et al., in \cite{Slyper-pressure} contribute a set of semi-closed fabricatable primitives that respond to particular actions, like twisting or pushing, with changes in internal air pressure.  \valkyrie{that sentence is not clear}  These primitives can be attached at the terminus of any semi-closed tube; the user can manipulate the printed endpoint and the system can sense air pressure changes.  Pressure can also be more simply sensed via capacitance using those techniques.
+Pressure can be sensed in multiple ways.  Slyper, et al., in \cite{Slyper-pressure} contribute a set of semi-closed 3D printable primitives that respond to particular actions, like twisting or pushing, with changes in internal air pressure.  These primitives can be attached as the terminus of any semi-closed tube; the user can manipulate the printed endpoint and the system can sense air pressure changes.  Pressure can also be more simply sensed via capacitance using those techniques.
 
-Grasp sensing can also be enabled using Wimmer's FlyEye technique \cite{Wimmer-flyeye}.  This technique involves a pair of optical links at each point of interest: one of each pair is connected to an infrared (IR) LED and the other to a camera.  When some object nears or touches a pair of cables, IR light from the LED is reflected back to the camera and the touched point appears as a bright spot.  Follmer, et al.,'s Jamming User Interfaces \cite{Follmer-jamming} rely dense particulates enclosed in a flexible volume, and can be sensed optically.  These dense particulates can be printed in-place with desired characteristics (such as varying particle size or shape) using sacrificial support material, or added post-print.  The optical links necessary for sensing with FlyEye or Jamming can be created either via clear solid cores as in \cite{Willis-printedoptics} or via fiber optic cables threaded through hollow tubes (see Figure \ref{fig:pens}).
+Grasp sensing can also be enabled using Wimmer's FlyEye technique \cite{Wimmer-flyeye}.  This technique involves a pair of optical links at each point of interest: one of each pair is connected to an infrared (IR) LED and the other to a camera.  When some object nears or touches a pair of cables, IR light from the LED is reflected back to the camera and the touched point appears as a bright spot.  Follmer, et al.,'s Jamming User Interfaces \cite{Follmer-jamming} rely on dense particulates enclosed in a flexible volume, and can be sensed optically.  These dense particulates can be printed in-place with desired characteristics (such as varying particle size or shape) using sacrificial support material, or added post-print.  The optical links necessary for sensing with FlyEye or Jamming can be created either via clear solid cores as in \cite{Willis-printedoptics} or via fiber optic cables threaded through hollow tubes (see Figure \ref{fig:pens}).
 
 Some 3D printers, like our Objet Connex 260, can fabricate rubber-like materials.  Much like Slyper, et al., in \cite{Slyper-shape}, we can sense flexing and bending of prints made on these machines.  While Slyper, et al., created multi-level multi-stage silicone molds with embedded wires to build their sensors, by placing tubes in our rubberlike prints and inserting conductive media afterwards, we can perform the same flex sensing.
 
@@ -116,7 +113,9 @@ While many input techniques require the use of conductive media inserted into tu
 
 \subsection{Identity}
 
-Tubes included in printed objects allow for their identification.  While the tubes need not be visible (especially in the case of fully-enclosed tubes), their presence, location, and length change the acoustic resonance properties of a printed object.
+Tubes included in printed objects allow for their identification.  While the tubes need not be visible (especially in the case of fully-enclosed tubes), their presence, location, network structure, and length change many properties of a printed object.  This includes weight, acoustic resonance, and (if conductive material is present) capacitive signature.
+
+\valkyrie{need to do a rewrite of this that doesn't necessarily focus so deeply on audio only.  we can talk about these other non-visible measurements like weight and capacitive signature.  I also need to actually get an intentional encoding test up and running... we are going to have to be clever about how we stimulate the resonance tubes, though.  using a speaker won't really work: we have to agitate the air in the chambers, so we might need to use something like a reed (as in reed instruments).}
 
 Both identification by recall and intentional encoding are possible.  As seen in \cite{Ono-touchandactivate}, different objects have different acoustic signatures.  Additionally, two objects that are visually identical but which have fully enclosed (or other types) of tubes on their interior can be distinguished acoustically.  Thus we can recall an object's identity once its acoustic signature has been recorded.
 
