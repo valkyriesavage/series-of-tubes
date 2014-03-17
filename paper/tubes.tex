@@ -10,8 +10,8 @@ To create tubes in which the location and shape of exterior connection points ma
 
 \begin{figure}[h!]
 \centering
-    \includegraphics[width=3.4in]{figures/series-of-tubes.jpg}
-\caption{An example mesh with exterior connection points brushed (a), and the initial A* routing generated (b).  Our physics-based, energy-minimizing rod/tube at rest (c) and after simulation (d).  (e) shows the complete printed object.}
+    \includegraphics[width=3.4in]{figures/exterior.png}
+\caption{An example mesh with exterior connection points brushed (a), and the initial A* routing generated (b).  Our physics-based, energy-minimizing rod/tube at rest (c) and after simulation (d).}
 \label{fig:tool-process-exterior}
 \end{figure}
 
@@ -39,12 +39,12 @@ A user can import a vector graphics file (such as SVG) describing the path she d
 
 \begin{figure}[h!]
 \centering
-    \includegraphics[width=3.4in]{figures/series-of-tubes.jpg}
-\caption{An input vector graphics file (a) and the points which cannot be tubed as drawn (b).  The connected graph created by our software (c) and the resulting Euler circuit (d) permit creation of a novel neon sign (e).}
+    \includegraphics[width=3.4in]{figures/interior.png}
+\caption{An input vector graphics file with the points which cannot be tubed as drawn highlighted in {\color{blue}blue} (a).  The connected graph created by our software (b) and the resulting Euler circuit (c) permit creation of a novel neon sign (d).}
 \label{fig:tool-process-interior}
 \end{figure}
 
-The interior path routing problem is a version of the Chinese Postman Problem\footnote{\url{http://en.wikipedia.org/wiki/Route_inspection_problem}}, in which we wish to traverse all edges of the graph described in the user's input with a single Euler circuit, much as a postman needs to walk along every road at least once to deliver mail.  We call our relaxation the Spiderman Postman Problem: we allow the creation of non-existing paths (i.e., the postman may traverse buildings in addition to roads).  If inputted path components are disconnected, we must create edges that connect them; additionally we can create new edges connecting odd-degree vertices rather than simply retracing existing edges.  In the final artifact, all created edges will be blocked out by dark material so the inserted medium is not visible (see Figure \ref{fig:tool-process-interior}).
+The interior path routing problem is a version of the Chinese Postman Problem\footnote{The CPP is also known as the route inspection problem: \url{http://en.wikipedia.org/wiki/Route_inspection_problem}}, in which we wish to traverse all edges of the graph described in the user's input with a single Euler circuit, much as a postman needs to walk along every road at least once to deliver mail.  We call our relaxation the Spiderman Postman Problem: we allow the creation of non-existing paths (i.e., the postman may traverse buildings in addition to roads).  If inputted path components are disconnected, we must create edges that connect them; additionally we can create new edges connecting odd-degree vertices rather than simply retracing existing edges.  In the final artifact, all created edges will be blocked out by dark material so the inserted medium is not visible (see Figure \ref{fig:tool-process-interior}).
 
 We want a semi-Eulerian graph (i.e., we want a graph in which every vertex but two have even degree) so that the desired medium can be inserted, traverse every edge, and exit the graph at a different vertex.  Let $G=(V,E_0)$ s.t. $\forall e \in E_0, weight(e)=0, start \in V $ the start point $end \in V$ the end point.  Let $e_{temp} = (start, end)$, $E' = E + e_{temp}$.
 
@@ -74,7 +74,7 @@ Once we have a semi-Eulerian graph, we need to create an Euler tour.  An Euler t
 
 \begin{figure}[h!]
 \centering
-    \includegraphics[width=3.4in]{figures/series-of-tubes.jpg}
+    \includegraphics[width=3.4in]{figures/intersection-templates.png}
 \caption{When edges intersect in the plane (a), we match them to the nearest of our several intersection templates (b) to create 3D paths that do not interfere with each other.}
 \label{fig:templates}
 \end{figure}
