@@ -11,7 +11,7 @@ To create tubes in which the location and shape of exterior connection points ma
 \begin{figure}[h!]
 \centering
     \includegraphics[width=3.4in]{figures/placeholder/exterior.jpg}
-\caption{An example mesh with exterior connection points brushed (a), and the initial A* routing generated (b).  Our physics-based, energy-minimizing rod/tube at rest (c) and after simulation (d).}
+\caption{An example mesh with exterior connection points selected.  The initial A* routing is drawn in {\color{red}red}, and in {\color{tovi}green} is our physically-based rod after simulation.}
 \label{fig:tool-process-exterior}
 \end{figure}
 
@@ -44,6 +44,7 @@ A user can import a vector graphics file (such as SVG) describing the path she d
 \label{fig:tool-process-interior}
 \end{figure}
 
+\subsubsection{Routing}
 The interior path routing problem is a version of the Chinese Postman Problem\footnote{The CPP is also known as the route inspection problem: \url{http://en.wikipedia.org/wiki/Route_inspection_problem}}, in which we wish to traverse all edges of the graph described in the user's input with a single Euler circuit, much as a postman needs to walk along every road at least once to deliver mail.  We call our relaxation the Spiderman Postman Problem: we allow the creation of non-existing paths (i.e., the postman may traverse buildings in addition to roads).  If inputted path components are disconnected, we must create edges that connect them; additionally we can create new edges connecting odd-degree vertices rather than simply retracing existing edges.  In the final artifact, all created edges will be blocked out by dark material so the inserted medium is not visible (see Figure \ref{fig:tool-process-interior}).
 
 We want a semi-Eulerian graph (i.e., we want a graph in which every vertex but two have even degree) so that the desired medium can be inserted, traverse every edge, and exit the graph at a different vertex.  Let $G=(V,E_0)$ s.t. $\forall e \in E_0, weight(e)=0, start \in V $ the start point $end \in V$ the end point.  Let $e_{temp} = (start, end)$, $E' = E + e_{temp}$.
@@ -83,6 +84,8 @@ Once we have a semi-Eulerian graph, we need to create an Euler tour.  An Euler t
 Once we have a tour, we must resolve tubes that intersect in the plane.  Because we have a 3-dimensional canvas in which to work, we can push overlapping paths into the third dimension.
 
 To detect intersecting edges, we \valkyrie{I'm not sure what we do.}.  We also consider edges at nodes with degree $>2$, as these edges are considered to cross.  When intersections have been detected, we match one of several templates to the affected edges (see Figure \ref{fig:templates}) using a nearest neighbors technique.  Our templates are parameterized, so the templates can be modified to accommodate precise intersection characteristics.
+
+\valkyrie{For now, we just let them intersect.  The angel hair EL wire is thin enough that we don't actually care.}
 
 \subsection{Mesh Modification}
 
