@@ -1,5 +1,20 @@
 \newpage
 \appendix
+
+\section{Proof of Theorem 1}
+
+\begin{theorem} \label{thm:graphness}
+ $G' = (V, E')$ is a connected, semi-Eulerian graph for which $E \subseteq E'$.
+\end{theorem}
+
+\begin{proof}
+$E \subseteq E'$ : we never remove edges from $E$ in our algorithm.  $\therefore E \subseteq E'$.
+
+$G' = (V, E')$ is connected : if $G'$ is not connected, $\exists G_i = (V_i, E_i) \subset G', u \in V_i, v\in V \setminus V_i$ s.t. $u$ is not reachable from $v$.  $G_i \not\in G_{dis}$, because we create edges connecting $G_j, G_k \forall G_j, G_k \in G_{dis}$ and only remove an edge $e_{dupe} = (u, v)$ from $E_{conn}$ once we determine that $u$ is reachable from $v$ along edges $E' \cup E_{conn-min}$.  $\therefore G_i \not\in G_{dis}$.  This implies that $G_i$ was not initially disconnected from $G$, because by definition $G_{dis}$ is the set of all disconnected subgraphs of $G$.  We cannot have disconnected $G_i$ from $G$ because $E \subseteq E'$.  Thus, a contradiction.  $\therefore G' = (V, E')$ is connected.
+
+$G' = (V, E')$ is semi-Eulerian : Each edge $e$ in our minimum weight matching connects a unique pair of vertices $v_i, v_j \in V_{odd}$ by the definition of minimum weight matching.  Each edge $e = (v_i, v_j) \in E_{circuit-min}$ adds one to the degree of $v_i$ and $v_j$, causing them to be of even degree. $|V_{odd}| \% 2 = 0$ by the handshake lemma, $\therefore$ all edges can be paired.  When we remove $e_{temp} = (start, end)$ from $E'$, we cause those vertices, which were of even degree by the above process, to be of odd degree.  Thus, all vertices except $start$ and $end$ (which are of odd degree) are of even degree.  $\therefore G'$ is semi-Eulerian.
+\end{proof}
+
 \section{Injection Measurements}
 We injected the copper a distance of 1.16m (according to the spiral length calculator at http://www.giangrandi.ch/soft/spiral/spiral.shtml ) in a spiral whose cross-section was a square of area $9mm^2$.  I suspect that is about as far as we can go without using a vacuum at the end.
 
