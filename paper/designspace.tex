@@ -1,7 +1,7 @@
 \section{The Design Space of Pipes}
-We propose the use of pipes to redirect active components through the core and onto the surface of 3D printed interactive objects, as well as to allow for the creation of designed paths.  By using different types and topologies of pipes and inserting different media into the completed pipes, a variety of inputs and outputs can be located at arbitrary points on the surface of a 3D print.  We describe the design space of pipes, and then follow up with some of the input and output possibilities---both those that have been previously explored and those that are possible but remain unexplored.
+The design space of pipes is large.  By using different types and topologies of pipes and inserting different media into the completed pipes, a variety of inputs and outputs can be located at arbitrary points on the surface of a 3D print.  We describe the  space, and then follow up with some of the input and output possibilities---both those that have been previously explored and those that are possible but remain unexplored.  We also discuss some possible implications of pipes in 3D prints.
 
-\begin{figure}[h]
+\begin{figure}[h!]
 \centering
     \includegraphics[width=3.4in]{figures/tubespace.pdf}
 \caption{The design space of pipes.  Pipe types, media, topologies, and design are discussed more fully in the text.}
@@ -66,12 +66,19 @@ Pipe designs may emphasize either their exterior features (connection points) or
 
 \subsection{Inputs and Outputs}
 
+\tovi{The table indicates that media is the most
+prominent variable in the design space.
+Should justify that.
+}
+
+\tovi{There's lots of great ideas an examples in the inputs and outputs section, but the orgnization and coorespondence to the table is a little hard to follow. }
+
 By crossing pipe types, topologies, and inserted media, we create a space of possible inputs and outputs that can be pipe-mediated.  We offer a table (see Figure \ref{fig:designspace}) containing these possibilities, referencing previous work on input/output techniques where appropriate, noting that many of these techniques have not been attempted using digital fabrication.  We suggest new points in the design space that have been unexplored or not yet explored with digital fabrication.
 
 \begin{figure*}[t]
 \centering
     \includegraphics[width=\textwidth]{figures/designspace.pdf}
-\caption{The design space of pipe-based interactions.  Existing systems are written in regular font.  Those created with fabrication are in {\color{blue}blue}. In \emph{{\color{red}red italic}} are unexplored interactions creatable with custom-fabricated pipes.}
+\caption{The design space of pipe-based interactions.  Existing systems are written in regular font.  Those created with fabrication are in {\color{blue}blue}. In \emph{{\color{red}red italic}} are unexplored interactions creatable with custom-fabricated pipes. \tovi{Im not sure how well this table will work. Division between input and output should be more prominent.}}
 \label{fig:designspace}
 \end{figure*}
 
@@ -79,7 +86,7 @@ By crossing pipe types, topologies, and inserted media, we create a space of pos
 
 Pipes create opportunities for many types of input sensing across the surface of printed devices.  We describe sensing touch, pressure, grasp, flexing, tapping, and manipulation of traditional electronic components.  We recognize that there are likely more input sensing techniques, both existing and on the horizon, that are compatible with the use of pipes.
 
-Touch sensing is enabled through pipes filled with conductive media.  Traditional wires (threadable) may be used, but we have had success with conductive paint (liquid).  Using conductive paint and Swept Frequency Capacitive Sensing (SFCS \cite{Sato-touche}), an interior star pipe topology can enable single-wire touch- and grasp-sensing at any set of points on a printed object's surface (see Figure \cite{fig:toy}).  Simple capacitance measurements are possible using the same media, and custom-designed sensors like those created in Savage, et al.,'s Midas system are also possible \cite{Savage-midas}.
+Touch sensing can be enabled through pipes filled with conductive media.  Traditional wires (threadable) may be used, but conductive paint (liquid) may be more flexible.  Using conductive paint and Swept Frequency Capacitive Sensing (SFCS \cite{Sato-touche}), an interior star pipe topology can enable single-wire touch- and grasp-sensing at any set of points on a printed object's surface (see Figure \cite{fig:toy}).  Simple capacitance measurements are possible using the same media, and custom-designed sensors like those created in Savage, et al.,'s Midas system are also possible \cite{Savage-midas}.
 
 Pressure can be sensed in multiple ways.  Slyper, et al., in \cite{Slyper-pressure} contribute a set of semi-closed 3D printable primitives that respond to particular actions, like twisting or pushing, with changes in internal air pressure.  These primitives can be attached as the terminus of any semi-closed pipe; the user can manipulate the printed endpoint and the system can sense air pressure changes.  Pressure can also be more simply sensed via capacitance using those techniques.
 
@@ -117,13 +124,24 @@ While many input techniques require the use of conductive media inserted into pi
 
 \emph{Olfactory} and \emph{gustatory} outputs can be created through the mixing and splitting of pipes carrying scented or flavored fluids, respectively.
 
-\subsection{Identity}
+\subsection{Implications}
 
-Pipes included in printed objects allow for their identification.  While the pipes need not be visible (especially in the case of fully-enclosed pipes), their presence, location, network structure, and length change many properties of a printed object.  This includes weight, acoustic resonance, and (if conductive material is present) capacitive signature.
+\tovi{Where does this fit in the design space? This seciton seems out of place.
+}
+
+\valkyrie{is this something we want to talk about at all?}
+
+Pipes included in objects can have additional effects beyond their designed intentions.
+
+Pipes included in printed objects allow for their identification.  While the pipes need not be visible (especially in the case of fully-enclosed pipes), their presence, location, network structure, and length change the physical properties of a printed object.  This includes weight, acoustic resonance, and (if conductive material is present) capacitive signature.
 
 \valkyrie{need to do a rewrite of this that doesn't necessarily focus so deeply on audio only.  we can talk about these other non-visible measurements like weight and capacitive signature.  I also need to actually get an intentional encoding test up and running... we are going to have to be clever about how we stimulate the resonance pipes, though.  using a speaker won't really work: we have to agitate the air in the chambers, so we might need to use something like a reed (as in reed instruments).}
 
 Both identification by recall and intentional encoding are possible.  As seen in \cite{Ono-touchandactivate}, different objects have different acoustic signatures.  Additionally, two objects that are visually identical but which have fully enclosed (or other types) of pipes on their interior can be distinguished acoustically.  Thus we can recall an object's identity once its acoustic signature has been recorded.
+
+\tovi{I would save these details for later, 
+when we tlak about our actual 
+implementations.}
 
 We have also experimented with intentional encoding.  Semi-closed pipes can function as resonance chambers: the first resonant frequency $F_1$ Hz of a semi-closed pipe length $L$ meters can be found by $F_1 = \frac{c}{4L}$ (where $c$ is the speed of sound).  All odd harmonics (i.e., $3*F_1$, $5*F_1$, $7*F_1$, ...) of this frequency are also resonant frequencies of the pipe. \valkyrie{need to provide some guidelines for the number of IDs we can create in this way, and where in the sound spectrum they are.  my sense is that this will depend highly upon the i/o sensitivities of the mic and speaker selected.}
 

@@ -33,6 +33,10 @@ For the creation of tubes with multiple endpoints, for example the star topologi
 \subsubsection{Tubes with Non-Round Endpoints}
 Our tool does not explicitly allow makers to design the shape of their tubes' endpoints.  However, the larger Meshmixer package does allow brushing arbitrary shapes onto the surface and extruding them inward, as in Figure \ref{fig:meshmixer-endpoint}. \valkyrie{should we have a figure about this?  I  don't know how to describe it really, but we also didn't build it as a part of our tool.}
 
+\tovi{discussion points 
+- remove support material
+-evenutally medium could be printed into tube}
+
 \begin{figure}[h!]
 \centering
     \includegraphics[width=3.4in]{figures/meshmixer-endpoint.png}
@@ -41,6 +45,12 @@ Our tool does not explicitly allow makers to design the shape of their tubes' en
 \end{figure}
 
 \subsection{Designing Interior Paths}
+
+\tovi{Is this useful for anything other 
+than the neon sign usage 
+scenario? It's probably too 
+detailed for the purpose which it 
+serves}
 
 Neon signs, as in Figure \ref{fig:tool-process-interior}(d), require a single long path that passes through many desired edges: for example, in our UIST sign, the path must pass through all the edges that comprise the word ``UIST''.  To allow makers to create novel neon signs, as well as similar objects that require design of the pipe's interior path, we built a tool which leverages graph theory to generate this single long path.
 
@@ -101,6 +111,25 @@ How we actually cut stuff and make tubes happen. \valkyrie{Ryan?}
 \subsection{Fabrication Techniques}
 
 \valkyrie{this section may not be at all important.  I was thinking to use it to talk about different ways you can actually build the tubed things, and also constraints set down by the Makerbot vs. the Objet, but maybe that discussion is best made really short and moved to elsewhere}
+
+\tovi{I think this seciton is actually 
+important. Should talk about 
+support material, and 
+feasability of printing hollow 
+channels (vs channels with 
+support material) on different 
+printer models. 
+Also talk about process of 
+removing support material.
+And finally, process of 
+printing models in multiple 
+pieces, to aid support material 
+removal and threading.
+Would be nice if the software 
+automatically provided the 
+slicing and snap together 
+parts based on the channel 
+geometry}
 
 \subsubsection{Printing} - different strategies with Objet (all print-in-place) and Makerbot (may need to add things like balloons afterwards).  Ryan just got flexible material, we should see how stretchy it is...!  We could also consider assembleable things that are easier to create using parts that clip together... probably out of scope.
 
