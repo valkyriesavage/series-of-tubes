@@ -1,5 +1,5 @@
 \section{The Design Space of Pipes}
-The design space of pipes is large.  By using different types and topologies of pipes and inserting different media into the completed pipes, a variety of inputs and outputs can be located at arbitrary points on the surface of a 3D print.  We describe the  space, and then follow up with some of the input and output possibilities---both those that have been previously explored and those that are possible but remain unexplored.  We also discuss some possible implications of pipes in 3D prints.
+The design space of pipes is large.  By using different types and topologies of pipes and inserting different media into the completed pipes, a variety of inputs and outputs can be located at arbitrary points on the surface of a 3D print.  We describe the space below.
 
 \begin{figure}[h!]
 \centering
@@ -8,35 +8,27 @@ The design space of pipes is large.  By using different types and topologies of 
 \label{fig:pipespace}
 \end{figure}
 
-\subsection{Types of Pipes}\tovi{Maybe rename types to 
-"openings"?}
+\subsection{Openings of Pipes}
 
-Pipes can come in four types: open, return, semi-closed, and fully enclosed.  Each of these types offers distinct interaction capabilities (see Figure \ref{fig:pipespace}).  Definitionally, in the following paragraphs we refer to a pipe which is ``open on the user side'' to have its contents physically accessible to an interacting user at interaction time.  This includes pipes which function as fountains, but it does not include pipes whose ends have been capped to keep water inside (whether this capping was done at print time, or later as a manual modification).  Pipes whose contents are not physically accessible to the user are ``closed on the user side''.  A pipe which is ``open on the system side'' can have its contents manipulated by a machine, e.g., by resonating, pressurizing, or passing electricity through those contents.  The system does not need to have physical access to the contents in order to manipulate them.
+Pipes can come in four types: open, return, semi-closed, and fully enclosed.  Each of these types offers distinct interaction capabilities (see Figure \ref{fig:pipespace}).  Definitionally, in the following paragraphs we refer to a pipe which is ``open on the user side'' to have its contents physically accessible to an interacting user at interaction time.  This includes, for example, pipes which function as fountains, but it does not include pipes whose ends have been capped to keep water inside (whether this capping was done at print time, or later as a manual modification).  Pipes whose contents are not physically accessible to the user are ``closed on the user side''.  A pipe which is ``open on the system side'' is physically open to the machine, and one which is ``closed on the system side'' has its contents physically cut off from the machine.  User and system manipulation of contents are possible with or without physical access, e.g., by resonating, pressurizing, or passing electricity through those contents.
 
 Open pipes originate from the system side and connect the user side, with both ends of the pipe open. This type of pipe may be used to create, for example, capacitive sensors: an open pipe filled with conductive paint can be connected to a sensing platform (e.g., Arduino) on the system side, while a user can touch the uncapped other end of the pipe.  Using Swept Frequency Capacitive Sensing \cite{Sato-touche} or other techniques, a user's touch of the open end can be sensed.  An open pipe can also be used for output, for example by creating in-air vortices as in \cite{Sodhi-aireal}.
 
-A return pipe originates at the system and returns back to it.  By threading an electroluminescent (EL) wire through a clear return pipe, a maker can create a custom piece of neon art.  If a return pipe passes very close to the surface of a 3D printed model, warm or cold water passed through the pipe could be used for temperature-based haptic feedback.
+A return pipe originates at the system and returns back to it, without offering physical access to the user.  By threading an electroluminescent (EL) wire through a clear return pipe, a maker can create a custom piece of neon art.  If a return pipe passes very close to the surface of a 3D printed model, warm or cold water passed through the pipe could be used for temperature-based haptic feedback.
 
-Semi-closed pipes are open at the system end (for control of the enclosed medium) and closed at the user end.  The closed interface is interesting when it fabricated from a mobile material: for example, a series of pipes terminated in thin rubber membranes on the user side can be actuated by an air pump to create haptic feedback, or a hinged cap which can be blown open by air pressure.  Without a printer capable of fabricating flexible material, a maker could affix a balloon to an open pipe's end to behave similarly; another possibility is to use semi-closed pipes as audio-generating resonance chambers.
+Semi-closed pipes are open at the system end (for control of the enclosed medium) and closed at the user end.  The closed interface  may be fabricated from a mobile material: for example, a series of pipes terminated in thin rubber membranes on the user side can be actuated by an air pump to create haptic feedback, or a hinged cap can be blown open by air pressure.  Semi-closed pipes can also function as audio-generating resonance chambers.
 
-A fully enclosed pipe has no openings on either the system side or the user side.  Fully enclosed pipes can be used as resonance chambers (e.g., for object identification), or as air bubbles (e.g., as used in \cite{Willis-printedoptics} for internal display). \tovi{used as a container for water 
-or other particles that would 
-otherwise fall out?}  \valkyrie{I re-worded above.  please check.}  Their physical design space is very limited, as any support material required to create their internal geometry cannot be accessed for removal.
+A fully enclosed pipe has no openings on either the system side or the user side.  Fully enclosed pipes can be used as resonance chambers (e.g., for object identification), or as air bubbles (e.g., as used in \cite{Willis-printedoptics} for internal display).  It can also be used as a container for water or other particles that would otherwise fall out.
 
 \subsection{Media in Pipes}
 
 Pipes can be filled with a variety of media to create different interface affordances and capabilities.
 
-``Gas'' comprises all compressible fluids.  Use of fluid pressure inside pipes can create haptic feedback at semi-closed interfaces, or the gases can be used as carriers for scents or fog.  As in \cite{Slyper-pressure}, structures can be engineered to change in air pressure when manipulated correctly (e.g., a spiral that changes pressure when twisted, but not pressed), and thus fluid pressure can also be used as an input. \tovi{I realize "fluid" pressure is 
-technically correct, but might 
-confuse readers, since this is 
-the gas pararaph.}
+``Gas'' comprises all compressible fluids.  Use of fluid pressure inside pipes can create haptic feedback at semi-closed interfaces, or the gases can be used as carriers for scents or fog.  As in \cite{Slyper-pressure}, structures can be engineered to change in air pressure when manipulated correctly (e.g., a spiral that changes pressure when twisted, but not pressed), and thus fluid pressure can also be used as an input.
 
 Incompressible fluids (``liquids'') can perform many of the same interface tasks as gases.  One opportunity with liquids is to fill the interior of pipes with them and cap the ends.  In addition, one can use driable conductive fluids, such as copper paint, to coat the interior of pipes and allow them to function as arbitrarily-shaped wires.  This is especially helpful for the creation of a shared ground, or for creating single-wire capacitive interfaces amenable to sensing with SFCS \cite{Sato-touche}.
 
-\tovi{Again, this raises the question of how we are applying the design 
-space - is it based on its properties when it is printed, or based on 
-any post-print modifications}\valkyrie{re-worded above.  I think we are basing it on status at ``interaction time"}Pipes need not have hollow centers: in the case where routed pipes are filled with solid material---in particular, a solid material different from the model material---, interactions such as those in \cite{Willis-printedoptics} are possible.
+Pipes need not have hollow centers: in the case where routed pipes are filled with solid material---in particular, a solid material different from the model material---, interactions such as those in \cite{Willis-printedoptics} are possible.
 
 Particulates, either printed in-place or inserted, can be of varying densities.  A single particle can be used for display.  Sparse particles in a stream of fluid can provide haptic feedback.  Dense particles in a semi-closed pipe allow for jamming-based interactions at any point on the surface of an object \cite{Follmer-jamming}.
 
@@ -46,107 +38,10 @@ Threadable inserted elements, such as electroluminescent (EL) wire or fiberoptic
 
 Pipe network topologies enable different types of interactions.
 
-Splitting or mixing pipes offer flexibility in output.  If a maker wished to create a painting device, she might wish to have two system-side pipes feeding in primary-colored red and blue paints which mix in varying ratios, allowing their pigments to combine before purple exits from the device (see Figure \ref{fig:pipespace}).  Splitting can also be useful, for example if our maker wants red paint output in two locations from her painting device, she could have one system-side pipe, but split the pipe into two (see Figure \ref{fig:pipespace}).\tovi{How about multiple in/
-multiple out (in contrast to 
-branching/splitting which is 
-single in multiple out)
-} \tovi{This seciton should refer to the 
-possibilities, not to what we 
-actually did.}
+Splitting or mixing pipes offer flexibility in output.  If a maker wished to create a painting device, she might wish to have two system-side pipes feeding in primary-colored red and blue paints which mix in varying ratios, allowing their pigments to combine before purple exits from the device (see Figure \ref{fig:pipespace}).  Splitting can also be useful, for example if our maker wants red paint output in two locations from her painting device, she could have one system-side pipe, but split the pipe into two (see Figure \ref{fig:pipespace}).
 
-Star and tree topologies are extensions of the splitting and mixing primitives.  Using a star topology in which the pipes were filled with conductive paint, we created toys with several touch-sensitive areas, see Figure \ref{fig:toys}. 
+Star and tree topologies are extensions of the splitting and mixing primitives, encompassing multiple-in and multiple-out in contrast to single-in/single-out.  Using a star topology in which the pipes were filled with conductive paint, we created toys with several touch-sensitive areas, see Figure \ref{fig:toys}. 
 
 \subsection{Design of Pipes}
 
-Pipe designs may emphasize either their exterior features (connection points) or their interior paths.  These two features lead to different kinds of interfaces.  An example interface that focuses on the exterior connection points is the touch sensitive toy in Figure \ref{fig:toys}, where pipes must exit the toy at the eyes, ears, tail, etc.  An interface focused on the internal path of the pipe is the neon sign in Figure \ref{fig:neon}: output is based on the shape of the pipe.
-
-\subsubsection{Dimensions of Pipes}
-
-\valkyrie{Reference those pages from Bjoern: http://ttb.com/recent-news/diagrams/ We can talk about wall thickness, tangent length, degree of bend, arg bend angle, inner and outer diameters, centerline radius, etc.}
-
-\subsection{Inputs and Outputs}
-
-\tovi{The table indicates that media is the most
-prominent variable in the design space.
-Should justify that.
-}
-
-\tovi{There's lots of great ideas an examples in the inputs and outputs section, but the orgnization and coorespondence to the table is a little hard to follow. }
-
-By crossing pipe types, topologies, and inserted media, we create a space of possible inputs and outputs that can be pipe-mediated.  We offer a table (see Figure \ref{fig:designspace}) containing these possibilities, referencing previous work on input/output techniques where appropriate, noting that many of these techniques have not been attempted using digital fabrication.  We suggest new points in the design space that have been unexplored or not yet explored with digital fabrication.
-
-\begin{figure*}[t]
-\centering
-    \includegraphics[width=\textwidth]{figures/designspace.pdf}
-\caption{The design space of pipe-based interactions.  Existing systems are written in regular font.  Those created with fabrication are in {\color{blue}blue}. In \emph{{\color{red}red italic}} are unexplored interactions creatable with custom-fabricated pipes. \tovi{Im not sure how well this table will work. Division between input and output should be more prominent.}}
-\label{fig:designspace}
-\end{figure*}
-
-\subsubsection{Inputs}
-
-Pipes create opportunities for many types of input sensing across the surface of printed devices.  We describe sensing touch, pressure, grasp, flexing, tapping, and manipulation of traditional electronic components.  We recognize that there are likely more input sensing techniques, both existing and on the horizon, that are compatible with the use of pipes.
-
-Touch sensing can be enabled through pipes filled with conductive media.  Traditional wires (threadable) may be used, but conductive paint (liquid) may be more flexible.  Using conductive paint and Swept Frequency Capacitive Sensing (SFCS \cite{Sato-touche}), an interior star pipe topology can enable single-wire touch- and grasp-sensing at any set of points on a printed object's surface (see Figure \cite{fig:toy}).  Simple capacitance measurements are possible using the same media, and custom-designed sensors like those created in Savage, et al.,'s Midas system are also possible \cite{Savage-midas}.
-
-Pressure can be sensed in multiple ways.  Slyper, et al., in \cite{Slyper-pressure} contribute a set of semi-closed 3D printable primitives that respond to particular actions, like twisting or pushing, with changes in internal air pressure.  These primitives can be attached as the terminus of any semi-closed pipe; the user can manipulate the printed endpoint and the system can sense air pressure changes.  Pressure can also be more simply sensed via capacitance using those techniques.
-
-Grasp sensing can also be enabled using Wimmer's FlyEye technique \cite{Wimmer-flyeye}.  This technique involves a pair of optical links at each point of interest: one of each pair is connected to an infrared (IR) LED and the other to a camera.  When some object nears or touches a pair of cables, IR light from the LED is reflected back to the camera and the touched point appears as a bright spot.  Follmer, et al.,'s Jamming User Interfaces \cite{Follmer-jamming} rely on dense particulates enclosed in a flexible volume, and can be sensed optically.  These dense particulates can be printed in-place with desired characteristics (such as varying particle size or shape) using sacrificial support material, or added post-print.  The optical links necessary for sensing with FlyEye or Jamming can be created either via clear solid cores as in \cite{Willis-printedoptics} or via fiber optic cables threaded through hollow pipes (see Figure \ref{fig:pens}).
-
-Some 3D printers, like our Objet Connex 260, can fabricate rubber-like materials.  Much like Slyper, et al., in \cite{Slyper-shape}, we can sense flexing and bending of prints made on these machines.  While Slyper, et al., created multi-level multi-stage silicone molds with embedded wires to build their sensors, by placing pipes in our rubberlike prints and inserting conductive media afterwards, we can perform the same flex sensing.
-
-Tapping is another input possibility.  Due to differential sound conductivity in different printed materials (in particular, the rubberlike Objet material compared to the hard Objet material \valkyrie{presumably we should get or take some measurements of this and include it in the appendix?}), pipes of a greater conducting material can be embedded in a model of a lesser conducting material.  A microphone or piezo placed at the system-side of these sound-conducting pipes can determine where the model was tapped and how it was tapped.  Active acoustic sensing as described in Touch \& Activate \cite{Ono-touchandactivate} is also possible; this technique would allow for particular areas of interest (connected to sound-conducting pipes) to be touch sensitive, while other areas (made of non-conducting material) are not sensed.
-
-Sensing via traditional electronic components (e.g., potentiometers, alcohol gas sensors) can be accomplished by conductive inserted media.  Components can be recessed into a print's surface, with their leads implanted into open pipes.  By inserting liquid copper paint instead of threading traditional wires, all components in a model can share a ground line, and the paint's drying process obviates the use of solder or glue to affix the components in place (see Figure \ref{fig:radio}).
-
-\subsubsection{Outputs}
-
-While many input techniques require the use of conductive media inserted into pipes, output media are more varied.  We describe potential pipe-based outputs organized by the five senses: visual, aural, haptic, and olfactory/gustatory.  In addition to outputs we mention explicitly, any outputs possible using traditional electronic components are possible as described above.
-
-\begin{figure}[h]
-\centering
-    \includegraphics[width=3.4in]{figures/placeholder/direct.jpg}
-\caption{By attaching a servo to a gate structure, it is possible to direct fluid through that pipe.  The gate not only has binary positions (a) and (b), but can direct fractional flow, as well (c).  This could be used to create logic gates, as in (d).  These could be used, for example, in science exhibits.}
-\label{fig:direct}
-\end{figure}
-
-\emph{Visual} outputs can be mediated by gases, liquids, solid, particulates, or threadables.  EL wire can be threaded through custom paths to create neon signs, as in Figure \ref{fig:neon}.  Colored liquids can be mixed and split before exiting an opaque device, or in a transparent device their mixing, splitting, and paths could be used for display.  PneUIs \cite{Yao-pneui} can be fabricated as single parts: the rubberlike material offered by our Objet is inflatable when thin (200\% elongation at break), and a PneUI located at the terminus of a pipe could be actuated by a system-side air pump (see Figure \ref{fig:breathe}).  Mechanical motion can be mediated through fluids (a light object which is partially contained in a pipe or located at its end could be pushed by the fluid pressure of the pipe) or threadables (e.g., muscle wire).  Large particles trapped in pipes visible to the user can be used for, e.g., maze games (see Figure \ref{fig:maze}).  We can even direct fluids through a pipe network using a servo-controlled gate, as in Figure \ref{fig:direct}.  Using techniques like those described by Harrison, et al., in \cite{Harrison-buttons}  \valkyrie{this paragraph seems terrible.  I think all these paragraphs might seem terrible...}
-
-\emph{Aural} outputs can be created with gases.  Zoran has successfully 3D printed a functional flute, which in essence is a long open open pipe with semi-closed pipes coverable by keys \cite{Zoran-flute}.  Helmholz resonance (the phenomenon that creates noise when you blow into the top of a glass bottle, which is also how some musical instruments, like ocarinas, work) can be leveraged to create computer-controllable sound chambers.  All that is necessary for this is an enclosed chamber with a pipe connected to it via a narrow neck-point (see Figure \ref{fig:ocarina}).  Passive sound amplification (like a phonograph horn) and sound redirection are also possible using pipes.
-
-\begin{figure}[h]
-\centering
-    \includegraphics[width=3.4in]{figures/placeholder/helmholz.jpg}
-\caption{This box (a) contains an enclosed Helmholz resonator, seen in the cutaway view (b).  This resonator creates a sound when air is blown through the pipe at the top, because air compresses at the small neck joint between the chamber and the pipe.  \valkyrie{need to get a test print of this that actually works}}
-\label{fig:ocarina}
-\end{figure}
-
-\emph{Haptic} outputs are possible through compressible and incompressible fluids.  Fluids can actuate particulates and create programmable pliability (as discussed above and in \cite{Follmer-jamming}).  Additionally, use of semi-closed pipes with rubberlike material as the caps allows for gases to actuate surface features (see Figure \ref{fig:breathe}).  Sodhi, et al., in \cite{Sodhi-aireal} created free-air haptic feedback using controlled vortex generation: this technique could also be reproduced using a series of pipes.  Iwata, et al., explored volumetric fluid-based interactions with programmatically inflatable balloons and an overhead projector in \cite{Iwata-volflex}, and additionally haptic outputs can be used to increase ergonomics, as in the inflatable mouse by Kim, et al. \cite{Kim-inflatablemouse}.
-
-\emph{Olfactory} and \emph{gustatory} outputs can be created through the mixing and splitting of pipes carrying scented or flavored fluids, respectively.
-
-\subsection{Implications}
-
-\tovi{Where does this fit in the design space? This seciton seems out of place.
-}
-
-\valkyrie{is this something we want to talk about at all?}
-
-Pipes included in objects can have additional effects beyond their designed intentions.
-
-Pipes included in printed objects allow for their identification.  While the pipes need not be visible (especially in the case of fully-enclosed pipes), their presence, location, network structure, and length change the physical properties of a printed object.  This includes weight, acoustic resonance, and (if conductive material is present) capacitive signature.
-
-\valkyrie{need to do a rewrite of this that doesn't necessarily focus so deeply on audio only.  we can talk about these other non-visible measurements like weight and capacitive signature.  I also need to actually get an intentional encoding test up and running... we are going to have to be clever about how we stimulate the resonance pipes, though.  using a speaker won't really work: we have to agitate the air in the chambers, so we might need to use something like a reed (as in reed instruments).}
-
-Both identification by recall and intentional encoding are possible.  As seen in \cite{Ono-touchandactivate}, different objects have different acoustic signatures.  Additionally, two objects that are visually identical but which have fully enclosed (or other types) of pipes on their interior can be distinguished acoustically.  Thus we can recall an object's identity once its acoustic signature has been recorded.
-
-\tovi{I would save these details for later, 
-when we tlak about our actual 
-implementations.}
-
-We have also experimented with intentional encoding.  Semi-closed pipes can function as resonance chambers: the first resonant frequency $F_1$ Hz of a semi-closed pipe length $L$ meters can be found by $F_1 = \frac{c}{4L}$ (where $c$ is the speed of sound).  All odd harmonics (i.e., $3*F_1$, $5*F_1$, $7*F_1$, ...) of this frequency are also resonant frequencies of the pipe. \valkyrie{need to provide some guidelines for the number of IDs we can create in this way, and where in the sound spectrum they are.  my sense is that this will depend highly upon the i/o sensitivities of the mic and speaker selected.}
-
-An object's resonant frequency can be measured by attaching a speaker and microphone to it, sweeping frequencies with the speaker, and performing a Fourier transform on the resultant signal from the microphone.  Peaks in the transformed data correspond to stronger returned impulses: the resonant frequencies of the object.
-
-This is similar to work done by Willis, et al., in \cite{Willis-infrastructs}.  While their technique requires access a terahertz imaging tool, audio resonance identity encoding requires only a microphone and a speaker.
-
-\valkyrie{in my experiments so far, it seems that the material printed does conduct sound fairly well, so this is feasible.  I think we should get some equipment and do a small test, though, since I don't know how the resonance will change with the big hunk of plastic around the semi-open pipe.  hopefully discussing this with Alex soon.}
+Pipe designs may emphasize either their exterior features (connection points) or their interior paths.  These two features lead to different kinds of interfaces.  An example interface that focuses on the exterior connection points is the touch sensitive toy in Figure \ref{fig:toys}, where pipes must exit the toy at the frontal lobe, parietal lobes, etc.  An interface focused on the internal path of the pipe is the neon sign in Figure \ref{fig:neon}: output is based on the shape of the pipe.
