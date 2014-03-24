@@ -25,17 +25,16 @@ Given this initial routing, we create a rod of slightly longer proportional leng
 
 To allow for easiest insertion of media post-print, our physical simulation step minimizes the bend radius of the generated rods.  In order to force our simulated rods away from the surface of the mesh, we create ``wind'' pushing inward from the exterior of the mesh.  This wind keeps the resulting pipe away from the surface. \valkyrie{Ryan: How does it actually work?}
 
-\subsubsection{Tubes with Multiple Endpoints}
-For the creation of tubes with multiple endpoints, for example the star topologies in Figure \ref{fig:toys} or tree topologies, makers can select interior faces of existing pipes as endpoints, and thereby create pipe networks by hand.  We do not currently offer any pipe network manipulation tools.
+\subsubsection{Pipes with Multiple Endpoints}
+For the creation of pipes with multiple endpoints, for example the star topologies in Figure \ref{fig:toys} or tree topologies, makers can select interior faces of existing pipes as endpoints, and thereby create pipe networks by hand.  We do not currently offer any pipe network manipulation tools.
 
-\valkyrie{To allow designers to create tubes with multiple endpoints (like the star topologies in Figure \ref{fig:toys}), we create 0-size mesh points in the center of the object, to which we attach one end of every tube?}
+\valkyrie{To allow designers to create pipes with multiple endpoints (like the star topologies in Figure \ref{fig:toys}), we create 0-size mesh points in the center of the object, to which we attach one end of every pipe?}
 
-\subsubsection{Tubes with Non-Round Endpoints}
-Our tool does not explicitly allow makers to design the shape of their tubes' endpoints.  However, the larger Meshmixer package does allow brushing arbitrary shapes onto the surface and extruding them inward, as in Figure \ref{fig:meshmixer-endpoint}. \valkyrie{should we have a figure about this?  I  don't know how to describe it really, but we also didn't build it as a part of our tool.}
+\subsubsection{Pipes with Non-Round Endpoints}
+Our tool does not explicitly allow makers to design the shape of their pipes' endpoints.  However, the larger Meshmixer package does allow brushing arbitrary shapes onto the surface and extruding them inward, as in Figure \ref{fig:meshmixer-endpoint}.
 
-\tovi{discussion points 
-- remove support material
--evenutally medium could be printed into tube}
+\subsubsection{Semi-Closed and Fully Enclosed Pipes}
+Users can select via a checkbox if they wish to cap one end, the other end, or both ends of their pipe.  The software simply creates an offset from the surface in these cases, so that material remains between the pipe and the surface after mesh modification.
 
 \begin{figure}[h!]
 \centering
@@ -45,12 +44,6 @@ Our tool does not explicitly allow makers to design the shape of their tubes' en
 \end{figure}
 
 \subsection{Designing Interior Paths}
-
-\tovi{Is this useful for anything other 
-than the neon sign usage 
-scenario? It's probably too 
-detailed for the purpose which it 
-serves}
 
 Neon signs, as in Figure \ref{fig:tool-process-interior}(d), require a single long path that passes through many desired edges: for example, in our UIST sign, the path must pass through all the edges that comprise the word ``UIST''.  To allow makers to create novel neon signs, as well as similar objects that require design of the pipe's interior path, we built a tool which leverages graph theory to generate this single long path.
 
@@ -64,27 +57,13 @@ A maker can import a vector graphics file (such as SVG) describing the path she 
 \end{figure}
 
 \subsubsection{Routing}
-The interior path routing problem is a version of the Chinese Postman Problem\footnote{The CPP is also known as the route inspection problem: \url{http://en.wikipedia.org/wiki/Route_inspection_problem}}, in which we wish to traverse all edges of the graph described in the user's input with a single Euler circuit, much as a postman needs to walk along every road at least once to deliver mail.  We call our relaxation the Spiderman Postman Problem: we allow the creation of non-existing paths (i.e., the postman may traverse buildings in addition to roads).  If inputted path components are disconnected, we must create edges that connect them; additionally we can create new edges connecting odd-degree vertices rather than simply retracing existing edges.  In the final artifact, all created edges will be blocked out by dark material so the inserted medium is not visible (see Figure \ref{fig:tool-process-interior}).
+The interior path routing problem is a version of the Chinese Postman Problem\footnote{The CPP is also known as the route inspection problem: \url{http://en.wikipedia.org/wiki/Route_inspection_problem}}, in which we wish to traverse all edges of the graph described in the user's input with a single Euler circuit, much as a postman needs to walk along every road at least once to deliver mail.  We call our relaxation the Spiderman Postman Problem: we allow the creation of non-existing paths (i.e., the postman may traverse buildings in addition to roads).  If inputted path components are disconnected, we must create edges that connect them; additionally we can create new edges connecting odd-degree vertices rather than simply retracing existing edges.  In the final artifact, all created edges will be blocked out by dark material so the inserted medium is not visible (see Figure \ref{fig:tool-process-interior}).  We offer a short algorithm here, with a more mathematically precise definition and associated proof in the appendix.
 
-We want a semi-Eulerian graph (i.e., we want a graph in which every vertex but two have even degree) so that the desired medium can be inserted, traverse every edge, and exit the graph at a different vertex.  Let $G=(V,E_0)$ s.t. $\forall e \in E_0, weight(e)=0, start \in V $ the start point $end \in V$ the end point.  Let $e_{temp} = (start, end)$, $E' = E + e_{temp}$.
+We need a graph which is semi-Eulerian (i.e., the inserted media can enter at one point, traverse every edge exactly once, and exit at a different point).  In order to create a semi-Eulerian graph, we first add a temporary edge to the start and end points.  This is removed after the graph is made fully Eulerian.
 
-We need to connect disconnected subgraphs in $G$.  Let $G_{dis} = \{G_1, G_2, ... G_n\} \in G$ s.t. $\cup{\{G_i \in G_{dis}\}} = G$ and $G_i \cap G_j  = \{ \} \forall G_i, G_j \in G_{dis}, i\neq j$ be disconnected subgraphs in G.  Create $E_{conn} = \{e = (u, v), u \in G_i, degree(u)\%2 = 1, v \in G_j, degree(v) \%2 = 1 i \neq j, weight(e) = distance(u, v)\}$ be the set of all edges connecting odd-degree points in two distinct disconnected subgraphs.  To keep only the most desirable edges in $E_{conn}$, contract each subgraph $G_i$ to a single point $u_i$ with the shortest outgoing edges to each other subgraph: $E_{conn} = \cup_{G_i \in G_{dis}} \{e=(u_i, v), v \in G_j,$ s.t. $\forall E_{conn} \ni e_k = (u, v), u \in G_i, v \in G_j, weight(e_k) \geq weight(e)\}$.  Sort $E_{conn}$ s.t. $E_{conn} = \{e_1, e_2, ... e_n\}, weight(e_1) \leq weight(e_2) \leq \ldots \leq weight(e_n)$.
+In order to connect disconnected subgraphs in the input, we reduce each disconnected subgraph to a point.  We add edges from each subgraph-point to each other subgraph-point that represent the minimum distance between any two points in the expanded subgraphs (where distance is Euclidean distance).  We greedily select the smallest weight edges until all subgraphs are joined into a single graph.  We re-expand the subgraphs.
 
-Let $E_{conn-min} = \{ \}$.  Beginning with $e_1$, add the first edge $e_i \in E_{conn}$ to $E_{conn-min}$.  Then let $E_{dupe} = \{ e = (u, v) \in E_{conn}$ s.t. $u$  is reachable from $v$ along edges $E' \cup E_{conn-min}$.  Let $E_{conn} = E_{conn} \setminus E_{dupe}$.  Repeat until $E_{conn} = \{ \}$.  Let $E' = E' \cup E_{conn-min}$.
-
-At this stage, we want an Eulerian graph: i.e., we need every vertex to be of even degree.  Let $V_{odd} = \{ v \in V$ s.t. $degree(v) \% 2 = 1 \}$.  Create $E_{circuit} = V_{odd} \times V_{odd}$, s.t. $\forall e=(u,v) \in E_{circuit}, weight(e) = distance(u, v)$.  Find minimum matching $E_{circuit-min} \subseteq E_{circuit}$.  Let $E' = E \cup E_{circuit-min}$.
-
-Now to remove our temporary edge and make the graph semi-Eulerian instead of Eulerian, let $E' = E' \setminus e_{temp}$.
-{
-\renewcommand{\thetheorem}{\ref{thm:graphness}}
-\begin{theorem}
- $G' = (V, E')$ is a connected, semi-Eulerian graph for which $E \subseteq E'$.
-\end{theorem}
-\addtocounter{theorem}{-1}
-}
-\begin{proof}
-See appendix.
-\end{proof}
+In order to make our graph Eulerian, we consider all vertices of odd degree in the connected graph and make a clique of edges once more based on distance.  We again greedily select edges between the odd nodes until no odd nodes remain.  Finally, we remove our temporary edge, which changes the graph from Eulerian to semi-Eulerian.  This graph is a connected, semi-Eulerian graph which contains all edges in the input SVG (see Appendix).
 
 We believe that a lower total weight matching is possible by connecting components and ensuring edge degree evenness together in a global process, however it this not crucial for our purposes.
 
@@ -107,30 +86,3 @@ To detect intersecting edges, we \valkyrie{I'm not sure what we do.}.  We also c
 \subsection{Mesh Modification}
 
 How we actually cut stuff and make tubes happen. \valkyrie{Ryan?}
-
-\subsection{Fabrication Techniques}
-
-\valkyrie{this section may not be at all important.  I was thinking to use it to talk about different ways you can actually build the tubed things, and also constraints set down by the Makerbot vs. the Objet, but maybe that discussion is best made really short and moved to elsewhere}
-
-\tovi{I think this seciton is actually 
-important. Should talk about 
-support material, and 
-feasability of printing hollow 
-channels (vs channels with 
-support material) on different 
-printer models. 
-Also talk about process of 
-removing support material.
-And finally, process of 
-printing models in multiple 
-pieces, to aid support material 
-removal and threading.
-Would be nice if the software 
-automatically provided the 
-slicing and snap together 
-parts based on the channel 
-geometry}
-
-\subsubsection{Printing} - different strategies with Objet (all print-in-place) and Makerbot (may need to add things like balloons afterwards).  Ryan just got flexible material, we should see how stretchy it is...!  We could also consider assembleable things that are easier to create using parts that clip together... probably out of scope.
-
-\subsubsection{Hand Tools} - post-fabrication modification is possible using hand tools.  We can mark the surface to show where conduits are and how deep.  I can also use this to test things before spending time printing them using a big ol' block o' plastic.

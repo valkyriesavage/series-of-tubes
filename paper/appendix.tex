@@ -1,7 +1,17 @@
 \newpage
 \appendix
 
-\section{Proof of Theorem 1}
+\section{Routing Algorithm}
+
+We want a semi-Eulerian graph (i.e., we want a graph in which every vertex but two have even degree) so that the desired medium can be inserted, traverse every edge, and exit the graph at a different vertex.  Let $G=(V,E_0)$ s.t. $\forall e \in E_0, weight(e)=0, start \in V $ the start point $end \in V$ the end point.  Let $e_{temp} = (start, end)$, $E' = E + e_{temp}$.
+
+We need to connect disconnected subgraphs in $G$.  Let $G_{dis} = \{G_1, G_2, ... G_n\} \in G$ s.t. $\cup{\{G_i \in G_{dis}\}} = G$ and $G_i \cap G_j  = \{ \} \forall G_i, G_j \in G_{dis}, i\neq j$ be disconnected subgraphs in G.  Create $E_{conn} = \{e = (u, v), u \in G_i, degree(u)\%2 = 1, v \in G_j, degree(v) \%2 = 1 i \neq j, weight(e) = distance(u, v)\}$ be the set of all edges connecting odd-degree points in two distinct disconnected subgraphs.  To keep only the most desirable edges in $E_{conn}$, contract each subgraph $G_i$ to a single point $u_i$ with the shortest outgoing edges to each other subgraph: $E_{conn} = \cup_{G_i \in G_{dis}} \{e=(u_i, v), v \in G_j,$ s.t. $\forall E_{conn} \ni e_k = (u, v), u \in G_i, v \in G_j, weight(e_k) \geq weight(e)\}$.  Sort $E_{conn}$ s.t. $E_{conn} = \{e_1, e_2, ... e_n\}, weight(e_1) \leq weight(e_2) \leq \ldots \leq weight(e_n)$.
+
+Let $E_{conn-min} = \{ \}$.  Beginning with $e_1$, add the first edge $e_i \in E_{conn}$ to $E_{conn-min}$.  Then let $E_{dupe} = \{ e = (u, v) \in E_{conn}$ s.t. $u$  is reachable from $v$ along edges $E' \cup E_{conn-min}$.  Let $E_{conn} = E_{conn} \setminus E_{dupe}$.  Repeat until $E_{conn} = \{ \}$.  Let $E' = E' \cup E_{conn-min}$.
+
+At this stage, we want an Eulerian graph: i.e., we need every vertex to be of even degree.  Let $V_{odd} = \{ v \in V$ s.t. $degree(v) \% 2 = 1 \}$.  Create $E_{circuit} = V_{odd} \times V_{odd}$, s.t. $\forall e=(u,v) \in E_{circuit}, weight(e) = distance(u, v)$.  Find minimum matching $E_{circuit-min} \subseteq E_{circuit}$.  Let $E' = E \cup E_{circuit-min}$.
+
+Now to remove our temporary edge and make the graph semi-Eulerian instead of Eulerian, let $E' = E' \setminus e_{temp}$.
 
 \begin{theorem} \label{thm:graphness}
  $G' = (V, E')$ is a connected, semi-Eulerian graph for which $E \subseteq E'$.
