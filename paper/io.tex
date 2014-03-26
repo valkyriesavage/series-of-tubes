@@ -2,11 +2,15 @@
 
 \valkyrie{What do you guys think about trying to merge this with the example objects section?  It would cut down the text a lot, but it might seem weird to just shunt those in here.}
 
-Once objects have been designed and fabricated, the major flexibility for prototyping with pipes stems from the media inserted in them.  The five types of media--gas, liquid, solid, particulate, and threadable--give rise to unique possibilities in output (visual, aural, tactile/haptic, olfactory/gustatory) as well as input (touch/pressure and others).
+Once objects have been designed and fabricated, the major flexibility for prototyping with pipes stems from the media inserted in them.  The five types of media--gas, liquid, solid, particulate, and threadable--\bjoern{Not just the media in them, but also the systems attached to them to sense changes to chose media or actuate them. 
+
+I wonder if you could still push this table yet further back, essentially into the discussion part. So you first show the objects, and then the discussion puts these into context of other work thats been done and provides pointers to future work in other areas of this design space. 
+
+}give rise to unique possibilities in output (visual, aural, tactile/haptic, olfactory/gustatory) as well as input (touch/pressure and others).
 
 \tovi{There's lots of great ideas an examples in the inputs and outputs section, but the orgnization and coorespondence to the table is a little hard to follow. }
 
-By crossing pipe types, topologies, and inserted media, we create a space of possible inputs and outputs that can be pipe-mediated.  We offer a table (see Figure \ref{fig:designspace}) containing these possibilities, referencing previous work on input/output techniques where appropriate, noting that many of these techniques have not been attempted using digital fabrication.  We suggest new points in the design space that have been unexplored or not yet explored with digital fabrication.
+By crossing pipe types, topologies, and inserted media, we create a space of possible inputs and outputs that can be pipe-mediated.  We offer a table (see Figure \ref{fig:designspace}) containing these possibilities, referencing previous work on input/output techniques where appropriate, noting that many of these techniques have not been attempted using digital fabrication \bjoern{It may be a bit tricky to define what "using digital fab" means here. For example, Harrison 's pneumatically actuated buttons were done on a laser cutter, but also required manual gluing of other layers. Does that count or not?}.  We suggest new points in the design space that have been unexplored or not yet explored with digital fabrication.
 
 \begin{figure*}[t]
 \centering
@@ -59,10 +63,13 @@ Sensing via traditional electronic components (e.g., potentiometers, alcohol gas
 
 \subsection{Fabrication Techniques}
 
+\bjoern{The biggest question wrt fabrication for me is - how do I print these cavities? So general support material avoidance or removal strategies should be more prominent.
+
+(I think the lye bath would probably work better than the high pressure water for our objet prints)}
 The physical fabrication process used by different machines gives rise to differing design guidelines.  The two machines we used to create our example objects were the Objet Connex 260 and the Makerbot Replicator 2.
 
 The Objet is an inkjet-based 3D printer which jets drops of polymer in very fine layers, curing each layer with an ultraviolet lamp.  It offers a wide range of material types, including clear/opaque, flexible/hard, and black/white.  Additionally, it permits the mixing of two different materials in a single print: a mixed material could include 70\% flexible and 30\% hard, for example, to be firm but somewhat flexible.  The flexible materials can be inflated when they are thin: they elongate 200\% before breaking.  We have found $.05$inches to be a good thickness for inflatable materials.  Although this machine has many extraordinary capabilities, it unfortunately cannot print overhangs of greater than $14^{\circ}$ without support material.  The support structure used by this machine is a loose matrix of material that can be removed by hand from the surface or blasted out with a water jet from the interior.  The support is also soluble in lye.
 
 The Makerbot Replicator 2 is a fused-deposition modeling (FDM) printer, in which we use exclusively Polylactic Acid (PLA) bioplastics.  More material properties are being explored in PLA: there are now transparent and flexible materials.  They cannot be blended like those in the Objet.  The Makerbot has a fairly coarse resolution compared to the Objet, however it permits overhangs up to $45^{\circ}$ without support and also allows bridging (short spans of material that bridge the gap between two structures with no support underneath).  Due to the FDM process it can even recover from greater overhangs and longer bridges, as the material builds up and can reorganize into a structure \valkyrie{how do I say this?  do I need a photo?  print recovery is pretty awesome-looking.}.  The support used by the Makerbot is made of the same material as the model itself, just printed in a different pattern and attached over as small a surface area as possible to ease removal.  Support inside of a pipe may require pliers, or be infeasible to remove dependent upon geometry.
 
-Assembly is easiest on both machines when the model does not require support material.  Models can be ``cut up'' into assembleable pieces to evade support requirements or ease material removal.  We believe that an automatic tool for this task would be highly beneficial, however it is outside the scope of this work.
+Assembly is easiest on both machines when the model does not require support material.  Models can be ``cut up'' \bjoern{This negates some of the benefits compared to other manufacturing techniques.} into assembleable pieces to evade support requirements or ease material removal.  We believe that an automatic tool for this task would be highly beneficial, however it is outside the scope of this work.
