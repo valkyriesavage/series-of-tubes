@@ -17,12 +17,13 @@ Pipes can also be used for sending media on a specified route through an object;
 
 The generation of these pipes, however, is not trivial.  Pipes need to have maximum possible bend radius to ease the insertion of media post-print.  Independent pipes should not intersect, as this could lead to electrical shorting or other problems.  Pipes should not pass too close to the surface (unless they are being used for display purposes).  Consumer-grade 3D printers do not guarantee air- or water-tightness of their prints, so more than one layer may be required to prevent fluid leakage.  Pipes for applications like neon signs must have an Euler tour through them: this allows a single EL wire to pass through every edge on the pipe graph.  We have developed techniques for minimizing the bending energy of, enforcing non-intersection with, and avoiding the surface for pipes, as well as expanding user-specified paths and generating Euler tours.  These techniques are embodied in our software tool to enable makers to create pipe-powered interfaces.
 
+Many existing sensing and actuation approaches, such as FlyEye \cite{Wimmer-flyeye}, Jamming User Interfaces \cite{Follmer-jamming}, and Touch\'{e} \cite{Sato-touche}, can be enhanced by the use of pipes.  Pipes allow makers utilizing these sensing and actuation strategies to locate input and output at arbitrary points on an object's surface.  Thus, we leverage these existing techniques for sensing and actuation while our work's novelty is in \emph{internal modeling} for 3D printing and the \emph{redirection} of IO to arbitrary locations on a device.
+
 Our work makes the following contributions to the field of digitally fabricated interactive objects:
 
 \begin{itemize}
 \item We lay out a design space of pipes and their openings, contained media, topologies, and design focus.
 \item We offer algorithms and techniques for routing pipes, as well as a design tool implementing them.
-\item We describe the interaction possibilities of pipes, including prior work as well as uncharted possibilities.
 \item We showcase a set of examples, enabled by our modeling tool and exploring new points in the design space.
+\item We describe the interaction possibilities of pipes, including prior work as well as uncharted possibilities.
 \end{itemize}
-
