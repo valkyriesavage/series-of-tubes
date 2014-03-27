@@ -1,6 +1,8 @@
 \section{Example Objects}
 
-To evaluate our tool's capabilities and to explore new points in the design space, we fabricated a set of five prototype objects designed using the tool.  All prototypes were fabricated in a single piece, unless described otherwise.
+To evaluate and highlight our tool's capabilities, we fabricated a set of five prototype objects designed using the tool.  All prototypes were fabricated in a single piece, unless described otherwise.
+
+\valkyrie{one way of combatting the enormousness of this paper is to put all these example objects figures into a single figure* instead}
 
 \tovi{Maybe a materials section 
 before this - to talk about the 
@@ -23,7 +25,9 @@ assembly process, and apparatus details (especially the
 copper paint - unless discussed earlier in a materials 
 seciton.}
 
-We created a set of touch-sensitive toys and a companion app, reminiscent of the boat application in \cite{Harrison-acoustic}.  The brain, rabbit, and boat each have several distinct touch points on their surfaces.  These touch points are connected by an interior star topology of tubes filled with conductive copper paint, and touch sensing is performed via a single wire and SFCS (see Figure \ref{fig:toys}).  We built a smart base which can distinguish between the toys and also determine which toy is mounted: since each toy and each gesture has a distinct capacitive signature, we use a simple classifier trained to detect both toy and gesture based on profile.  All components were fabricated on a Makerbot, support-free.
+We created a set of touch-sensitive toys and a companion app, reminiscent of the boat application in Acoustic Barcodes \cite{Harrison-acoustic}.  The brain, rabbit, and boat each have several distinct touch points on their surfaces.  These touch points are connected by an interior star topology of tubes filled with conductive copper paint, and touch sensing is performed via a single wire and SFCS (see Figure \ref{fig:toys}).  We built a smart base which can distinguish between the toys and also determine which toy is mounted: since each toy and each gesture has a distinct capacitive signature, we use a simple classifier trained to detect both toy and gesture based on profile.
+
+The models we used for the toys' exteriors were all downloaded from the free website Thingiverse.  All components were fabricated on a Makerbot, support-free.  After printing, we injected copper paint (CuPro-Cote) into the interior pipes using a craft syringe.  This paint requires approximately 2 days to fully dry in this configuration (3mm diameter tubes, maximum tube length 10cm).  Our smart base is powered by an Arduino Uno running code by Instructables users DZL and madshobye.
 
 \subsection{Breathing Bunny (semi-closed, gas, exterior)}
 
@@ -45,7 +49,7 @@ We created a rabbit with a pair of tubes that can simulate breathing (see Figure
 \label{fig:radio}
 \end{figure}
 
-A custom radio built using tubes allows users to tune to different stations and listen in.  This device uses a network of disconnected open tubes filled with conductive paint to connect traditional electronic components (two potentiometers and a speaker) to a microcontroller (in our case, an Arduino).  We hid the microcontroller and a battery-driven power supply in the base of the radio to make it portable.  For the radio functionality, we attached an Si4703 to the Arduino.  We fabricated this device on our Makerbot, support-free but cut in two halves to allow the Arduino to be inserted.
+A custom radio built using tubes allows users to tune to different stations and listen in.  This device uses a network of disconnected open tubes filled with conductive paint to connect traditional electronic components (two potentiometers and a speaker) to a microcontroller (in our case, an Arduino Pro Micro).  We hid the microcontroller and a battery-driven power supply in the base of the radio to make it portable.  For the radio functionality, we attached an Si4703 to the Arduino, which offers headphone-jack output.  We fabricated the radio itself on our Makerbot, support-free but cut in two pieces to allow the Arduino and battery pack to be inserted.
 
 \subsection{Presence-aware Pen Holder (open, solid, exterior)}
 
@@ -56,7 +60,7 @@ A custom radio built using tubes allows users to tune to different stations and 
 \label{fig:pens}
 \end{figure}
 
-Our presence-aware pen holder can distinguish which tool or tools a user has picked up (see Figure \ref{fig:pens}).  Our pen holder uses a modification of the FlyEye technique described by Wimmer in \cite{Wimmer-flyeye} and contains open tubes filled with fiber optic cables, one per pen chamber.  We use a single cable per chamber; our 6mm diameter fiber optic cables, in comparison to the angel hair tubes used in the original work \bjoern{Mixed terminology between el wire and fiber optics? "angel hair" is a specific product name, not a general technical term (I think)}, can send and receive through the same cable.  At the base of each tube is a QRE1113 line sensor digital breakout board, which has an integrated IR emitter and receiver.   When a pen is in its appointed place, the emitted infrared light is reflected off its bottom and travels back to the receiver, where it registers as bright.  This prototype was built by our Objet and support was flushed post-print. \valkyrie{this whole paragraph is unclear}
+Our presence-aware pen holder can distinguish which tool or tools a user has picked up (see Figure \ref{fig:pens}).  Our pen holder uses a modification of the FlyEye technique described by Wimmer in \cite{Wimmer-flyeye} and contains open tubes filled with fiber optic cables, one per pen chamber.  We use a single cable per chamber; our 6mm diameter fiber optic cables, in comparison to the fine tubes used in the original work , can send and receive through the same cable.  At the base of each tube is a QRE1113 line sensor digital breakout board, which has an integrated IR emitter and receiver.   When a pen is in its appointed place, the emitted infrared light is reflected off its bottom and travels back to the receiver, where it registers as bright.  This prototype was built by our Objet and support was flushed post-print. \valkyrie{this whole paragraph is unclear}
 
 \subsection{Maze (fully enclosed, particulate, tree, interior)}
 
@@ -67,15 +71,15 @@ Our presence-aware pen holder can distinguish which tool or tools a user has pic
 \label{fig:maze}
 \end{figure}
 
-We created a maze game with a single particle trapped in a fully enclosed tube.  To fabricate the tube, we created it in two halves that were fastened together via glue, due to limitations in our ability to remove support material otherwise.  We created this prototype on our Makerbot in two halves to allow for insertion of the marble. \bjoern{You are giving two different reasons here for printing in pieces.}
+We created a maze game with a single particle trapped in a fully enclosed tube.  This maze is based on an SVG we created by hand and processed with our internal path tube tool.  To fabricate the tube, we created it in two halves that were fastened together via glue, due to limitations in our ability to remove support material otherwise.  We created this prototype on our Makerbot in two halves, inserting a marble before closing.
 
 \subsection{Animated Neon Sign (semi-closed, threadable, interior)}
 
-\begin{figure}[h]
+\begin{figure}[h!]
 \centering
     \includegraphics[width=3.4in]{figures/sign.png}
 \caption{A two-state animated neon sign designed using our tool (a)(b) \valkyrie{Tovi: we could use your PDF hax to make this animate in place :)}.  (c) shows the SVG input files to create this sign, and (d) shows an isometric view of the tubes created by our tool. \valkyrie{d) is a lot less interesting if we are making planar tubes.  also, for c, should we show an overlay of the two states?  maybe in different colors?}}
 \label{fig:neon}
 \end{figure}
 
-Neon art, perhaps best known for its association with Las Vegas, is traditionally made from hand-formed glass tubes containing neon gas.  The tubes light up when a current is passed through them.  For this type of art, the path of the tubes is of crucial importance, as it determines how the sign will look.  We designed a custom neon sign bearing the UIST logo and the waves of Hawaii.  The piece features open tubes due to support-flushing constraints, however the tubes could also be semi-closed (one end must remain open to connect the EL wire to its power source).  They have been threaded with EL wire which is lit in sequence to create an animation.  Our sign was fabricated on the Objet in two halves, cutting through the plane of the sign itself, with clear material for the sign around the input design and opaque everywhere else.  We manually flushed support from the non-planar connecting tubes.  The EL wire was threaded post-print, and is controlled by an EL wire sequencer.
+Neon art, perhaps best known for its association with Las Vegas, is traditionally made from hand-formed glass tubes containing neon gas.  The tubes light up when a current is passed through them.  For this type of art, the path of the tubes is of crucial importance, as it determines how the sign will look.  We designed a custom neon robot head which can be animated to ``talk''.  The piece features semi-open pipes: one end must remain open to connect the EL wire to its power source.  The pipes have been threaded with EL wire which is lit in sequence to create an animation.  Our sign was fabricated on the Objet in two halves, cutting through the plane of the sign itself, with clear material for the sign around the input design and opaque everywhere else.  We manually flushed support from the non-planar connecting pipes.  The EL wire was threaded post-print, and is controlled by an EL wire sequencer.
