@@ -15,7 +15,7 @@ To create pipes in which the location and shape of exterior connection points ma
 \begin{figure}[h!]
 \centering
     \includegraphics[width=3.4in]{figures/exterior.png}
-\caption{An example mesh with exterior connection points selected.  The smoothed A* routing is drawn in {\color{red}red}, and in {\color{tovi}green} is our physically-based rod after simulation.}
+\caption{An example mesh with exterior connection points selected.  The smoothed A* routing is drawn in {\color{red}red}, and in {\color{tovi}green} is our physically-based rod after simulation. \valkyrie{make a figure that is less... tall}}
 \label{fig:tool-process-exterior}
 \end{figure}
 
@@ -33,6 +33,7 @@ For the creation of pipes with multiple endpoints, for example the star topologi
 \valkyrie{To allow designers to create pipes with multiple endpoints (like the star topologies in Figure \ref{fig:toys}), we create 0-size mesh points in the center of the object, to which we attach one end of every pipe?}
 
 \subsubsection{Pipes with Non-Round Endpoints}
+\valkyrie{this section can probably be scrapped, along with Figure \ref{fig:meshmixer-endpoint}.}
 Although start and end radius of pipes is configurable, our tool does not explicitly allow makers to design the \emph{shape} of their pipes' endpoints.  However, the larger Meshmixer package does allow brushing arbitrary shapes onto the surface and extruding them inward, as in Figure \ref{fig:meshmixer-endpoint}.  This technique can be used to create specially-shaped touch pads or to recess the footprint of an electronic component for it to sit flush with the object's surface.
 
 \subsubsection{Semi-Closed and Fully Enclosed Pipes}
@@ -54,7 +55,7 @@ A maker can import a vector graphics file (such as SVG) describing the path she 
 \begin{figure}[h!]
 \centering
     \includegraphics[width=3.4in]{figures/interior.pdf}
-\caption{An input vector graphics file with the points which cannot be tubed as drawn highlighted in {\color{blue}blue} and the start and end points highlighted in {\color{gray}gray} (a).  The connected graph created by our software (b) and the resulting Euler circuit (c) permit creation of a novel neon sign (d).}
+\caption{An input vector graphics file with the points which cannot be tubed as drawn highlighted in {\color{blue}blue} and the start and end points highlighted in {\color{gray}gray} (a).  The connected graph created by our software (b) and the resulting Euler circuit (c) permit creation of a novel neon sign (d). \valkyrie{for this sign, embed it in a fun hawaiian block}}
 \label{fig:tool-process-interior}
 \end{figure}
 
@@ -91,4 +92,13 @@ To detect intersecting edges, we \valkyrie{I'm not sure what we do.}.  We also c
 
 Given either our rod-based or image-based routing, we create cylinders which use the routings as a sweep path.  At each point in the routing, we create a cylinder tall enough to reach to the next point which is oriented along the line segment connecting its origin point to its destination point.  This cylinder's radius is set by the user.  For the rod-based routing, we allow independent start and end radii; in this case, the cylinder's radius is $\frac{k}{n}*\frac{r_1}{r_2}$, where $k$ is the point's index in the routing, $n$ is the total number of points in the routing, $r_1$ is the starting radius, and $r_2$ is the ending radius.
 
-All cylinders generated are joined into a large rod.  This rod is voxelized, along with the original mesh.  These two voxel grids are subtracted, and the result is re-meshed and smoothed.
+All cylinders generated are joined into a large rod.  This rod is voxelized, along with the original mesh.  These two voxel grids are subtracted, and the result is re-meshed and smoothed.  When a user desires to cap the ends of her pipes, we create a sphere of the same radius as each endpoint whose center is the same as the endpoint.  We intersect this sphere with the original mesh, then intersect this partial-sphere mesh with a shell of the original mesh.  This gives us a voxel subgrid of the thickness of cap we desire (the same as the shell's thickness) which is located only in the region of the tube end.  During subtraction, we preserve this subgrid. \valkyrie{maybe need a figure?}
+
+Unfortunately, because we use voxelization as a part of our subtraction operation, our models can accumulate error when many pipes are created in sequence (see Figure \ref{fig:voxelize}).  This problem could be solved by performing a multi-pipe operation; fewer rounds of voxelization and re-meshing lead to lower error.  This multi-pipe operation would also lead to a more globally optimal pipe routing.
+
+\begin{figure}[h!]
+\centering
+    \includegraphics[width=3.4in]{figures/voxelize-fail.png}
+\caption{After repeated pipe creation, the mesh containing these pipes, which were not originally intersecting, accumulated sufficient error to open the pipes into each other.}
+\label{fig:voxelize}
+\end{figure}
