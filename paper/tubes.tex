@@ -1,6 +1,6 @@
 \section{A Series of Tubes - A Tool for Pipe Design}
 
-As mentioned, pipe design is not trivial.  Independent pipes cannot intersect lest their contents be unintentionally mixed.  Pipes' bending energy needs to be minimized to allow for easy insertion of media post-print.  Pipes in general need to avoid the surface of objects to prevent fluid leakage when printed by hobbyist-grade machines.  Finally, for designing pipes that follow a user-specified path, we must ensure certain characteristics of that path (e.g., that the path is connected).
+Pipe design is not trivial.  Independent pipes cannot intersect lest their contents be unintentionally mixed.  Pipes' bending energy needs to be minimized to allow for easy insertion of media post-print.  Pipes in general need to avoid the surface of objects to prevent fluid leakage when printed by hobbyist-grade machines.  Finally, for designing pipes that follow a user-specified path, we must ensure certain characteristics of that path (e.g., that the path is connected).
 
 To allow makers to design novel objects with pipe-powered interfaces, we created a tool for use on arbitrary 3D models.  This tool allows designers to select exterior connection points of their pipes (see Figure \ref{fig:tool-process-interior}) or to import vector art describing the pipes' interior paths (see Figure \ref{fig:tool-process-exterior}).  Once the maker's selections are made, we create a complete routing using either the exterior connection point method (A*, physical simulation) or the interior path method (graph edge creation, Euler tour generation).  We thicken our routing to create pipes. \valkyrie{We also apply templates where appropriate (e.g., 3D cross-overs for tubes that intersect in the plane).}  The resultant pipes are subtracted from the original mesh, which can then be 3D printed.
 
@@ -8,6 +8,7 @@ Our tool is implemented as a part of Meshmixer, a consumer 3D mesh editing tool,
 
 \subsection{Exterior Connection Points}
 
+\bjoern{Hits section mentions a* three times, ech time with a little more detail than before. An probably cut this to two times as a general strategy: once in the overview, then a second time in detail.}
 Designing objects which, for example, are touch sensitive in particular areas or need to integrate with existing electronics, requires precise location and sizing of pipe endpoints.  The interior of these pipes should have as large a bending radius as possible so that post-print insertion of solid or viscous media (like wire or paint) is easier.
 
 To create pipes in which the location and shape of exterior connection points matters, we first allow makers to select the connection points on the mesh's surface. Our tool then creates an initial shortest-path routing using A* to estimate the routed distance between points.  This routing is used to create a rod; we run physics-based simulation steps on the rod to minimize its bending energy (and thereby minimize the bend radius of the tubes).
@@ -25,7 +26,7 @@ Our basic first-pass routing algorithm uses the A* routing algorithm \cite{Hart-
 
 Note that pipes, once cut, become ``outside the mesh''.  This means that pipes cut in sequence cannot intersect each other.  However, we do not currently track previously-cut pipes for global optimization: we simply greedily select the best routing per pair of points (i.e., per pipe).
 
-Given our initial routing, we create a rod of the same length.  To allow for easiest insertion of media post-print, our physical simulation step minimizes the bend radius of the generated rod.  In order to force our simulated rod away from the surface of the mesh, we create ``wind'' pushing inward from the exterior of the mesh.  This wind keeps the resulting pipe away from the surface. \valkyrie{Ryan: How does it actually work?}
+Given our initial routing, we create a rod of the same length.  To allow for easiest insertion of media post-print, our physical simulation step minimizes the bend radius of the generated rod.  In order to force our simulated rod away from the surface of the mesh, we create ``wind'' pushing inward from the exterior of the mesh.  This wind keeps the resulting pipe away from the surface. \valkyrie{Ryan: How does it actually work?} \bjoern{Need much more detail here or a reference to a previously published technique}
 
 \subsubsection{Pipes with Multiple Endpoints}
 For the creation of pipes with multiple endpoints, for example the star topologies in Figure \ref{fig:toys} or tree topologies, makers can select interior faces of existing pipes as endpoints, and thereby create pipe networks by hand.  We do not currently offer any pipe network manipulation tools.
@@ -34,6 +35,7 @@ For the creation of pipes with multiple endpoints, for example the star topologi
 
 \subsubsection{Pipes with Non-Round Endpoints}
 \valkyrie{this section can probably be scrapped, along with Figure \ref{fig:meshmixer-endpoint}.}
+\bjoern{Replace with a single sentence: combining pipe routing with other existing mesh modification operations like extrusions enables users to create custom ...}
 Although start and end radius of pipes is configurable, our tool does not explicitly allow makers to design the \emph{shape} of their pipes' endpoints.  However, the larger Meshmixer package does allow brushing arbitrary shapes onto the surface and extruding them inward, as in Figure \ref{fig:meshmixer-endpoint}.  This technique can be used to create specially-shaped touch pads or to recess the footprint of an electronic component for it to sit flush with the object's surface.
 
 \subsubsection{Semi-Closed and Fully Enclosed Pipes}
@@ -48,6 +50,7 @@ Users can select via a checkbox if they wish to cap one end, the other end, or b
 
 \subsection{Designing Interior Paths}
 
+\bjoern{Replace specific with more general category: pipes where interior path layout matters}
 Neon signs, as in Figure \ref{fig:tool-process-interior}(d), require a single long path that passes through many desired edges: for example, in our UIST sign, the path must pass through all the edges that comprise the word ``UIST''.  To allow makers to create novel neon signs, as well as similar objects that require design of the pipe's interior path (for example the maze in Figure \ref{fig:maze}), we built a tool which leverages graph theory to generate this single long path.
 
 A maker can import a vector graphics file (such as SVG) describing the path she desires for her pipes.  We create a graph based on this input data, then add edges to make it connected and semi-Eulerian.  We create an Euler tour on the modified graph, and thicken the path to create pipes.  \valkyrie{3D templates are used to resolve tube crossings in the plane.}  We cut these pipes from a generated block mesh large enough to hold them.
@@ -61,6 +64,9 @@ A maker can import a vector graphics file (such as SVG) describing the path she 
 
 \subsubsection{Routing}
 \tovi{Still too long....}
+\bjoern{Need this explanation above so readers don't wonder what Euler tours are
+
+Agree with Tovi that this can be condensed}
 In graph theory, a semi-Eulerian graph is one which has exactly two edges of odd degree.  This kind of graph supports an Euler tour: a path that touches every edge exactly once, beginning and ending at the two nodes of odd degree (in this case, the user-selected start and end nodes).  To allow for a single path through a pipe for post-print media insertion, we need to find a semi-Eulerian graph for which a user's input graphics are a subset, and subsequently find an Euler tour on that graph.
 
 The interior path routing problem is a version of the Chinese Postman Problem\footnote{The CPP is also known as the route inspection problem: \url{http://en.wikipedia.org/wiki/Route_inspection_problem}}, in which we wish to traverse all edges of the graph described in the user's input with a single Euler circuit, much as a postman needs to walk along every road at least once to deliver mail.  We call our relaxation the Spiderman Postman Problem: we allow the creation of non-existing paths (i.e., the postman may traverse buildings in addition to roads).  If input path components are disconnected, we must create edges that connect them; additionally we can create new edges connecting odd-degree vertices rather than simply retracing existing edges.  In the final artifact, all created edges will be blocked out by dark material so the inserted medium is not visible (see Figure \ref{fig:tool-process-interior}).  We offer a short algorithm here, with a more mathematically precise definition and associated proof in the appendix.
@@ -93,20 +99,21 @@ To detect intersecting edges, we \valkyrie{I'm not sure what we do.}.  We also c
 
 Given either our rod-based or image-based routing, we create cylinders which use the routings as a sweep path.  At each point in the routing, we create a cylinder tall enough to reach to the next point which is oriented along the line segment connecting its origin point to its destination point.  This cylinder's radius is set by the user.  For the rod-based routing, we allow independent start and end radii; in this case, the cylinder's radius is $\frac{k}{n}*\frac{r_1}{r_2}$, where $k$ is the point's index in the routing, $n$ is the total number of points in the routing, $r_1$ is the starting radius, and $r_2$ is the ending radius.
 
-All cylinders generated are joined into a large rod.  This rod is voxelized, along with the original mesh.  These two voxel grids are subtracted, and the result is re-meshed and smoothed.  When a user desires to cap the ends of her pipes, we create a sphere of the same radius as each endpoint whose center is the same as the endpoint.  We intersect this sphere with the original mesh, then intersect this partial-sphere mesh with a shell of the original mesh.  This gives us a voxel subgrid of the thickness of cap we desire (the same as the shell's thickness) which is located only in the region of the tube end.  During subtraction, we preserve this subgrid. \valkyrie{maybe need a figure?}
+All cylinders generated are joined into a large rod.  This rod is voxelized, along with the original mesh.  These two voxel grids are subtracted, and the result is re-meshed and smoothed.  \bjoern{ rewrite When a user desires to cap the ends of her pipes, we create a sphere of the same radius as each endpoint whose center is the same as the endpoint.  We intersect this sphere with the original mesh, then intersect this partial-sphere mesh with a shell of the original mesh.}  This gives us a voxel subgrid of the thickness of cap we desire (the same as the shell's thickness) which is located only in the region of the tube end.  During subtraction, we preserve this subgrid. \valkyrie{maybe need a figure?}
 
-Unfortunately, because we use voxelization as a part of our subtraction operation, our models can accumulate error when many pipes are created in sequence (see Figure \ref{fig:voxelize}).  This problem could be solved by performing a multi-pipe operation; fewer rounds of voxelization and re-meshing lead to lower error.  This multi-pipe operation would also lead to a more globally optimal pipe routing.
+Unfortunately, because we use voxelization as a part of our subtraction operation, our models can accumulate error when many pipes are created in sequence (see Figure \ref{fig:voxelize}).  This problem could be solved with a higher voxel resolution, but it requires balancing computation time and precision.
 
 \begin{figure}[h!]
 \centering
     \includegraphics[width=3.4in]{figures/voxelize-fail.png}
-\caption{After repeated pipe creation, the mesh containing these pipes, which were not originally intersecting, accumulated sufficient error to open the pipes into each other.}
+\caption{After repeated pipe creation, the mesh containing these pipes, which were not originally intersecting, accumulated sufficient error to open the pipes into each other. \bjoern{I don't understand this figure- probably requires multiple parts - ideal geometry and actual geometry}}
 \label{fig:voxelize}
 \end{figure}
 
 
 \subsection{Fabrication Techniques}
 
+\bjoern{Argue first that we need processes to fabricate these hollow pipes- can do this by removing support material or never printing such material in the first place.}  \bjoern{Is section needs to bee written from a general standpoint first, and then our specific details second.}
 The physical fabrication process used by different machines gives rise to differing strategies for avoiding support material or easing its removal.  The two machines we used to create our example objects were the Objet Connex 260 and the Makerbot Replicator 2.
 
 The Objet is an inkjet-based 3D printer which jets drops of polymer in very fine layers, curing each layer with an ultraviolet lamp.  It offers a wide range of material types, including clear/opaque, flexible/hard, and black/white.  Additionally, it permits the mixing of two different materials in a single print: a mixed material could include 70\% flexible and 30\% hard, for example, to be firm but somewhat flexible.  The flexible materials can be inflated when they are thin: they elongate 200\% before breaking.  We have found $.05$ inches to be a good thickness for inflatable materials.  Although this machine has many extraordinary capabilities, it unfortunately cannot print overhangs of greater than $14^{\circ}$ without support material.  Due to this, support avoidance is difficult; our main tactic for removing support material has been to make the \emph{openings} to pipes as large as possible.  This allows us to flush the material most easily.  The support structure used by this machine is a loose matrix of material that can be removed by hand from the surface, blasted out with a water jet from cavities, or dissolved in lye (the enclosing model material does not dissolve).

@@ -7,3 +7,4 @@ series\ of\ tubes.pdf
 *.blg
 *~$*.SLDPRT
 *appautosave/*
+example_objects/appautosave/*
