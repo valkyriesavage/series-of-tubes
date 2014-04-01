@@ -42,7 +42,7 @@ Users can cap one or both ends of their pipe.  The software simply creates an of
 
 In pipes where interior path layout matters, such as the neon sign in Figure \ref{fig:tool-process-interior} or the maze in Figure \ref{fig:maze}, we must create a single long path which passes through all desired path segments (i.e., all letters in the word ``UIST'' or all paths in the maze).  We built a tool which leverages graph theory to generate this single long path.
 
-In graph theory, a semi-Eulerian graph is one which has exactly two edges of odd degree.  This kind of graph supports an Euler tour: a path that touches every edge exactly once, beginning and ending at the two nodes of odd degree (in this case, the user-selected start and end nodes).  A maker can import a vector graphics file (such as SVG) describing the path she desires for her pipes.  We create a graph based on this input data, then add edges to make it connected and semi-Eulerian.  We create an Euler tour on the modified graph, and thicken the path to create pipes.  We then cut these pipes from the mesh.
+In graph theory, a semi-Eulerian graph is one which has exactly two edges of odd degree.  This kind of graph supports an Euler tour: a path that travels every edge exactly once, beginning and ending at the two nodes of odd degree (in this case, the user-selected start and end nodes).  A maker can import a vector graphics file (such as SVG) describing the path she desires for her pipes.  We create a graph based on this input data, then add edges to make it connected and semi-Eulerian.  We create an Euler tour on the modified graph, and thicken the path to create pipes.  We then cut these pipes from the mesh.
 
 \begin{figure}[h!]
 \centering
@@ -52,43 +52,34 @@ In graph theory, a semi-Eulerian graph is one which has exactly two edges of odd
 \end{figure}
 
 \subsubsection{Routing}
-\tovi{Still too long....}
-\bjoern{Agree with Tovi that this can be condensed}
 To allow for a single path through a pipe for post-print media insertion, we need to find a semi-Eulerian graph of which a user's input graphics are a subset, and subsequently find an Euler tour on that graph.
 
-The interior path routing problem is a version of the Chinese Postman Problem\footnote{The CPP is also known as the route inspection problem: \url{http://en.wikipedia.org/wiki/Route_inspection_problem}}, in which we wish to traverse all edges of the graph described in the user's input with a single Euler circuit, much as a postman needs to walk along every road at least once to deliver mail.  We call our relaxation the Spiderman Postman Problem: we allow the creation of non-existing paths (i.e., the postman may traverse buildings in addition to roads).  If input path components are disconnected, we must create edges that connect them; additionally we can create new edges connecting odd-degree vertices rather than simply retracing existing edges.  In the final artifact, all created edges will be blocked out by dark material so the inserted medium is not visible (see Figure \ref{fig:tool-process-interior}).  We offer a short algorithm here, with a more mathematically precise definition and associated proof in the appendix.
+The interior path routing problem is a version of the Chinese Postman Problem\footnote{The CPP is also known as the route inspection problem: \url{http://en.wikipedia.org/wiki/Route_inspection_problem}}, in which we wish to traverse all edges of the graph described in the user's input, much as a postman needs to walk along every road at least once to deliver mail.  In our relaxation, we allow creation of new edges (i.e., the postman may traverse buildings in addition to roads).  If path components are disconnected, we create edges that connect them; additionally we can create edges connecting odd-degree vertices rather than simply retracing existing edges.  In the final artifact, all created edges will be blocked out by dark material so the inserted medium is not visible (see Figure \ref{fig:tool-process-interior}).  We offer a short algorithm here, with a more mathematically precise definition and associated proof in the appendix.
 
-We need a graph which is semi-Eulerian (i.e., the inserted media can enter at one point, traverse every edge exactly once, and exit at a different point).  In order to create a semi-Eulerian graph, we first add a temporary edge to the start and end points.  This is removed after the graph is made fully Eulerian.
+In order to create a semi-Eulerian graph, we first add a temporary edge to the start and end points.  This is removed after the graph is made fully Eulerian.
 
-In order to connect disconnected subgraphs in the input, each disconnected subgraph's vertices and edges are contracted to a single vertex.  Each of these subgraph-vertices has no outgoing edges, as the expanded subgraphs are disconnected.  We then add one edge from each subgraph-vertex to each other subgraph-vertex, whose weight is the minimum distance between any two vertices in the expanded subgraphs (where distance is Euclidean distance).  We greedily select the smallest weight edges until all subgraphs are joined into a single graph.  We re-expand the subgraphs.
+To connect disconnected subgraphs in the input, each disconnected subgraph's vertices and edges are contracted to a single vertex.  Each subgraph-vertex has no outgoing edges, as the expanded subgraphs are disconnected.  We then add one edge from each subgraph-vertex to each other subgraph-vertex, whose weight is the minimum Euclidean distance between any two vertices in the expanded subgraphs.  We greedily select the smallest weight edges until all subgraphs are joined into a single graph.  We re-expand the subgraphs.
 
-In order to make our graph Eulerian, we consider all vertices of odd degree in the connected graph and make a clique of edges once more based on distance.  We again greedily select edges between the odd nodes until no odd nodes remain.  Finally, we remove our temporary edge, which changes the graph from Eulerian to semi-Eulerian.  This graph is a connected, semi-Eulerian graph which contains all edges in the input SVG (see Appendix).
+In order to make our graph Eulerian, we consider all odd degree vertices in the connected graph and make a clique of potential edges based on distance.  We greedily add edges between the odd nodes until no odd nodes remain.  Finally, we remove our temporary edge, which changes the graph from Eulerian to semi-Eulerian.  This is a connected, semi-Eulerian graph which contains all edges in the input (see Appendix).
 
-We believe that a lower total weight matching is possible by connecting components and ensuring edge degree evenness together in a global process, as well as by using minimum-weight matching rather than greedy selection, however this optimization is not crucial for our purposes.
+We believe that a lower total weight matching is possible by connecting components and ensuring node evenness together in a global process, as well as by using minimum-weight matching rather than greedy selection, however this optimization is not crucial for our purposes.
 
 Once we have a semi-Eulerian graph, we need to create an Euler tour.  We use a weighted modification of Fleury's algorithm for finding Euler tours\footnote{\url{http://en.wikipedia.org/wiki/Eulerian_path\#Fleury.27s_algorithm}} for this.  In the classic algorithm, each selected edge is removed to create a reduced graph.  To select the next edge while at a node, the algorithm randomly chooses from all incident non-bridge edges (where a bridge edge would create disconnected non-trivial subgraphs if it were removed).  This ensures that every edge is both reachable and traversed.  In our modification, instead of randomly selecting from non-bridge paths at each node, we select the non-bridge edge which turns the least from the most recent path (i.e., we prefer to pass straight through a node, if possible).  This minimizes turns in the final artifact, which eases support material removal and assembly.
-
-\begin{figure}[h!]
-\centering
-    \includegraphics[width=3.4in]{figures/placeholder/templates.jpg}
-\caption{\valkyrie{When edges intersect in the plane (a), we match them to the nearest of our several intersection templates (b) to create 3D paths that do not interfere with each other.}}
-\label{fig:templates}
-\end{figure}
 
 \subsubsection{Edges that Intersect in the Plane}
 We do not currently redirect edges that intersect in the plane.  Because we have a 3-dimensional canvas in which to work, it would be possible to push overlapping paths into the third dimension.  However, we leave this to future work: for our specific applications so far, it has been unnecessary.
 
 \valkyrie{Once we have a tour, we must resolve tubes that intersect in the plane.  Because we have a 3-dimensional canvas in which to work, we can push overlapping paths into the third dimension.
 
-To detect intersecting edges, we \valkyrie{I'm not sure what we do.}.  We also consider edges at nodes with degree $>2$, as these edges are considered to cross.  When intersections have been detected, we match one of several templates to the affected edges (see Figure \ref{fig:templates}) using a nearest neighbors technique.  Our templates are parameterized, so the templates can be modified to accommodate precise intersection characteristics.}
+To detect intersecting edges, we \valkyrie{I'm not sure what we do.}.  We also consider edges at nodes with degree $>2$, as these edges are considered to cross.  When intersections have been detected, we just push things around.  No, really.}
 
 \subsection{Mesh Modification}
 
-Given either our rod-based or image-based routing, we create cylinders which use the routings as a sweep path.  At each point in the routing, we create a cylinder tall enough to reach to the next point which is oriented along the line segment connecting its origin point to its destination point.  This cylinder's radius is set by the user.  For the rod-based routing, we allow independent start and end radii; in this case, the cylinder's radius is $\frac{k}{n}*\frac{r_1}{r_2}$, where $k$ is the point's index in the routing, $n$ is the total number of points in the routing, $r_1$ is the starting radius, and $r_2$ is the ending radius.
+Given either our rod-based or image-based routing, we create cylinders which use the routing as a sweep path.  At each point in the routing, we create a cylinder tall enough to reach to the next point, oriented along the line segment connecting its origin and destination.  This cylinder's radius is set by the user.  For the rod-based routing, we allow independent start and end radii; in this case, the cylinder's radius is $\frac{k}{n}*\frac{r_1}{r_2}$, where $k$ is the point's index in the routing, $n$ is the total number of points in the routing, $r_1$ is the starting radius, and $r_2$ is the ending radius.
 
-All cylinders generated are joined into a large rod.  This rod is voxelized, along with the original mesh.  These two voxel grids are subtracted, and the result is re-meshed and smoothed.  \bjoern{ rewrite When a user desires to cap the ends of her pipes, we create a sphere of the same radius as each endpoint whose center is the same as the endpoint.  We intersect this sphere with the original mesh, then intersect this partial-sphere mesh with a shell of the original mesh.}  This gives us a voxel subgrid of the thickness of cap we desire (the same as the shell's thickness) which is located only in the region of the tube end.  During subtraction, we preserve this subgrid. \valkyrie{maybe need a figure?}
+All cylinders generated are joined into a large rod.  This rod is voxelized, along with the original mesh.  These two voxel grids are subtracted, and the result is re-meshed and smoothed.  For creating semi-closed pipes, during the voxelization subtraction we create an offset surface of the mesh where it intersects the tube and preserve it.
 
-Unfortunately, because we use voxelization as a part of our subtraction operation, our models can accumulate error when many pipes are created in sequence (see Figure \ref{fig:voxelize}).  This problem could be solved with a higher voxel resolution, but it requires balancing computation time and precision.
+Unfortunately, because we use voxelization as a part of our subtraction operation, our models can accumulate error when many pipes are created in sequence (see Figure \ref{fig:voxelize}).  This problem can be solved with a higher voxel resolution, but requires balancing computation time and precision.
 
 \begin{figure}[h!]
 \centering
@@ -97,8 +88,13 @@ Unfortunately, because we use voxelization as a part of our subtraction operatio
 \label{fig:voxelize}
 \end{figure}
 
-
 \subsection{Fabrication Techniques}
+
+Beyond design, the tubes must actually be printable to be useful.  When geometries contain many overhangs, 3D printers lay down support material that is later removed from the model.  This removal process can be time-intensive and challenging.  The physical fabrication process used by different machines gives rise to differing strategies for avoiding support material or easing its removal.  We will discuss techniques for fused deposition modeling (FDM) machines like the Makerbot and multi-jetting machines like the Objet.
+
+FDM machines lay down lines of plastic on top of each other: this allows ``stepover'', when a layer of plastic is laid slightly offset from the layer below it, and ``bridging'', when plastic is laid across a gap between two surfaces.  For a layer to fix correctly to its supporting layer, roughly half of the filament needs to overlap.  This means that overhangs without added support material can be approximately $45^{\circ}$, and although cylinders (e.g., pipes) and spheres violate this in some places they are printable support-free.  When support is laid, it is made from the same material as the model in a heatsink-like wave pattern.  It is straightforward to remove from exterior model surfaces with fingers or pliers, but nearly impossible to remove from internal cavities.
+
+On multi-jetting machines, bridging is not possible and stepover potential is much less, because the machine is laying down a liquid rather than a plastic.  Unsupported overhangs can be approximately $14^{\circ}$.
 
 \bjoern{Argue first that we need processes to fabricate these hollow pipes- can do this by removing support material or never printing such material in the first place.}  \bjoern{Is section needs to bee written from a general standpoint first, and then our specific details second.}
 The physical fabrication process used by different machines gives rise to differing strategies for avoiding support material or easing its removal.  The two machines we used to create our example objects were the Objet Connex 260 and the Makerbot Replicator 2.
