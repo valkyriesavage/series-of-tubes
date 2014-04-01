@@ -90,9 +90,11 @@ Unfortunately, because we use voxelization as a part of our subtraction operatio
 
 \subsection{Fabrication Techniques}
 
-Beyond design, the tubes must actually be printable to be useful.  The physical fabrication process used by different machines gives rise to differing strategies for avoiding support material or easing its removal.  We will discuss techniques for fused deposition modeling (FDM) machines like the Makerbot and multi-jetting machines like the Objet.
+Beyond design, the tubes must actually be printable to be useful.  When geometries contain many overhangs, 3D printers lay down support material that is later removed from the model.  This removal process can be time-intensive and challenging.  The physical fabrication process used by different machines gives rise to differing strategies for avoiding support material or easing its removal.  We will discuss techniques for fused deposition modeling (FDM) machines like the Makerbot and multi-jetting machines like the Objet.
 
+FDM machines lay down lines of plastic on top of each other: this allows ``stepover'', when a layer of plastic is laid slightly offset from the layer below it, and ``bridging'', when plastic is laid across a gap between two surfaces.  For a layer to fix correctly to its supporting layer, roughly half of the filament needs to overlap.  This means that overhangs without added support material can be approximately $45^{\circ}$, and although cylinders (e.g., pipes) and spheres violate this in some places they are printable support-free.  When support is laid, it is made from the same material as the model in a heatsink-like wave pattern.  It is straightforward to remove from exterior model surfaces with fingers or pliers, but nearly impossible to remove from internal cavities.
 
+On multi-jetting machines, bridging is not possible and stepover potential is much less, because the machine is laying down a liquid rather than a plastic.  Unsupported overhangs can be approximately $14^{\circ}$.
 
 \bjoern{Argue first that we need processes to fabricate these hollow pipes- can do this by removing support material or never printing such material in the first place.}  \bjoern{Is section needs to bee written from a general standpoint first, and then our specific details second.}
 The physical fabrication process used by different machines gives rise to differing strategies for avoiding support material or easing its removal.  The two machines we used to create our example objects were the Objet Connex 260 and the Makerbot Replicator 2.
