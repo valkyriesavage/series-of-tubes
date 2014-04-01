@@ -2,12 +2,12 @@
 \bjoern{Budget at most 1.5 columns for this section
 
  There still some redundancy with the related work section, too}
-By using different types and topologies of pipes and inserting different media into the completed pipes, a variety of inputs and outputs can be located at arbitrary points on the surface of a 3D print.  We describe the space below.
+By using different openings, designs, and topologies of pipes, and inserting different media into the completed pipes, inputs and outputs can be located at arbitrary points on the surface of a 3D print.  We describe the space below.
 
 \begin{figure}[h!]
 \centering
     \includegraphics[width=3.4in]{figures/tubespace.pdf}
-\caption{The design space of pipes.  Pipe types, media, topologies, and design are discussed more fully in the text.}
+\caption{The design space of pipes.  Pipe openings, design, topologies, and media are discussed more fully in the text.}
 \label{fig:pipespace}
 \end{figure}
 
@@ -16,7 +16,7 @@ By using different types and topologies of pipes and inserting different media i
 \tovi{this seems like a forced and
 unnecessary definition. Do we really
 need to distibguish the two ends?}
-Pipes can come in four types: open, return, semi-closed, and fully enclosed.  Each of these types offers distinct interaction capabilities (see Figure \ref{fig:pipespace}).  Since we are interested in interactive devices, we distinguish a ``user side" - part of the surface or interior of an object facing its user; and a ``system side" - part of the object (either interior or exterior) where other hardware such as electronics will be connected.  Definitionally, in the following paragraphs we refer to a pipe which is ``open on the user side'' or ``open on the system side'' to have its contents \emph{physically accessible} to an interacting user or the system \emph{at interaction time}.  A pipe which is ``open on the user side'' or ``closed on the system side'' is physically cut off from the user or machine.  User and system manipulation of contents are possible with or without physical access, e.g., by resonating, pressurizing, or passing electricity through those contents.
+Pipes can have four opening styles: open, return, semi-closed, and fully enclosed.  Each of these types offers distinct interaction capabilities (see Figure \ref{fig:pipespace}).  As we are interested in interactive devices, we distinguish a ``user side"---part of the surface or interior of an object facing its user; and a ``system side"---where other hardware such as electronics may be connected.  Definitionally, in the following paragraphs we refer to a pipe which is ``open on the user side'' or ``open on the system side'' to have its contents \emph{physically accessible} to an interacting user or the system \emph{at interaction time}.  Similarly, pipes ``closed on the user side'' or ``closed on the system side'' are physically cut off from the user or machine.  User and system manipulation of contents are possible with or without physical access, e.g., by resonating, pressurizing, or passing electricity through those contents.
 
 \begin{figure}[h]
 \centering
@@ -25,21 +25,20 @@ Pipes can come in four types: open, return, semi-closed, and fully enclosed.  Ea
 \label{fig:pipespace}
 \end{figure}
 
-Open pipes (see Figure \ref{fig:pipespace}A) originate from the system side and connect the user side, with both ends of the pipe open. This type of pipe may be used to create, for example, capacitive sensors: an open pipe filled with conductive paint can be connected to a sensing platform (e.g., Arduino) on the system side, while a user can touch the uncapped other end of the pipe.  Using Swept Frequency Capacitive Sensing \cite{Sato-touche} or other techniques, a user's touch of the open end can be sensed.  An open pipe can also be used for output, for example by creating in-air vortices as in \cite{Sodhi-aireal}.
+Open pipes originate from the system side and connect the user side, with both ends of the pipe open. This type of pipe may be used to create electronic circuitry.  An open pipe filled with conductive paint can power an LED (see Figure \ref{fig:pipespace}A).
 
-A return pipe (see Figure \ref{fig:pipespace}B) originates at the system and returns back to it, without offering physical access to the user.  By threading an electroluminescent (EL) wire through a clear return pipe, a maker can create a custom piece of neon art.  If a return pipe passes very close to the surface of a 3D printed model, warm or cold water passed through the pipe could be used for temperature-based haptic feedback.
+A return pipe originates at the system and returns back to it, without offering physical access to the user.  By threading an electroluminescent (EL) wire through a clear return pipe, a maker can create a custom piece of neon art (see Figure \ref{fig:pipespace}B).
 
-Semi-closed pipes (see Figure \ref{fig:pipespace}C) are open at the system end (for control of the enclosed medium) and closed at the user end.  The closed interface  may be fabricated from a malleable material: for example, a series of pipes terminated in thin rubber membranes on the user side can be actuated by an air pump to create haptic feedback, or a hinged cap can be blown open by air pressure.  Semi-closed pipes can also function as audio-generating resonance chambers.
+Semi-closed pipes are open at the system end and closed at the user end.  The closed interface may be fabricated from a malleable material: for example, a series of pipes terminated in thin rubber membranes on the user side can be actuated by an air pump to create haptic feedback (see Figure \ref{fig:pipespace}C).
 
-A fully enclosed pipe (see Figure \ref{fig:pipespace}D) is closed to both the system side and the user side.  Fully enclosed pipes can be used as resonance chambers (e.g., for object identification), or as air bubbles (e.g., as used in Printed Optics (\cite{Willis-printedoptics}) for internal display).  They can also be used as containers for water or other particles that would otherwise fall out.
+A fully enclosed pipe is closed to both the system and the user.  Fully enclosed pipes may be used as weight modifiers (e.g., for object identification), as in Figure \ref{fig:pipespace}D).  They can also be used as containers for water or other particles that would otherwise fall out.
 
 \subsection{Design of Pipes}
-\tovi{This definition is a little bit vague.}
-Pipe designs may emphasize either their exterior features (connection points) or their interior paths.  These two features lead to different kinds of interfaces.  An example interface that focuses on the exterior connection points is the touch sensitive toy in Figure \ref{fig:toys}, where pipes must exit the toy at the frontal lobe, parietal lobes, etc.  An interface focused on the internal path of the pipe is the neon sign in Figure \ref{fig:neon}: output is based on the shape of the pipe.
+Pipe design may emphasize either exterior connection points or interior paths.  These two foci lead to different kinds of interfaces.  An example focused on the exterior features is the touch sensitive toy in Figure \ref{fig:toys}, where pipes must exit the toy at the frontal lobe and parietal lobes to make those \emph{specific locations} touch-sensitive.  Focused on the internal features is the neon sign in Figure \ref{fig:neon}: the sign's output is based on the \emph{path} of the pipe.
 
 \subsection{Pipe Topologies}
 
-Pipe network topologies enable different types of interactions.
+Pipe network topologies enable different interactions.
 
 Splitting or mixing pipes offer flexibility in output.  If a maker wished to create a painting device, she might wish to have two system-side pipes feeding in primary-colored red and blue paints which mix in varying ratios, allowing their pigments to combine before purple exits from the device (see Figure \ref{fig:pipespace}).  Splitting can also be useful, for example if our maker wants red paint output in two locations from her painting device, she could have one system-side pipe, but split the pipe into two (see Figure \ref{fig:pipespace}).  \bjoern{??}
 
