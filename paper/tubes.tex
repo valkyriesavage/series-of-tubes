@@ -1,73 +1,60 @@
 \section{A Series of Tubes - A Tool for Pipe Design}
 
-Pipe design is not trivial.  Independent pipes cannot intersect lest their contents be unintentionally mixed.  Pipes' bending energy needs to be minimized to allow for easy insertion of media post-print.  Pipes in general need to avoid the surface of objects to prevent fluid leakage when printed by hobbyist-grade machines.  Finally, for designing pipes that follow a user-specified path, we must ensure certain characteristics of that path (e.g., that the path is connected).
+Pipe design is non-trivial.  Independent pipes cannot intersect lest their contents be unintentionally mixed.  Pipes' bending energy needs to be minimized to allow easy insertion of media post-print.  Pipes in general need to avoid objects' surfaces to prevent fluid leakage when printed by hobbyist-grade machines.  Finally, for designing pipes that follow a user-specified path, we must ensure certain characteristics of that path (e.g., that the path is connected).
 
-To allow makers to design novel objects with pipe-powered interfaces, we created a tool for use on arbitrary 3D models.  This tool allows designers to select exterior connection points of their pipes (see Figure \ref{fig:tool-process-interior}) or to import vector art describing the pipes' interior paths (see Figure \ref{fig:tool-process-exterior}).  Once the maker's selections are made, we create a complete routing using either the exterior connection point method (A*, physical simulation) or the interior path method (graph edge creation, Euler tour generation).  We thicken our routing to create pipes. \valkyrie{We also apply templates where appropriate (e.g., 3D cross-overs for tubes that intersect in the plane).}  The resultant pipes are subtracted from the original mesh, which can then be 3D printed.
+To allow makers to design novel objects with pipe-powered interfaces, we created a tool for use on arbitrary 3D models.  This tool allows designers to select exterior connection points of their pipes (see Figure \ref{fig:tool-process-interior}) or to import vector art describing the pipes' interior paths (see Figure \ref{fig:tool-process-exterior}).  Once the maker's selections are made, we create a complete routing using either the exterior connection point method (A*, physical simulation) or the interior path method (graph edge creation, Euler tour generation).  We thicken our routing to create pipes.  The resultant pipes are subtracted from the original mesh, which can then be 3D printed.
 
 Our tool is implemented as a part of Meshmixer, a consumer 3D mesh editing tool, in C++ \cite{Schmidt-meshmixer}.
 
 \subsection{Exterior Connection Points}
 
-\bjoern{Hits section mentions a* three times, ech time with a little more detail than before. An probably cut this to two times as a general strategy: once in the overview, then a second time in detail.}
-Designing objects which, for example, are touch sensitive in particular areas or need to integrate with existing electronics, requires precise location and sizing of pipe endpoints.  The interior of these pipes should have as large a bending radius as possible so that post-print insertion of solid or viscous media (like wire or paint) is easier.
+Designing objects which, for example, are touch sensitive in particular areas or integrate with existing electronics, requires precise location and sizing of pipe endpoints.  The interior of these pipes should have as large a bending radius as possible so that post-print insertion of solid or viscous media is easier.
 
-To create pipes in which the location and shape of exterior connection points matters, we first allow makers to select the connection points on the mesh's surface. Our tool then creates an initial shortest-path routing using A* to estimate the routed distance between points.  This routing is used to create a rod; we run physics-based simulation steps on the rod to minimize its bending energy (and thereby minimize the bend radius of the tubes).
+To create pipes in which the location and shape of exterior connection points matters, we first allow makers to select the connection points on the mesh's surface.
 
 \begin{figure}[h!]
 \centering
     \includegraphics[width=3.4in]{figures/exterior.png}
-\caption{An example mesh with exterior connection points selected.  The smoothed A* routing is drawn in {\color{red}red}, and in {\color{tovi}green} is our physically-based rod after simulation. \valkyrie{make a figure that is less... tall}}
+\caption{An example mesh with exterior connection points selected.  The smoothed A* routing is drawn in {\color{red}red}, and in {\color{tovi}green} is our physically-based rod after simulation.}
 \label{fig:tool-process-exterior}
 \end{figure}
 
 \subsubsection{Routing and Physical Simulation}
 
-Our basic first-pass routing algorithm uses the A* routing algorithm \cite{Hart-Astar}.  This algorithm keeps a priority queue of points to check for routing based on a cost function; for each point it tags the distance from the start (e.g., startPoint = 0, startNeighbors=1, ...).  Once the end point is reached, we backtrack through the tagged points, always moving towards a lower-valued point.  The path cost in our implementation is based only on shortest distance between the starting and ending points, without weighting for distance from the surface, however the routed path is forced to stay inside the mesh's boundaries.  We route on the voxelized 3D grid of the mesh, and we use a resolution of 128x128x128 voxels. 
+Our basic first-pass routing algorithm uses the A* routing algorithm \cite{Hart-Astar}.  This algorithm keeps a priority queue of points to check for routing based on a cost function; for each point it tags the distance from the start (e.g., startPoint = 0, startNeighbors=1, ...).  Once the end point is reached, we backtrack through tagged points, always moving to a lower-valued point.  The path cost in our implementation is based only on shortest distance between the starting and ending points, without weighting for distance from the surface, however the routed path is forced to stay inside the mesh's boundaries.  We route on the voxelized 3D grid of the mesh, using a resolution of 128x128x128 voxels. 
 
-Note that pipes, once cut, become ``outside the mesh''.  This means that pipes cut in sequence cannot intersect each other.  However, we do not currently track previously-cut pipes for global optimization: we simply greedily select the best routing per pair of points (i.e., per pipe).
+Note that pipes once cut are ``outside the mesh'', i.e., pipes cut in sequence cannot intersect each other.  However, we do not currently track all pipes for global optimization: we greedily select the best routing per pipe.
 
 Given our initial routing, we create a rod of the same length.  To allow for easiest insertion of media post-print, our physical simulation step minimizes the bend radius of the generated rod.  In order to force our simulated rod away from the surface of the mesh, we create ``wind'' pushing inward from the exterior of the mesh.  This wind keeps the resulting pipe away from the surface. \valkyrie{Ryan: How does it actually work?} \bjoern{Need much more detail here or a reference to a previously published technique}
 
 \subsubsection{Pipes with Multiple Endpoints}
 For the creation of pipes with multiple endpoints, for example the star topologies in Figure \ref{fig:toys} or tree topologies, makers can select interior faces of existing pipes as endpoints, and thereby create pipe networks by hand.  We do not currently offer any pipe network manipulation tools.
 
-\valkyrie{To allow designers to create pipes with multiple endpoints (like the star topologies in Figure \ref{fig:toys}), we create 0-size mesh points in the center of the object, to which we attach one end of every pipe?}
+\valkyrie{To allow designers to create pipes with multiple endpoints (e.g., star topologies in Figure \ref{fig:toys}), we initialize an interior mesh point which we treat as a non-movable end of each pipe created.  We then route the pipes as normal.}
 
 \subsubsection{Pipes with Non-Round Endpoints}
-\valkyrie{this section can probably be scrapped, along with Figure \ref{fig:meshmixer-endpoint}.}
-\bjoern{Replace with a single sentence: combining pipe routing with other existing mesh modification operations like extrusions enables users to create custom ...}
-Although start and end radius of pipes is configurable, our tool does not explicitly allow makers to design the \emph{shape} of their pipes' endpoints.  However, the larger Meshmixer package does allow brushing arbitrary shapes onto the surface and extruding them inward, as in Figure \ref{fig:meshmixer-endpoint}.  This technique can be used to create specially-shaped touch pads or to recess the footprint of an electronic component for it to sit flush with the object's surface.
+Combining pipe routing with other existing mesh modification operations like extrusions enables users to create custom-shaped touch pads or to allow an electronic component to sit flush with the print's surface.
 
 \subsubsection{Semi-Closed and Fully Enclosed Pipes}
-Users can select via a checkbox if they wish to cap one end, the other end, or both ends of their pipe.  The software simply creates an offset from the surface in these cases, so that material remains between the pipe and the surface after mesh modification.
+Users can cap one or both ends of their pipe.  The software simply creates an offset from the surface in these cases, so that material remains between the pipe and the surface after mesh modification.
 
-\begin{figure}[h!]
-\centering
-    \includegraphics[width=3.4in]{figures/meshmixer-endpoint.png}
-\caption{After creating a tube, a maker can select a surface shape using a brush (a).  She can then extrude her selection inward (b).}
-\label{fig:meshmixer-endpoint}
-\end{figure}
+\subsection{Interior Paths}
 
-\subsection{Designing Interior Paths}
+In pipes where interior path layout matters, such as the neon sign in Figure \ref{fig:tool-process-interior} or the maze in Figure \ref{fig:maze}, we must create a single long path which passes through all desired path segments (i.e., all letters in the word ``UIST'' or all paths in the maze).  We built a tool which leverages graph theory to generate this single long path.
 
-\bjoern{Replace specific with more general category: pipes where interior path layout matters}
-Neon signs, as in Figure \ref{fig:tool-process-interior}(d), require a single long path that passes through many desired edges: for example, in our UIST sign, the path must pass through all the edges that comprise the word ``UIST''.  To allow makers to create novel neon signs, as well as similar objects that require design of the pipe's interior path (for example the maze in Figure \ref{fig:maze}), we built a tool which leverages graph theory to generate this single long path.
-
-A maker can import a vector graphics file (such as SVG) describing the path she desires for her pipes.  We create a graph based on this input data, then add edges to make it connected and semi-Eulerian.  We create an Euler tour on the modified graph, and thicken the path to create pipes.  \valkyrie{3D templates are used to resolve tube crossings in the plane.}  We cut these pipes from a generated block mesh large enough to hold them.
+In graph theory, a semi-Eulerian graph is one which has exactly two edges of odd degree.  This kind of graph supports an Euler tour: a path that touches every edge exactly once, beginning and ending at the two nodes of odd degree (in this case, the user-selected start and end nodes).  A maker can import a vector graphics file (such as SVG) describing the path she desires for her pipes.  We create a graph based on this input data, then add edges to make it connected and semi-Eulerian.  We create an Euler tour on the modified graph, and thicken the path to create pipes.  We then cut these pipes from the mesh.
 
 \begin{figure}[h!]
 \centering
     \includegraphics[width=3.4in]{figures/interior.pdf}
-\caption{An input vector graphics file with the points which cannot be tubed as drawn highlighted in {\color{blue}blue} and the start and end points highlighted in {\color{gray}gray} (a).  The connected graph created by our software (b) and the resulting Euler circuit (c) permit creation of a novel neon sign (d). \valkyrie{for this sign, embed it in a fun hawaiian block}}
+\caption{An input vector graphics file with the points which cannot be tubed as drawn highlighted in {\color{blue}blue} and the start and end points highlighted in {\color{gray}gray} (a).  The connected graph created by our software (b) and the resulting Euler circuit (c) permit creation of a novel neon sign (d).}
 \label{fig:tool-process-interior}
 \end{figure}
 
 \subsubsection{Routing}
 \tovi{Still too long....}
-\bjoern{Need this explanation above so readers don't wonder what Euler tours are
-
-Agree with Tovi that this can be condensed}
-In graph theory, a semi-Eulerian graph is one which has exactly two edges of odd degree.  This kind of graph supports an Euler tour: a path that touches every edge exactly once, beginning and ending at the two nodes of odd degree (in this case, the user-selected start and end nodes).  To allow for a single path through a pipe for post-print media insertion, we need to find a semi-Eulerian graph for which a user's input graphics are a subset, and subsequently find an Euler tour on that graph.
+\bjoern{Agree with Tovi that this can be condensed}
+To allow for a single path through a pipe for post-print media insertion, we need to find a semi-Eulerian graph of which a user's input graphics are a subset, and subsequently find an Euler tour on that graph.
 
 The interior path routing problem is a version of the Chinese Postman Problem\footnote{The CPP is also known as the route inspection problem: \url{http://en.wikipedia.org/wiki/Route_inspection_problem}}, in which we wish to traverse all edges of the graph described in the user's input with a single Euler circuit, much as a postman needs to walk along every road at least once to deliver mail.  We call our relaxation the Spiderman Postman Problem: we allow the creation of non-existing paths (i.e., the postman may traverse buildings in addition to roads).  If input path components are disconnected, we must create edges that connect them; additionally we can create new edges connecting odd-degree vertices rather than simply retracing existing edges.  In the final artifact, all created edges will be blocked out by dark material so the inserted medium is not visible (see Figure \ref{fig:tool-process-interior}).  We offer a short algorithm here, with a more mathematically precise definition and associated proof in the appendix.
 
