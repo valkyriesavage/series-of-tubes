@@ -8,3 +8,5 @@ series\ of\ tubes.pdf
 *~$*.SLDPRT
 *appautosave/*
 example_objects/appautosave/*
+example_objects/large-ignore/*
+example_objects/source_files/appautosave/*
