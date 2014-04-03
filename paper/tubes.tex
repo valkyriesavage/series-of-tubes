@@ -26,18 +26,40 @@ Our basic first-pass routing algorithm uses the A* routing algorithm \cite{Hart-
 
 Note that pipes once cut are ``outside the mesh'', i.e., pipes cut in sequence cannot intersect each other.  However, we do not currently track all pipes for global optimization: we greedily select the best routing per pipe.
 
-Given our initial routing, we create a rod of the same length.  To allow for easiest insertion of media post-print, our physical simulation step minimizes the bend radius of the generated rod.  In order to force our simulated rod away from the surface of the mesh, we create ``wind'' pushing inward from the exterior of the mesh.  This wind keeps the resulting pipe away from the surface. \valkyrie{Ryan: How does it actually work?} \bjoern{Need much more detail here or a reference to a previously published technique}
+Our A* pathfinding produces the \emph{shortest} path, but in many cases
+we require a smoother path through which we can actually push a physical wire.
+We solve this problem via physical simulation. We create a straight virtual 
+wire (a 3D poly-line or \emph{discrete rod}), and then set its initial position 
+to be deformed to lie along our A* path.
+Running the physical simulation allows the wire to attempt to return to
+its straight configuration, while satisfying endpoint position constraints.
+We also increase the length of the wire, to provide some slack in cases where 
+it would otherwise bend sharply to stay inside the shape. 
+
+The wire is modelled as a \emph{discrete rod}, ie a 3D poly-line with a bending 
+constraint between adjacent segments. Our simulation is based on an
+implementation of Position-Based Dynamics \cite{Muller07}, with all constraints
+modelled as penalty forces. To keep the rod inside the
+mesh, we compute a discretized distance field, we can then constrain the
+rod to stay within some offset shell, again using a simple penalty force.
+In the case of multiple initial paths, we solve for each smoothed path sequentially.
+After solving for a path, we add it as a constraint to the system, generating
+a penalty force that pushes additional paths away from it.
+
+This basic approach does have various limitations, in particular it
+cannot recover if the discrete rod becomes tangled or unstable. 
+However we have observed these problems only when attempting to break
+the system; they did not occur in any of the cases shown in our figures.
+Another issue is parameters, as the penalty forces used in PBD do not
+correspond to physical units. We avoided serious issues here by uniformly
+scaling the initial mesh to a unit box, and tuning the parameters on several test cases.
+PBD simulations rarely converge to a steady state, 
+so we simply halt after a fixed number of timesteps (250). 
+The simulation is very fast so this only takes a second for most of our examples.
+
 
 \subsubsection{Pipes with Multiple Endpoints}
-For the creation of pipes with multiple endpoints, for example the star topologies in Figure \ref{fig:toys} or tree topologies, makers can select interior faces of existing pipes as endpoints, and thereby create pipe networks by hand.  We do not currently offer any pipe network manipulation tools.
-
-\valkyrie{To allow designers to create pipes with multiple endpoints (e.g., star topologies in Figure \ref{fig:toys}), we initialize an interior mesh point which we treat as a non-movable end of each pipe created.  We then route the pipes as normal.}
-
-\subsubsection{Pipes with Non-Round Endpoints}
-Combining pipe routing with other existing mesh modification operations like extrusions enables users to create custom-shaped touch pads or to allow an electronic component to sit flush with the print's surface.
-
-\subsubsection{Semi-Closed and Fully Enclosed Pipes}
-Users can cap one or both ends of their pipe.  The software simply creates an offset from the surface in these cases, so that material remains between the pipe and the surface after mesh modification.
+To allow designers to create pipes with multiple endpoints (e.g., star topologies in Figure \ref{fig:toys}), we use one surface position per pipe and a central fixed endpoint that the user can interactively position.  The user can connect several  then route the pipes as normal.
 
 \subsection{Interior Paths}
 
@@ -70,24 +92,29 @@ Once we have a semi-Eulerian graph, we need to create an Euler tour.  We use a w
 \subsubsection{Edges that Intersect in the Plane}
 We do not currently redirect edges that intersect in the plane.  Because we have a 3-dimensional canvas in which to work, it would be possible to push overlapping paths into the third dimension.  However, we leave this to future work: for our specific applications so far, it has been unnecessary.
 
-\valkyrie{Once we have a tour, we must resolve tubes that intersect in the plane.  Because we have a 3-dimensional canvas in which to work, we can push overlapping paths into the third dimension.
-
-To detect intersecting edges, we \valkyrie{I'm not sure what we do.}.  We also consider edges at nodes with degree $>2$, as these edges are considered to cross.  When intersections have been detected, we just push things around.  No, really.}
-
 \subsection{Mesh Modification}
 
-Given either our rod-based or image-based routing, we create cylinders which use the routing as a sweep path.  At each point in the routing, we create a cylinder tall enough to reach to the next point, oriented along the line segment connecting its origin and destination.  This cylinder's radius is set by the user.  For the rod-based routing, we allow independent start and end radii; in this case, the cylinder's radius is $\frac{k}{n}*\frac{r_1}{r_2}$, where $k$ is the point's index in the routing, $n$ is the total number of points in the routing, $r_1$ is the starting radius, and $r_2$ is the ending radius.
+Once we have a set of authored paths, we must cut tubes out of the input mesh.
+Our basic strategy is to create a polygonal tube by sweeping a profile polyline
+along the path, and subtract the tube from the mesh. We only use circular profiles
+in our examples, but clearly any other profile could be used. Similarly our interface
+allows different start and end radii, which are linearly interpolated along the path.
 
-All cylinders generated are joined into a large rod.  This rod is voxelized, along with the original mesh.  These two voxel grids are subtracted, and the result is re-meshed and smoothed.  For creating semi-closed pipes, during the voxelization subtraction we create an offset surface of the mesh where it intersects the tube and preserve it.
-
-Unfortunately, because we use voxelization as a part of our subtraction operation, our models can accumulate error when many pipes are created in sequence (see Figure \ref{fig:voxelize}).  This problem can be solved with a higher voxel resolution, but requires balancing computation time and precision.
-
-\begin{figure}[h!]
-\centering
-    \includegraphics[width=3.4in]{figures/voxelize-fail.png}
-\caption{After repeated pipe creation, the mesh containing these pipes, which were not originally intersecting, accumulated sufficient error to open the pipes into each other. \bjoern{I don't understand this figure- probably requires multiple parts - ideal geometry and actual geometry}}
-\label{fig:voxelize}
-\end{figure}
+To avoid the complexities of direct mesh booleans, we construct a discretized volumetric
+(ie voxel-based) representation of the original mesh and the tube mesh. Boolean
+subtraction is trivial in such representations. We specifically use narrow-band
+level sets~\cite{Museth04}, which represent the surface as the zero iso-contour of an
+approximate distance field.
+We then use marching cubes~\cite{Lorensen87} to produce the final mesh for printing.
+This strategy does incur some resampling artifacts, however so does the 3D printing, and compared to the print process, the time required to voxelize at high resolution is inconsequential.
+Since we have a distance field, we can easily introduce useful effects, such as the
+ability to add a thin membrane "cap" over the end of a tube. 
+This is accomplished by applying a standard "thicken" operation to the level set version
+of the initial mesh, intersecting with a sphere placed at the tube endpoint, and then performing
+a boolean union with the initial shape-minus-tube result.
+A straightforward extension would be to add or subtract additional elements at
+the tube endpoints to make them non-round.
+ \ryan{Figure 8 is not necessary. This is a known problem with any voxelization method. Nobody is going to care that we took shortcuts in our implementation like repeatedly voxelizing and meshing instead of updating a single initial voxelization.}
 
 \subsection{Fabrication Techniques}
 
