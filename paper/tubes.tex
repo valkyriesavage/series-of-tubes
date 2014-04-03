@@ -69,7 +69,7 @@ In graph theory, a semi-Eulerian graph is one which has exactly two edges of odd
 
 \begin{figure}[h!]
 \centering
-    \includegraphics[width=3.4in]{figures/interior.pdf}
+    \includegraphics[width=3.4in]{figures/interior.png}
 \caption{An input vector graphics file with the points which cannot be tubed as drawn highlighted in {\color{blue}blue} and the start and end points highlighted in {\color{gray}gray} (a).  The connected graph created by our software (b) and the resulting Euler circuit (c) permit creation of a novel neon sign (d).}
 \label{fig:tool-process-interior}
 \end{figure}
@@ -111,10 +111,17 @@ Since we have a distance field, we can easily introduce useful effects, such as 
 ability to add a thin membrane "cap" over the end of a tube. 
 This is accomplished by applying a standard "thicken" operation to the level set version
 of the initial mesh, intersecting with a sphere placed at the tube endpoint, and then performing
-a boolean union with the initial shape-minus-tube result.
+a boolean union with the initial shape-minus-tube result (see Figure \ref{fig:cap}).
 A straightforward extension would be to add or subtract additional elements at
 the tube endpoints to make them non-round.
  \ryan{Figure 8 is not necessary. This is a known problem with any voxelization method. Nobody is going to care that we took shortcuts in our implementation like repeatedly voxelizing and meshing instead of updating a single initial voxelization.}
+
+\begin{figure}[h!]
+\centering
+    \includegraphics[width=3.4in]{figures/cap.pdf}
+\caption{The process to ``cap'' the end of a pipe.  In (a), a pipe end is placed on the surface of the mesh.  In (b), we create a sphere whose radius is slightly larger than the radius of the pipe, centred at the tube's endpoint.  In (c), we consider the intersection of the sphere and the pipe, and create an offset surface of the mesh.  Finally, in (d) we intersect with the offset surface.  This is kept as a cap for the pipe in mesh subtraction.}
+\label{fig:cap}
+\end{figure}
 
 \subsection{Fabrication Techniques}
 
