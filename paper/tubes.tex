@@ -30,13 +30,13 @@ Our A* pathfinding produces the \emph{shortest} path, but in many cases
 we require a smoother path through which we can actually push a physical wire.
 We solve this problem via physical simulation. We create a straight virtual 
 wire (a 3D poly-line or \emph{discrete rod}), and then set its initial position 
-to be deformed to lie along our A* path.
+as our A* path.
 Running the physical simulation allows the wire to attempt to return to
-its straight configuration, while satisfying endpoint position constraints.
+a straight configuration, while satisfying its endpoint position constraints.
 We also increase the length of the wire, to provide some slack in cases where 
 it would otherwise bend sharply to stay inside the shape. 
 
-The wire is modelled as a \emph{discrete rod}, ie a 3D poly-line with a bending 
+The wire is modelled as a \emph{discrete rod}, i.e., a 3D poly-line with a bending 
 constraint between adjacent segments. Our simulation is based on an
 implementation of Position-Based Dynamics \cite{Muller07}, with all constraints
 modelled as penalty forces. To keep the rod inside the
@@ -100,7 +100,6 @@ Once we have a semi-Eulerian graph, we need to create an Euler tour.  We use a w
 We do not currently redirect edges that intersect in the plane.  Because we have a 3-dimensional canvas in which to work, it would be possible to push overlapping paths into the third dimension.  However, we leave this to future work: for our specific applications so far, it has been unnecessary.
 
 \subsection{Mesh Modification}
-
 Once we have a set of authored paths, we must cut tubes out of the input mesh.
 Our basic strategy is to create a polygonal tube by sweeping a profile polyline
 along the path, and subtract the tube from the mesh. We only use circular profiles
@@ -108,20 +107,19 @@ in our examples, but clearly any other profile could be used. Similarly our inte
 allows different start and end radii, which are linearly interpolated along the path.
 
 To avoid the complexities of direct mesh booleans, we construct a discretized volumetric
-(ie voxel-based) representation of the original mesh and the tube mesh. Boolean
+(i.e., voxel-based) representation of the original mesh and the tube mesh. Boolean
 subtraction is trivial in such representations. We specifically use narrow-band
 level sets~\cite{Museth04}, which represent the surface as the zero iso-contour of an
 approximate distance field.
 We then use marching cubes~\cite{Lorensen87} to produce the final mesh for printing.
 This strategy does incur some resampling artifacts, however so does the 3D printing, and compared to the print process, the time required to voxelize at high resolution is inconsequential.
 Since we have a distance field, we can easily introduce useful effects, such as the
-ability to add a thin membrane "cap" over the end of a tube. 
-This is accomplished by applying a standard "thicken" operation to the level set version
+ability to add a thin membrane ``cap'' over the end of a tube. 
+This is accomplished by applying a standard ``thicken'' operation to the level set version
 of the initial mesh, intersecting with a sphere placed at the tube endpoint, and then performing
 a boolean union with the initial shape-minus-tube result (see Figure \ref{fig:cap}).
 A straightforward extension would be to add or subtract additional elements at
-the tube endpoints to make them non-round.
- \ryan{Figure 8 is not necessary. This is a known problem with any voxelization method. Nobody is going to care that we took shortcuts in our implementation like repeatedly voxelizing and meshing instead of updating a single initial voxelization.}
+the tube endpoints.
 
 \begin{figure}[h!]
 \centering
