@@ -10,7 +10,7 @@ The design space of pipes has four dimensions: openings, design focus, topologie
 
 \subsection{Openings of Pipes}
 
-\george{difference between open/return not clear}Pipes can have four opening styles: open, return, semi-closed, and fully enclosed (see Figure \ref{fig:pipespace}).  As we are interested in interactive devices, we distinguish a ``user side"---part of the surface or interior of an object facing its user for interaction; and a ``system side"---where other hardware such as electronics may be connected.  We refer to a pipe which is ``open on the user side'' to have its contents \emph{physically accessible} to a user \emph{at interaction time}.  ``Closed on the user side'' implies physically cut off from the user.  Similarly with the system side.  User or system manipulation of pipe contents are possible even without physical access, e.g., via soundwaves. \george{confusing}
+\george{difference between open/return not clear}Pipes can have four opening styles: open, return, semi-closed, and fully enclosed (see Figure \ref{fig:pipespace}).  As we are interested in interactive devices, we distinguish a ``user side"---part of the surface or interior of an object facing its user for interaction; and a ``system side"---where other hardware such as electronics may be connected.  We refer to a pipe which is ``open on the user side'' to have its contents \emph{physically accessible} to a user \emph{at interaction time}.  ``Closed on the user side'' implies physically cut off from the user.  Similarly with the system side.  User or system manipulation of pipe contents are possible even without physical access: e.g., via soundwaves. \george{confusing}
 
 \begin{figure}[h]
 \centering
@@ -32,7 +32,7 @@ Pipe design may emphasize exterior connection points and/or interior paths.  Our
 
 \subsection{Pipe Topologies}
 
-Pipe network topologies enable different interactions \george{how?}.  Splitting or mixing pipes offer flexibility in output, allowing a single source to have multiple outputs or multiple sources to combine (see Figure \ref{fig:pipespace}).  Star and tree topologies extend the splitting and mixing primitives, encompassing multiple-in and multiple-out in contrast to single-in/single-out; we used star topologies in our toys \ref{fig:toys}.
+Pipe network topologies enable different interactions: splitting or mixing pipes offer flexibility in output, allowing a single source to have multiple outputs or multiple sources to combine (see Figure \ref{fig:pipespace}).  Star and tree topologies extend the splitting and mixing primitives, encompassing multiple-in and multiple-out in contrast to single-in/single-out; we used star topologies in our toys \ref{fig:toys}.
 
 \subsection{Media in Pipes}
 After printing, there is still flexibility in inserting media to create different interface affordances and capabilities. We consider gas, liquids, solids, particulates, and threadables.
@@ -41,8 +41,8 @@ After printing, there is still flexibility in inserting media to create differen
 
 Incompressible fluids (``liquids'') perform similarly to gases for display or haptics.  Additionally, using driable conductive liquids like copper paint, pipes can become custom wires.
 
-Pipes need not have hollow centers: in the case where routed pipes are filled with solid material---in particular, a solid material different from the enclosing model material---, interactions such as those in Printed Optics \cite{Willis-printedoptics} are possible.
+Pipes need not have hollow centers: if routed pipes are filled with solid material---in particular, a solid material different from the enclosing model material---, interactions such as those in Printed Optics \cite{Willis-printedoptics} are possible.
 
-Particulates, either printed in-place or inserted, can be of varying densities.  A single particle can be used for display.  Sparse particles in fluid can provide haptic feedback.
+Particulates, either printed in-place or inserted, can be of varying densities and can contain particles of various and variable size.  A single large particle can be used for display.  Small particles in fluid can provide variable stiffness haptics via jamming \cite{Follmer-jamming}.
 
 Threadable media, such as EL wire or fiberoptic cables, can be threaded through pipes post-printing.  This empowers inexpensive printers: for example, a Printed Optics-style interface can be created on a consumer-grade 3D printer with pipes and fiber optic cable.

@@ -1,13 +1,13 @@
-\section{A Series of Tubes - A Tool for Pipe Design}
+\section{A Series of Tubes - A Tool for Pipe Design} \george{not clear that this is the beginning of our system description}
 \bjoern{What kind of visualizations and diagrams can help explain the technical part other than photos and screenshots? The "UIST" pipe routing figure goes in this direction. Can we make similar conceptual figures, flowcharts, etc for the earlier parts?}
 
-Pipe design is non-trivial.  Independent pipes cannot intersect lest their contents be unintentionally mixed.  Pipes' bending energy needs to be minimized to allow easy insertion of media post-print.  Pipes in general need to avoid objects' surfaces to prevent fluid leakage when printed by hobbyist-grade machines.  Finally, for designing pipes that follow a user-specified path, we must ensure certain characteristics of that path (e.g., that the path is connected).
+Pipe design is non-trivial.  Independent pipes cannot intersect lest their contents be unintentionally mixed.  Pipes' bending energy needs to be minimized to allow easy insertion of media post-print.  Pipes in general need to avoid objects' surfaces to prevent fluid leakage when printed by hobbyist-grade machines.  Finally, for designing pipes that follow a user-specified path, we must ensure certain characteristics of that path (e.g., that the path is connected). \george{pipes are hard.  not sure we convinced readers by now that they are worth the effort.  maybe this has to happen more in the intro.  the example objects section is still a few pages away.}
 
 To allow makers to design novel objects with pipe-powered interfaces, we created a tool for use on arbitrary 3D models.  This tool allows designers to select exterior connection points of their pipes (see Figure \ref{fig:tool-process-interior}) or to import vector art describing the pipes' interior paths (see Figure \ref{fig:tool-process-exterior}).  Once the maker's selections are made, we create a complete routing using either the exterior connection point method (A*, physical simulation) or the interior path method (graph edge creation, Euler tour generation).  We thicken our routing to create pipes.  The resultant pipes are subtracted from the original mesh, which can then be 3D printed.
 
 Our tool is implemented as a part of Meshmixer, a consumer 3D mesh editing tool, in C++ \cite{Schmidt-meshmixer}.
 
-\subsection{Exterior Connection Points}
+\subsection{Exterior Terminals}
 
 Designing objects which, for example, are touch sensitive in particular areas or integrate with existing electronics, requires precise location and sizing of pipe endpoints.  The interior of these pipes should have as large a bending radius as possible so that post-print insertion of solid or viscous media is easier.
 
@@ -24,7 +24,7 @@ To create pipes in which the location and shape of exterior connection points ma
 
 Our basic first-pass routing algorithm uses the A* routing algorithm \cite{Hart-Astar}.  This algorithm keeps a priority queue of points to check for routing based on a cost function; for each point it tags the distance from the start (e.g., startPoint = 0, startNeighbors=1, ...).  Once the end point is reached, we backtrack through tagged points, always moving to a lower-valued point.  The path cost in our implementation is based only on shortest distance between the starting and ending points, without weighting for distance from the surface, however the routed path is forced to stay inside the mesh's boundaries.  We route on the voxelized 3D grid of the mesh, using a resolution of 128x128x128 voxels. 
 
-Note that pipes once cut are ``outside the mesh'', i.e., pipes cut in sequence cannot intersect each other.  However, we do not currently track all pipes for global optimization: we greedily select the best routing per pipe.
+Pipes avoid each other in this manner: pipes once cut are ``outside the mesh'' and therefore not part of valid routes.  However, we do not currently track all pipes for global optimization: we greedily select the best routing per pipe.
 
 Our A* pathfinding produces the \emph{shortest} path, but in many cases
 we require a smoother path through which we can actually push a physical wire.
@@ -32,7 +32,7 @@ We solve this problem via physical simulation. We create a straight virtual
 wire (a 3D poly-line or \emph{discrete rod}), and then set its initial position 
 as our A* path.
 Running the physical simulation allows the wire to attempt to return to
-a straight configuration, while satisfying its endpoint position constraints.
+a straight configuration, while satisfying the user-selected endpoint position constraints.
 We also increase the length of the wire, to provide some slack in cases where 
 it would otherwise bend sharply to stay inside the shape. 
 
@@ -81,7 +81,7 @@ In graph theory, a semi-Eulerian graph is one which has exactly two edges of odd
 \label{fig:UIST}
 \end{figure}
 
-\subsubsection{Routing}
+\subsubsection{Routing} \george{condense or just point to appendix}
 To allow for a single path through a pipe for post-print media insertion, we need to find a semi-Eulerian graph of which a user's input graphics are a subset, and subsequently find an Euler tour on that graph.
 
 The interior path routing problem is a version of the Chinese Postman Problem\footnote{The CPP is also known as the route inspection problem: \url{http://en.wikipedia.org/wiki/Route_inspection_problem}}, in which we wish to traverse all edges of the graph described in the user's input, much as a postman needs to walk along every road at least once to deliver mail.  In our relaxation, we allow creation of new edges (i.e., the postman may traverse buildings in addition to roads).  If path components are disconnected, we create edges that connect them; additionally we can create edges connecting odd-degree vertices rather than simply retracing existing edges.  In the final artifact, all created edges will be blocked out by dark material so the inserted medium is not visible (see Figure \ref{fig:tool-process-interior}).  We offer a short algorithm here, with a more mathematically precise definition and associated proof in the appendix.
@@ -94,6 +94,7 @@ In order to make our graph Eulerian, we consider all odd degree vertices in the 
 
 We believe that a lower total weight matching is possible by connecting components and ensuring node evenness together in a global process, as well as by using minimum-weight matching rather than greedy selection, however this optimization is not crucial for our purposes.
 
+/george{too complicated}
 Once we have a semi-Eulerian graph, we need to create an Euler tour.  We use a weighted modification of Fleury's algorithm for finding Euler tours\footnote{\url{http://en.wikipedia.org/wiki/Eulerian_path\#Fleury.27s_algorithm}} for this.  In the classic algorithm, each selected edge is removed to create a reduced graph.  To select the next edge while at a node, the algorithm randomly chooses from all incident non-bridge edges (where a bridge edge would create disconnected non-trivial subgraphs if it were removed).  This ensures that every edge is both reachable and traversed.  In our modification, instead of randomly selecting from non-bridge paths at each node, we select the non-bridge edge which turns the least from the most recent path (i.e., we prefer to pass straight through a node, if possible).  This minimizes turns in the final artifact, which eases support material removal and assembly.  Our EL wire in Figure \ref{fig:UIST} follows an Euler tour through the input nodes.
 
 \subsubsection{Edges that Intersect in the Plane}
