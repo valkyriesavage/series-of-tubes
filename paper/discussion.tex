@@ -1,8 +1,21 @@
 \section{Discussion}
 
+\valkyrie{there are a lot of things in here that we could focus on.  input/output/identity interactions mediated by tubes, the creation of antennae and other custom electronics...}
+
+\valkyrie{which figures/discussions do we think are important?}
+
 The promise of 3D printing is that it allows for the manufacture of geometries that are impossible to create using traditional techniques like injection molding.  Pipes leverage that promise: they require a previously unmanufacturable complexity of interior geometry.  Printers additionally continue to evolve in their capabilities to lay down more materials.  As they become able to lay down conductive, optically clear, or luminescent materials, our tools and techniques will enable even more complex internal designs.
 
-By crossing pipe types, topologies, and inserted media, many pipe-mediated interactions emerge. We demonstrated a few such possibilities by designing and fabricating example objects with the help of our pipe routing design tool. However, there are many additional possibilities for leveraging sensing and actuation techniques from the HCI literature and extending their use in 3D-printed objects. We briefly survey such possibilities for output and input.
+\begin{figure}[h]
+\centering
+    \includegraphics[width=3.4in]{figures/electronics.png}
+\caption{(a) A capacitor we manufactured on a 3D printer and coated, post-print, with copper paint.  This particular one holds a charge of xx.  (b) Comparison of theoretical printed resistors.  For a cylindrical wire, resistance = $\rho\frac{l}{\pi r^2}$, where $\rho$ is based on the conductivity of the medium.  In our case, assuming $ r << l$, resistance(B) < resistance(C) < resistance(A).  (c) A possible design for a cell phone antenna augmentation inside a cell phone case.}
+\label{fig:electronics}
+\end{figure}
+
+These internal designs can give rise to new opportunities in electronics design and fabrication: we printed a proof-of-concept printed capacitor which features a thin printed plate with hollow cones on either side (see Figure \ref{fig:electronics}A).  After printing, we coated the inner surfaces of capacitor with copper paint.  It now can hold a charge of xx.  Similarly, tubes can be used to create \emph{resistors} in ``printed'' circuitry: a longer or thinner tube has a greater resistance than a shorter or wider one (see Figure \ref{fig:electronics}B).  Internal \emph{antenna} design is also possible, which could lead to new flexibility in, e.g., cell phone design (see Figure \ref{fig:electronics}C).
+
+By crossing pipe types, topologies, and inserted media, many pipe-mediated \emph{interactions} also emerge. We demonstrated a few such possibilities by designing and fabricating example objects with the help of our pipe routing design tool. However, there are many additional possibilities for leveraging sensing and actuation techniques from the HCI literature and extending their use in 3D-printed objects. We briefly survey such possibilities for output and input.
 
 \subsection{Outputs}
 
