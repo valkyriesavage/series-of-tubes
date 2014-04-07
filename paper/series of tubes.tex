@@ -95,14 +95,12 @@ breaklinks=true,
   \alignauthor anonymized for peer review \\
 }
 
-\makeatletter
-\let\@oldmaketitle\@maketitle% Store \@maketitle
-\renewcommand{\@maketitle}{\@oldmaketitle% Update \@maketitle to insert...
-  \includegraphics[width=7in]
-    {figures/placeholder/teaser.png}\bigskip}% ... an image
-\captionof{figure}{A collection of interactive objects designed using our tool.  All have electronic sensing or actuation components which are routed through the \emph{interior} of the prints to preserve aesthetics.  In (a), objects manufactured on a hobbyist 3D printer.  In (b), those manufactured on industrial-grade printers.}
-\label{fig:teaser}
-\makeatother
+\teaser{
+\centering
+    \includegraphics[width=\textwidth]{figures/placeholder/teaser.png}                                                                                                                                                                                                       
+    \caption{A collection of interactive objects designed using our tool.  All have electronic sensing or actuation components which are routed through the \emph{interior} of the prints to preserve aesthetics.  In (a), objects manufactured on a hobbyist 3D printer.  In (b), those manufactured on industrial-grade printers.}
+    \label{fig:teaser}
+}
 
 \maketitle
 
