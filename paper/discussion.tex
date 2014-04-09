@@ -1,21 +1,18 @@
 %!TEX root = series of tubes.tex
 \section{Discussion}
-%\valkyrie{there are a lot of things in here that we could focus on.  input/output/identity interactions mediated by tubes, the creation of antennae and other custom electronics...}
-%
-%\valkyrie{which figures/discussions do we think are important?}
 
 The promise of 3D printing is two-fold: it enables the manufacturing of complex objects at low volumes (n=1), and it allows for the manufacturing of geometries that are impossible to create using traditional techniques like injection molding.  Printing pipes to prototype interactive objects exploit both advantages. Prototypes by definition are low-volume parts, and pipes require complex interior geometries that are very difficult or impossible to produce using other processes. Our work has focused on routing pipes that are then later manually filled after a print has completed. However, the fundamental operations of 3D path routing and topology specification that our tool offers will remain relevant as 3D printing technology advances. Multi-material printers are already available; as they become able to lay down additional materials (e.g., conductive), \systemname can enable designers to efficiently specify where different functional materials should be placed at design time.
 
 We described a design space and fabricated example objects to demonstrate some of the interactions that can be aided by pipe routing. There are many additional possibilities for leveraging sensing and actuation techniques from the HCI literature and extending their use in 3D-printed objects. We briefly survey some of them.
 
-\subsection{Outputs}
+\subsection{Inputs and Outputs}
 
-Pipe-based outputs can address the five senses: visual, aural, haptic, and olfactory/gustatory.  %In addition to outputs we mention explicitly, any outputs possible using traditional electronic components are possible using conductive material in pipes.
+Pipe-based outputs can address the five senses: visual, aural, haptic, and olfactory/gustatory.  As we have already discussed many input techniques through our example objects, we focus our discussion around output.  %In addition to outputs we mention explicitly, any outputs possible using traditional electronic components are possible using conductive material in pipes.
 
 \begin{figure}[h]
 \centering
     \includegraphics[width=3.4in]{figures/placeholder/direct.jpg}
-\caption{By attaching a servo to a gate structure, it is possible to direct fluid through that pipe.  The gate not only has binary positions (a) and (b), but can direct fractional flow, as well (c).  This could be used to create logic gates, as in (d).  These could be used, for example, in science exhibits. \bjoern{If we use this figure, do the top row only, not the bottom (too big).}}
+\caption{By attaching a servo to a gate structure, it is possible to direct fluid through that pipe.  The gate not only has binary positions (a) and (b), but can direct fractional flow, as well (c).  These could be used, for example, in science exhibits.}
 \label{fig:direct}
 \end{figure}
 
@@ -24,7 +21,7 @@ Pipe-based outputs can address the five senses: visual, aural, haptic, and olfac
 Air bubbles in liquids can also convey information~\cite{Heiner1999Percolator}. Splitting and mixing of colored liquids can be used as a display tactic; liquids can also be mixed in specific concentrations by servo-controlled gate structures as in Figure \ref{fig:direct}. %additionally mechanical motion can be fluid-mediated. 
 
 \emph{Aural} outputs can be created with gases.  Pipes and cavities can act as resonators can be leveraged to create 3D-printed sound chambers with explicitly designed sound characteristics~\cite{Zoran-flute} (see Figure \ref{fig:ocarina}).  %All that is necessary for this is an enclosed chamber with a pipe connected to it via a narrow neck-point (see Figure \ref{fig:ocarina}).  
-Passive sound amplification and sound redirection are also possible using pipes.
+Passive sound amplification and sound redirection are also possible using pipes, and sensing of some interactions, e.g., \emph{tapping and grasping}, can be sensed acoustically.  Due to differential sound conductivity in different printed materials, solid pipes of a material with greater conductivity (i.e., rigid, high-density) can be embedded in a model of a lesser conductivity (i.e., softer).  A microphone or piezo placed at the system-side of these sound-conducting pipes can determine where the model was tapped and how it was tapped.  Active acoustic sensing as described in Touch \& Activate \cite{Ono-touchandactivate} is also possible; this technique would allow for particular areas of interest (connected to rigid pipes) to be touch sensitive and enable grasp sensing.
 
 \begin{figure}[h]
 \centering
@@ -37,9 +34,8 @@ Passive sound amplification and sound redirection are also possible using pipes.
 
 \emph{Olfactory} and \emph{gustatory} outputs can be created through the mixing and splitting of pipes carrying scented or flavored fluids, respectively~\cite{kaye2004making}.
 
-\subsection{Inputs}
+%\subsection{Inputs}
 %In addition to the described ways for sensing touch and object presence, additional opportunities also exist for leveraging pipes to sense pressure, grasp, flexing, and tapping. 
-\bjoern{most of the beginning of this section described techniques we had already implemented or described earlier in the paper. They  referenced earlier figures and earlier citations. I commented them out as I think this section is about additional techniques nto already described. For example, we referenced slyper  in the design space. this feels empty now though. I'm not quite sure what the right thing to do is.}
 % and manipulation of traditional electronic components.
 %Pipes create opportunities for many types of input sensing across the surface of printed devices.  We describe sensing touch, pressure, grasp, flexing, tapping, and manipulation of traditional electronic components.  There are likely more input sensing techniques, both existing and on the horizon, that are compatible with the use of pipes.
 
@@ -51,7 +47,6 @@ Passive sound amplification and sound redirection are also possible using pipes.
 
 %Some 3D printers can fabricate rubber-like materials.  Similar to Slyper, et al., in \cite{Slyper-shape}, we can sense \emph{flexing} and \emph{bending} of prints made on these machines: the ability to 3D print devices to sensing bending and flexing significantly cuts molding and assembly time.
 
-\emph{Tapping and Grasping} can be sensed acoustically.  Due to differential sound conductivity in different printed materials, solid pipes of a material with greater conductivity (i.e., rigid, high-density) can be embedded in a model of a lesser conductivity (i.e., softer).  A microphone or piezo placed at the system-side of these sound-conducting pipes can determine where the model was tapped and how it was tapped.  Active acoustic sensing as described in Touch \& Activate \cite{Ono-touchandactivate} is also possible; this technique would allow for particular areas of interest (connected to rigid pipes) to be touch sensitive and enable grasp sensing.
 
 
 \subsection{Identification}
