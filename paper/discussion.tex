@@ -1,36 +1,30 @@
+%!TEX root = series of tubes.tex
 \section{Discussion}
+%\valkyrie{there are a lot of things in here that we could focus on.  input/output/identity interactions mediated by tubes, the creation of antennae and other custom electronics...}
+%
+%\valkyrie{which figures/discussions do we think are important?}
 
-\valkyrie{there are a lot of things in here that we could focus on.  input/output/identity interactions mediated by tubes, the creation of antennae and other custom electronics...}
+The promise of 3D printing is two-fold: it enables the manufacturing of complex objects at low volumes (n=1), and it allows for the manufacturing of geometries that are impossible to create using traditional techniques like injection molding.  Printing pipes to prototype interactive objects exploit both advantages. Prototypes by definition are low-volume parts, and pipes require complex interior geometries that are very difficult or impossible to produce using other processes. Our work has focused on routing pipes that are then later manually filled after a print has completed. However, the fundamental operations of 3D path routing and topology specification that our tool offers will remain relevant as 3D printing technology advances. Multi-material printers are already available; as they become able to lay down additional materials (e.g., conductive), \systemname can enable designers to efficiently specify where different functional materials should be placed at design time.
 
-\valkyrie{which figures/discussions do we think are important?}
-
-The promise of 3D printing is that it allows for the manufacture of geometries that are impossible to create using traditional techniques like injection molding.  Pipes leverage that promise: they require a previously unmanufacturable complexity of interior geometry.  Printers additionally continue to evolve in their capabilities to lay down more materials.  As they become able to lay down conductive, optically clear, or luminescent materials, our tools and techniques will enable even more complex internal designs.
-
-\begin{figure}[h]
-\centering
-    \includegraphics[width=3.4in]{figures/electronics.png}
-\caption{(a) A capacitor we manufactured on a 3D printer and coated, post-print, with copper paint.  This particular one holds a charge of xx.  (b) Comparison of theoretical printed resistors.  For a cylindrical wire, resistance = $\rho\frac{l}{\pi r^2}$, where $\rho$ is based on the conductivity of the medium.  In our case, assuming $ r << l$, resistance(B) < resistance(C) < resistance(A).  (c) A possible design for a cell phone antenna augmentation inside a cell phone case.}
-\label{fig:electronics}
-\end{figure}
-
-These internal designs can give rise to new opportunities in electronics design and fabrication: we printed a proof-of-concept printed capacitor which features a thin printed plate with hollow cones on either side (see Figure \ref{fig:electronics}A).  After printing, we coated the inner surfaces of capacitor with copper paint.  It now can hold a charge of xx.  Similarly, tubes can be used to create \emph{resistors} in ``printed'' circuitry: a longer or thinner tube has a greater resistance than a shorter or wider one (see Figure \ref{fig:electronics}B).  Internal \emph{antenna} design is also possible, which could lead to new flexibility in, e.g., cell phone design (see Figure \ref{fig:electronics}C).
-
-By crossing pipe types, topologies, and inserted media, many pipe-mediated \emph{interactions} also emerge. We demonstrated a few such possibilities by designing and fabricating example objects with the help of our pipe routing design tool. However, there are many additional possibilities for leveraging sensing and actuation techniques from the HCI literature and extending their use in 3D-printed objects. We briefly survey such possibilities for output and input.
+We described a design space and fabricated example objects to demonstrate some of the interactions that can be aided by pipe routing. There are many additional possibilities for leveraging sensing and actuation techniques from the HCI literature and extending their use in 3D-printed objects. We briefly survey some of them.
 
 \subsection{Outputs}
 
-Pipe-based outputs can address the five senses: visual, aural, haptic, and olfactory/gustatory.  In addition to outputs we mention explicitly, any outputs possible using traditional electronic components are possible using conductive material in pipes.
+Pipe-based outputs can address the five senses: visual, aural, haptic, and olfactory/gustatory.  %In addition to outputs we mention explicitly, any outputs possible using traditional electronic components are possible using conductive material in pipes.
 
 \begin{figure}[h]
 \centering
     \includegraphics[width=3.4in]{figures/placeholder/direct.jpg}
-\caption{By attaching a servo to a gate structure, it is possible to direct fluid through that pipe.  The gate not only has binary positions (a) and (b), but can direct fractional flow, as well (c).  This could be used to create logic gates, as in (d).  These could be used, for example, in science exhibits.}
+\caption{By attaching a servo to a gate structure, it is possible to direct fluid through that pipe.  The gate not only has binary positions (a) and (b), but can direct fractional flow, as well (c).  This could be used to create logic gates, as in (d).  These could be used, for example, in science exhibits. \bjoern{If we use this figure, do the top row only, not the bottom (too big).}}
 \label{fig:direct}
 \end{figure}
 
-\emph{Visual} outputs can be mediated by gases, liquids, solid, particulates, or threadables.  Pneumatic actuation (as in PneUIs \cite{Yao-pneui} or Harrison's latex buttons \cite{Harrison-buttons}) provides output, but gases carrying smoke also offer visual feedback.  Splitting and mixing of colored liquids can be used as a display tactic; additionally mechanical motion can be fluid-mediated.  Liquids can also be mixed in specific concentrations by servo-controlled gate structures as in Figure \ref{fig:direct}.
+\emph{Visual} outputs can be mediated by gases, liquids, solid, particulates, or threadables.  Pneumatic actuation (as in PneUIs \cite{Yao-pneui} or Harrison's latex buttons \cite{Harrison-buttons}) can provides shape-changing interfaces if maelleable materials can be printed. 
+%Gases carrying smoke also offer visual feedback. 
+Air bubbles in liquids can also convey information~\cite{Heiner1999Percolator}. Splitting and mixing of colored liquids can be used as a display tactic; liquids can also be mixed in specific concentrations by servo-controlled gate structures as in Figure \ref{fig:direct}. %additionally mechanical motion can be fluid-mediated. 
 
-\emph{Aural} outputs can be created with gases.  Helmholz resonance can be leveraged to create computer-controllable sound chambers, as in Zoran's flute \cite{Zoran-flute}.  All that is necessary for this is an enclosed chamber with a pipe connected to it via a narrow neck-point (see Figure \ref{fig:ocarina}).  Passive sound amplification and sound redirection are also possible using pipes.
+\emph{Aural} outputs can be created with gases.  Pipes and cavities can act as resonators can be leveraged to create 3D-printed sound chambers with explicitly designed sound characteristics~\cite{Zoran-flute} (see Figure \ref{fig:ocarina}).  %All that is necessary for this is an enclosed chamber with a pipe connected to it via a narrow neck-point (see Figure \ref{fig:ocarina}).  
+Passive sound amplification and sound redirection are also possible using pipes.
 
 \begin{figure}[h]
 \centering
@@ -39,35 +33,47 @@ Pipe-based outputs can address the five senses: visual, aural, haptic, and olfac
 \label{fig:ocarina}
 \end{figure}
 
-\emph{Haptic} outputs are possible through compressible and incompressible fluids.  Fluids in pipes capped with flexible membranes can actuate particulates and create programmable pliability as in Jamming User Interfaces \cite{Follmer-jamming}.
+\emph{Haptic} outputs are possible through compressible and incompressible fluids.  Fluids in pipes capped with flexible membranes can actuate particulates and create programmable pliability as in Jamming User Interfaces \cite{Follmer-jamming}. \bjoern{Didn't we describe the first part already? Also I'm still skeptical about jamming, maybe skip it.}
 
-\emph{Olfactory} and \emph{gustatory} outputs can be created through the mixing and splitting of pipes carrying scented or flavored fluids, respectively.
+\emph{Olfactory} and \emph{gustatory} outputs can be created through the mixing and splitting of pipes carrying scented or flavored fluids, respectively~\cite{kaye2004making}.
 
 \subsection{Inputs}
+%In addition to the described ways for sensing touch and object presence, additional opportunities also exist for leveraging pipes to sense pressure, grasp, flexing, and tapping. 
+\bjoern{most of the beginning of this section described techniques we had already implemented or described earlier in the paper. They  referenced earlier figures and earlier citations. I commented them out as I think this section is about additional techniques nto already described. For example, we referenced slyper  in the design space. this feels empty now though. I'm not quite sure what the right thing to do is.}
+% and manipulation of traditional electronic components.
+%Pipes create opportunities for many types of input sensing across the surface of printed devices.  We describe sensing touch, pressure, grasp, flexing, tapping, and manipulation of traditional electronic components.  There are likely more input sensing techniques, both existing and on the horizon, that are compatible with the use of pipes.
 
-Pipes create opportunities for many types of input sensing across the surface of printed devices.  We describe sensing touch, pressure, grasp, flexing, tapping, and manipulation of traditional electronic components.  There are likely more input sensing techniques, both existing and on the horizon, that are compatible with the use of pipes.
+%\bjoern{we alsready covered touch in the paper... think this section should be about different ways. \emph{Touch} sensing can be enabled through pipes filled with conductive media.  Traditional wires (threadable) may be used, but conductive paint (liquid) may be more flexible.  Using conductive paint and SFCS \cite{Sato-touche}, an interior star pipe topology can enable single-wire touch- and grasp-sensing at any set of points on a printed object's surface, like our toys (see Figure \cite{fig:toys}).  Simple capacitance measurements are possible using the same media, and custom-designed sensors like those created in Savage, et al.,'s Midas system are also possible \cite{Savage-midas}.  Using a technique like Fiberio \cite{Holz-fiberio}, users could even be identified on touches. \bjoern{Fiberio requires fiber optic plate - not sure it applies to pipes.}
 
-\emph{Touch} sensing can be enabled through pipes filled with conductive media.  Traditional wires (threadable) may be used, but conductive paint (liquid) may be more flexible.  Using conductive paint and SFCS \cite{Sato-touche}, an interior star pipe topology can enable single-wire touch- and grasp-sensing at any set of points on a printed object's surface, like our toys (see Figure \cite{fig:toys}).  Simple capacitance measurements are possible using the same media, and custom-designed sensors like those created in Savage, et al.,'s Midas system are also possible \cite{Savage-midas}.  Using a technique like Fiberio \cite{Holz-fiberio}, users could even be identified on touches.
+%\emph{Pressure} can be sensed in multiple ways.  Slyper, et al.,'s primitives can be attached as the terminus of any semi-closed pipe; the user can manipulate the printed endpoint and the system can sense air pressure changes \cite{Slyper-pressure}.  Pressure can also be sensed via capacitance.
 
-\emph{Pressure} can be sensed in multiple ways.  Slyper, et al.,'s primitives can be attached as the terminus of any semi-closed pipe; the user can manipulate the printed endpoint and the system can sense air pressure changes \cite{Slyper-pressure}.  Pressure can also be sensed via capacitance.
+%\emph{Grasp} sensing can be enabled using Wimmer's FlyEye techniques \cite{Wimmer-flyeye} or those described in Jamming User Interfaces \cite{Follmer-jamming}.  The optical links necessary for sensing can be created either via clear solid cores as in Printed Optics \cite{Willis-printedoptics} or via fiber optic cables threaded through hollow pipes (see Figure \ref{fig:pens}).
 
-\emph{Grasp} sensing can be enabled using Wimmer's FlyEye techniques \cite{Wimmer-flyeye} or those described in Jamming User Interfaces \cite{Follmer-jamming}.  The optical links necessary for sensing can be created either via clear solid cores as in Printed Optics \cite{Willis-printedoptics} or via fiber optic cables threaded through hollow pipes (see Figure \ref{fig:pens}).
+%Some 3D printers can fabricate rubber-like materials.  Similar to Slyper, et al., in \cite{Slyper-shape}, we can sense \emph{flexing} and \emph{bending} of prints made on these machines: the ability to 3D print devices to sensing bending and flexing significantly cuts molding and assembly time.
 
-Some 3D printers can fabricate rubber-like materials.  Similar to Slyper, et al., in \cite{Slyper-shape}, we can sense \emph{flexing} and \emph{bending} of prints made on these machines: the ability to 3D print devices to sensing bending and flexing significantly cuts molding and assembly time.
+\emph{Tapping and Grasping} can be sensed acoustically.  Due to differential sound conductivity in different printed materials, solid pipes of a material with greater conductivity (i.e., rigid, high-density) can be embedded in a model of a lesser conductivity (i.e., softer).  A microphone or piezo placed at the system-side of these sound-conducting pipes can determine where the model was tapped and how it was tapped.  Active acoustic sensing as described in Touch \& Activate \cite{Ono-touchandactivate} is also possible; this technique would allow for particular areas of interest (connected to rigid pipes) to be touch sensitive and enable grasp sensing.
 
-\emph{Tapping} is another input possibility.  Due to differential sound conductivity in different printed materials, pipes of a greater conducting material can be embedded in a model of a lesser conducting material.  A microphone or piezo placed at the system-side of these sound-conducting pipes can determine where the model was tapped and how it was tapped.  Active acoustic sensing as described in Touch \& Activate \cite{Ono-touchandactivate} is also possible; this technique would allow for particular areas of interest (connected to sound-conducting pipes) to be touch sensitive, while other areas (made of non-conducting material) are not sensed.
 
-Sensing via traditional electronic components (e.g., potentiometers, alcohol gas sensors) can be accomplished by conductive inserted media.  Components can be recessed into a print's surface, with their leads implanted into open pipes.  By inserting liquid copper paint instead of threading traditional wires, all components in a model can share a ground line, and the paint's drying process obviates the use of solder or glue to affix the components in place.
+\subsection{Identification}
+\bjoern{this section should be about half as long as it is right now.}
+In addition to active inputs from users, pipes can be used for passive \emph{identification}.  While the pipes need not be visible (especially in the case of fully-enclosed pipes), their presence, location, network structure, and length change the physical properties of a printed object.  This includes weight, acoustic resonance, and capacitive signature.b
 
-\subsubsection{Identification}
-In addition to active inputs from users, pipes can be used for passive \emph{identification}.  While the pipes need not be visible (especially in the case of fully-enclosed pipes), their presence, location, network structure, and length change the physical properties of a printed object.  This includes weight, acoustic resonance, and (if conductive material is present) capacitive signature.
+Both identification by recall and intentional encoding are possible.  As seen in Touch \& Activate \cite{Ono-touchandactivate}, different objects have different acoustic signatures.  Additionally, two objects that are visually identical but which have fully enclosed (or other types) of pipes on their interior can be distinguished acoustically.  Thus we can recall an object's identity once its acoustic signature has been recorded.  Similarly, the Touch\'{e} system \cite{Sato-touche} relies on distinguishing capacitive signatures of objects, both in static states and as their boundary conditions are changed by human interaction.  Weight is a simple metric of object identity, but weights are less distinctive than acoustic or capacitive signatures, as they are represented by a single number. \bjoern{second half of this paragraph meanders. focus on the key story.}
 
-Both identification by recall and intentional encoding are possible.  As seen in Touch \& Activate \cite{Ono-touchandactivate}, different objects have different acoustic signatures.  Additionally, two objects that are visually identical but which have fully enclosed (or other types) of pipes on their interior can be distinguished acoustically.  Thus we can recall an object's identity once its acoustic signature has been recorded.  Similarly, the Touch\'{e} system \cite{Sato-touche} relies on distinguishing capacitive signatures of objects, both in static states and as their boundary conditions are changed by human interaction.  Weight is a simple metric of object identity, but weights are less distinctive than acoustic or capacitive signatures, as they are represented by a single number.
+We have experimented with intentional encoding.  Semi-closed pipes can function as resonance chambers.  A pipe's resonant frequency can be measured by attaching a speaker and microphone to it, sweeping frequencies with the speaker, and performing a Fourier transform on the resultant signal from the microphone.  Peaks in the transformed data correspond to resonant frequencies of the object.  Intentional encoding in the case of capacitance is significantly more difficult, and we leave it to future work.  Encoding of weight is trivial by creating fully-enclosed chambers inside an object.  This is similar to Infrastructs \cite{Willis-infrastructs}.  While their technique requires access a terahertz imaging tool, audio resonance identity encoding requires only a microphone and a speaker.
 
-We have experimented with intentional encoding.  Semi-closed pipes can function as resonance chambers.  A pipe's resonant frequency can be measured by attaching a speaker and microphone to it, sweeping frequencies with the speaker, and performing a Fourier transform on the resultant signal from the microphone.  Peaks in the transformed data correspond to stronger returned impulses: the resonant frequencies of the object.  Intentional encoding in the case of capacitance is significantly more difficult, and we leave it to future work.  Encoding of weight is trivial by creating fully-enclosed chambers inside an object.  This is similar to Infrastructs \cite{Willis-infrastructs}.  While their technique requires access a terahertz imaging tool, audio resonance identity encoding requires only a microphone and a speaker.
 
-\bjoern{We might pull back on the scope of this section a bit and think about which directions here are most closely related to pipes and most likely successful;  and which are more tangential or speculative - for example, Aireal is about feedback in free space and we are all about designing tangible objects; so maybe that's a candidate for cutting.}
+\begin{figure}[h]
+\centering
+    \includegraphics[width=3.4in]{figures/electronics.png}
+\caption{(a) A capacitor we manufactured on a 3D printer and coated, post-print, with copper paint.  This particular one holds a charge of xx.  (b) Comparison of theoretical printed resistors.  For a cylindrical wire, resistance = $\rho\frac{l}{\pi r^2}$, where $\rho$ is based on the conductivity of the medium.  In our case, assuming $ r << l$, resistance(B) < resistance(C) < resistance(A).  (c) A possible design for a cell phone antenna augmentation inside a cell phone case. \bjoern{skip the antenna since we haven't investigated this. If you have the capacitor and you're confident you know how to measure its charge, add it. The different conductors with different measurements are easy to do and worthwhile. Maybe combine these two with the helmholtz resonator into one smaller figure.}}
+\label{fig:electronics}
+\end{figure}
 
-\valkyrie{I cut a few things, and removed references to techniques we have already shown to work (as in the spirit of the intro).  LMK if this is better.}
+\subsection{Printed Conductors and Passive Components}
+
+Sensing via traditional electronic components (e.g., p botentiometers, alcohol gas sensors) can be accomplished by conductive inserted media.  Components can be recessed into a print's surface, with their leads implanted into open pipes.  \bjoern{didn't we already do this in the radio?} By inserting liquid copper paint instead of threading traditional wires, all components in a model can share a ground line, and the paint's drying process obviates the use of solder or glue to affix the components in place.
+
+Printing or injecting conductive material can also be used to design passive components with particular electrical properties. For example, we printed a proof-of-concept  capacitor which features a thin printed plate with hollow cones on either side (see Figure \ref{fig:electronics}A).  After printing, we coated the inner surfaces of capacitor with copper paint.  It now can hold a charge of xx.  Similarly, tubes can be used to create \emph{resistors} in ``printed'' circuitry: a longer or thinner tube has a greater resistance than a shorter or wider one (see Figure \ref{fig:electronics}B).  Internal \emph{antenna} design is also possible, which could lead to new flexibility in, e.g., cell phone design (see Figure \ref{fig:electronics}C). Future design tools could help designers achieve desired electrical properties automatically.
 
 \valkyrie{do we want those figures of the helmholz thing and the servo redirection gate?}
