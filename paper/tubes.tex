@@ -1,22 +1,19 @@
 %!TEX root = series of tubes.tex
 \section{\systemname - A Tool for Pipe Design}
-\tovi{I understand why we use ``makers'' instead of ``users'', but it might make it sound like the tool requires a certain level of existing hacking skills. For example, we are also allowing researchers to design novel objects}
 To allow makers to design novel objects with pipe-powered interfaces, we created a tool, \systemnamenospace, to add pipe geometries to arbitrary 3D models. Pipe design is non-trivial.  Independent pipes should not intersect inside an object lest their contents be unintentionally mixed.  To permit easy insertion of media after printing, pipes should have smooth bends.  Pipes, in general, need to avoid objects' surfaces to prevent fluid leakage when printed by hobbyist-grade machines.  Finally, for designing path-constrained pipes, that follow a user-specified path, we must ensure certain characteristics of that path (e.g., that the path is connected). 
 %\george{pipes are hard.  not sure we convinced readers by now that they are worth the effort.  maybe this has to happen more in the intro.  the example objects section is still a few pages away.}
 
- \systemname allows users to design pipes in two ways. First, they can select exterior anchor points on their objects and internal connection points; the tool then creates complete point-to-point routings using A* path search and physical rod simulation (see Figure \ref{fig:tool-process-exterior}). Second, users can also import vector art describing desired interior paths (see Figure \ref{fig:tool-process-interior}).  \systemname then creates a single path that follows the input shape using edge graph manipulation and Euler tour generation.  We thicken these routes to create pipes.  The resultant pipes are subtracted from the original mesh using voxelization and remeshing. Our tool is implemented in C++ as an extension to Meshmixer, a consumer 3D mesh editing tool~\cite{Schmidt-meshmixer}.
+ \systemname allows users to design pipes in two ways. First, they can select exterior anchor points on their objects; the tool then creates complete point-to-point routings using A* path search and physical rod simulation (see Figure \ref{fig:tool-process-exterior}). Second, users can import vector art describing desired interior paths (see Figure \ref{fig:tool-process-interior}).  \systemname then creates a single path that follows the input shape using edge graph manipulation and Euler tour generation.  We thicken these routes to create pipes.  The resultant pipes are subtracted from the original mesh using voxelization and remeshing. Our tool is implemented in C++ as an extension to Meshmixer, a consumer 3D mesh editing tool~\cite{Schmidt-meshmixer}.
 
 \subsection{Exterior Terminals}
 
 % Designing objects which, for example, are touch sensitive in particular areas or contain electronic components, requires precise location and sizing of pipe endpoints.  The interior of these pipes should have as large a bending radius as possible so that post-print insertion of solid or viscous media is easier.
-\tovi{removed the first paragraph as it seemed repetitive. Do a better job explaining how this works from the user's perspective. What is the UI? I added a bit. I think it would be best to explain all UI in this paragraph, and just focus on the algortihms below}
-To create endpoint-cosntrained pipes, in which the location and shape of exterior connection points matters, a brush tool is used to specify a pair of points on the mesh's surface. The user then clicks the [x] button which casues the system to route a pipe between the specificed points, and update the mesh accordingly by subtracting the pipes geometry fromt the model.
- \bjoern{feels a bit redundant with the last paragraph in the prior section.} 
+To create endpoint-cosntrained pipes, in which the location and shape of exterior connection points matters, a brush tool is used to specify a pair of points on the mesh's surface. The system automatically routes the pipe, and displays a preview.  Using sliders, the user can independently adjust the starting and ending radii of the pipe.  This is useful for, e.g, our breathing bunny (Figure \ref{fig:examples}b), whose pipes must fit a piece of hardware on one end, but on the other end should have as large an interactive surface as possible.
 
 \begin{figure}[h!]
 \centering
     \includegraphics[width=3.4in]{figures/exterior.png}
-\caption{An example mesh with exterior connection points selected.  The smoothed A* routing is drawn in {\color{red}red}, and in {\color{tovi}green} is our physically-based rod after simulation. \bjoern{This figure is visually hard to understand. I think a step-by-step figure would be better - a) selecting two points. b) red a* path c) final routed pipe. }}
+\caption{In a), an example mesh with exterior connection points selected.  The smoothed A* routing (b) is drawn in {\color{red}red}.  In {\color{tovi}green} is our physically-based rod after simulation (c).}
 \label{fig:tool-process-exterior}
 \end{figure}
 
@@ -33,37 +30,24 @@ wire (a 3D poly-line or \emph{discrete rod}), and then set its initial position
 as our A* path.
 Running the physical simulation allows the wire to attempt to return to
 a straight configuration, while satisfying the user-selected endpoint position constraints.
-We also increase the length of the wire, to provide some slack in cases where 
-it would otherwise bend sharply to stay inside the shape. 
 
 The wire is modelled as a \emph{discrete rod}, i.e., a 3D poly-line with a bending 
 constraint between adjacent segments. Our simulation is based on an
 implementation of Position-Based Dynamics (PBD)~\cite{Muller07}, with all constraints
 modelled as penalty forces. To keep the rod inside the
-mesh, we compute a discretized distance field, we can then constrain the
-rod to stay within some offset shell, again using a simple penalty force. \tovi{might want to specify this penalty force - or just say here that the value of the parameters were tuned on several test cases, and provide the associated values. }
+mesh, we compute a discretized distance field; we can then constrain the
+rod to stay within our offset shell, again using a simple penalty force.  Our penalty force is 0.3, however this does not, unfortunately, correspond to any real-world units (see Limitations).
 
 %In the case of multiple initial paths, we solve for each smoothed path sequentially.\bjoern{Why would we ever end up with multiple paths here? It thought we processed each path by running it through the (A*-PBD-Cutout) pipeline. So this step should only ever see one path, no?}\tovi{agree this is misleading, I think it can be removed since we talk about multiple pipes in a later paragraph}
 
-PBD simulations rarely converge to a steady state, so we simply halt after a fixed number of timesteps (250). Our voxel grid currently uses a resolution of 128x128x128 voxels, which enables interactive operations, but this parameter can be adjusted for different model requirements. The simulation takes about a second for most of our examples. \bjoern{are there any guarantees that two paths are more than $pipe1{radius}+pipe2{radius}$ away from each other? if not, we can't really claim that we always avoid intersections - it just usually happens.}
-
-\tovi{move this paragraph to discussion section}
-This basic approach does have various limitations, in particular it
-cannot recover if the discrete rod becomes tangled or unstable. 
-However we have observed these problems only when attempting to break
-the system; they did not occur in any of the cases shown in our figures.
-Another issue is parameters, as the penalty forces used in PBD do not
-correspond to physical units. We avoided serious issues here by uniformly
-scaling the initial mesh to a unit box, and tuning the parameters on several test cases.
+PBD simulations rarely converge to a steady state, so we simply halt after a fixed number of timesteps (250). Our voxel grid currently uses a resolution of 128x128x128 voxels, which enables interactive operations, but this parameter can be adjusted for different model requirements. The simulation takes about a second for most of our examples. \bjoern{are there any guarantees that two paths are more than $pipe1{radius}+pipe2{radius}$ away from each other? if not, we can't really claim that we always avoid intersections - it just usually happens.}  \valkyrie{the pipe basically tries to pass through the midpoint in space between surfaces.  It is possible to make the pipe go outside the surface, e.g., by putting it close to a corner and making the radius large (we don't re-adjust the pipe simulation as the radius changes, only as the endpoint constraints change).}
 
 \subsubsection{Multiple Pipes}
 Pipes are routed and cut out of the mesh serially. This prevents pipe intersections: once a pipe has been cut out of the mesh, it cannot be part of valid routes in any future pipe routing operation. After solving for a path, we add it as a constraint to the system, generating
 a penalty force that pushes additional paths away from it.  However, we do not currently track all pipes for global optimization: we greedily select the best routing per pipe. 
 
-
-
-\subsubsection{Pipes with Multiple Endpoints}\tovi{need to describe the UI for this}
-To allow designers to create pipes with multiple endpoints (e.g., star topologies in Figure \ref{fig:toys}), we use one surface position per pipe and a central fixed endpoint that the user can interactively position (see Figure~\ref{fig:boat-star}.  The user can connect several then route the pipes as normal.
+\subsubsection{Pipes with Multiple Endpoints}
+To allow designers to create pipes with multiple endpoints (e.g., star topologies in Figure \ref{fig:examples}a), we use one surface position per pipe and a central fixed endpoint that the user can interactively position (see Figure~\ref{fig:boat-star}).  The user can connect several pipes, hitting a key to add each one in sequence and then positioning them with the mouse.  The pipes route as normal.
 
 \begin{figure}[b]
 \centering
@@ -74,14 +58,14 @@ To allow designers to create pipes with multiple endpoints (e.g., star topologie
 
 \subsection{Interior Paths}
 
-For path-constrained pipes, the route of the pipe must conform to a desired shape. A maker can import a vector graphics file (such as SVG) describing the path she desires for her pipes.   \tovi{explain the ui - how does the user specify the path geometry, execute the command to create the path, etc.}. We then cut these pipes from the mesh.
+For path-constrained pipes, the route of the pipe must conform to a desired shape. A maker can import a vector graphics file (such as SVG) describing the path she desires for her pipes: all lines in this input file are interpreted as desired pipe components for the final artifact.  The maker aligns her 3D model to the desired pipe cutout location.  Using sliders, she can again change the pipes' radius.  A preview is provided to show the radius and location of the cut.
 
-In some cases, such as for the neon sign in Figure \ref{fig:tool-process-interior}, a single path must passes through a set of disconnected path segments (i.e., all letters in the word ``UIST'' ).  \systemname leverages graph theory algorithms to generate this single path, as described below.
+In some cases, such as for the neon sign in Figure \ref{fig:tool-process-interior}, a single path must pass through a set of disconnected path segments (i.e., all letters in the word ``UIST'' ).  \systemname leverages graph theory algorithms to generate this single path, as described below.  Without endpoint constraints, the path's exit(s) from the model must are defined by the SVG: the maker can see where the path exits the model and translate the cut according to her desired outcome.
 
 \begin{figure}[h!]
 \centering
     \includegraphics[width=3.4in]{figures/interior.pdf}
-\caption{An input vector graphics file with the points which cannot be tubed as drawn highlighted in {\color{blue}blue} and the start and end points highlighted in {\color{gray}gray} (a).  The connected graph created by our software (b) and the resulting Euler circuit (c) permit creation of a novel neon sign (d). \bjoern{replace sub-figure d? looks strange.}}
+\caption{An input vector graphics file with the start and end points highlighted in {\color{gray}gray} (a) and the points which cannot be tubed as drawn highlighted in {\color{blue}blue} (b).  The connected graph created by our software (c) and the resulting Euler tour (d) permit insertion of media post-print.}
 \label{fig:tool-process-interior}
 \end{figure}
 
@@ -97,13 +81,12 @@ In some cases, such as for the neon sign in Figure \ref{fig:tool-process-interio
 %
 
 %In graph theory, a semi-Eulerian graph is one which has exactly two edges of odd degree.  This kind of graph supports an Euler tour: a path that travels every edge exactly once, beginning and ending at the two nodes of odd degree (in this case, the user-selected start and end nodes).  We create a graph based on the user-specified geometry data, with edges for all line segments; then add edges to connect graph components and make graph the semi-Eulerian.  We find an Euler tour on the modified graph, and thicken the path to create pipes.  
-
-The interior path routing problem is a version of the Chinese Postman Problem\footnote{The CPP is also known as the route inspection problem: \url{http://en.wikipedia.org/wiki/Route_inspection_problem}}, in which we wish to traverse all edges of the graph described in the user's input, much as a postman needs to walk along every road at least once to deliver mail.  In our relaxation, we allow creation of new edges (i.e., the postman may jump from building to building in addition to using existing roads).  
+Our technique for routing this path is inspired by work in generating continuous line illustrations from images~\cite{Wong-continuousline,Bosch-tsp}.  The interior path routing problem is a version of the Chinese Postman Problem\footnote{The CPP is also known as the route inspection problem: \url{http://en.wikipedia.org/wiki/Route_inspection_problem}}, in which we wish to traverse all edges of the graph described in the user's input, much as a postman needs to walk along every road at least once to deliver mail.  In our relaxation, we allow creation of new edges (i.e., the postman may jump from building to building in addition to using existing roads).
 %
 %If path components are disconnected, we create edges that connect them; additionally we can create edges connecting odd-degree vertices rather than simply retracing existing edges.  In the final artifact, all created edges will be blocked out by dark material so the inserted medium is not visible (see Figure \ref{fig:tool-process-interior}).  
-We offer a short algorithm here, with a more mathematically precise definition and associated proof in supplemental materials appendix.
+%We offer a short algorithm here, with a more mathematically precise definition and associated proof in supplemental materials appendix.
 
-{\bf Setup:}We first add a temporary edge that connects the user's desired start and end points, and create a full Eulerian graph.  This edge is removed at the end to yield a semi-Eulerian graph that can be threaded after printing.
+{\bf Setup:} We first add a temporary edge that connects the user's desired start and end points, and create a full Eulerian graph.  This edge is removed at the end to yield a semi-Eulerian graph that can be threaded after printing.
 
 {\bf Connect disconnected components:} To connect disconnected subgraphs, we find minimum Euclidean distance vertex pairs that span two subgraphs, and greedily add edges to such pairs until all subgraphs are joined into a single connected graph.
 %To connect disconnected subgraphs in the input, each disconnected subgraph's vertices and edges are contracted to a single vertex.  Each subgraph-vertex has no outgoing edges, as the expanded subgraphs are disconnected.  We then add one edge from each subgraph-vertex to each other subgraph-vertex, whose weight is the minimum Euclidean distance between any two vertices in the expanded subgraphs.  We greedily select the smallest weight edges until all subgraphs are joined into a single graph.  We re-expand the subgraphs.
@@ -112,23 +95,21 @@ We offer a short algorithm here, with a more mathematically precise definition a
 A lower total weight matching may be possible by connecting components and ensuring node evenness together in a global process, as well as by using minimum-weight matching rather than greedy selection, however this optimization is not crucial for our purposes.
 
 {\bf Euler Tour:} To find an Euler tour, we use Fleury's algorithm\footnote{\url{http://en.wikipedia.org/wiki/Eulerian_path\#Fleury.27s_algorithm}}, with a modification to preserve continuity: at a given node, out of multiple candidate edges, we prefer the edges with the smallest angular deviation from the incoming edge (i.e., we prefer to pass straight through a node, if possible).  This minimizes turns in the final artifact, which eases support material removal and assembly.  Our EL wire in Figure \ref{fig:UIST} follows an Euler tour through the input nodes.
-%/george{too complicated} \bjoern{shortened this entire section}
-%Once we have a semi-Eulerian graph, we need to create an Euler tour.  We use a weighted modification of Fleury's algorithm for finding Euler tours\footnote{\url{http://en.wikipedia.org/wiki/Eulerian_path\#Fleury.27s_algorithm}} for this.  In the classic algorithm, each selected edge is removed to create a reduced graph.  To select the next edge while at a node, the algorithm randomly chooses from all incident non-bridge edges (where a bridge edge would create disconnected non-trivial subgraphs if it were removed).  This ensures that every edge is both reachable and traversed.  In our modification, instead of randomly selecting from non-bridge paths at each node, we select the non-bridge edge which turns the least from the most recent path (i.e., we prefer to pass straight through a node, if possible).  This minimizes turns in the final artifact, which eases support material removal and assembly.  Our EL wire in Figure \ref{fig:UIST} follows an Euler tour through the input nodes.
 
 \subsubsection{Edges that Intersect in the Plane}
 We do not currently redirect edges that intersect in the plane.  Because we have a 3-dimensional canvas in which to work, it would be possible to push overlapping paths into the third dimension.  However, we leave this to future work: for our specific applications so far, it has been unnecessary.
 
 \subsection{Mesh Modification}
-Once we have a set of authored paths, we must cut tubes out of the input mesh.
+After the maker hits "Accept" on her preview, we must cut pipes out of the input mesh.
 Our basic strategy is to create a polygonal tube by sweeping a profile polyline
 along the path, and subtract the tube from the mesh. We only use circular profiles
 in our examples, but clearly any other profile could be used.  Our interface
-allows different start and end radii, which are linearly interpolated along the path. \bjoern{why is this useful?} The radius is specified [how?]
+We allow different start and end radii, selected by the maker in the previous step, which are linearly interpolated along the path.
 
 To avoid the complexities of direct mesh booleans, we construct a discretized volumetric
 (i.e., voxel-based) representation of the original mesh and the tube mesh. Boolean
 subtraction is trivial in such representations. We specifically use narrow-band
-level sets~\cite{Museth04}, which represent the surface as the zero iso-contour of an
+To avoid the complexities of direct mesh booleans, we construct a discretized volumetric (i.e., voxel-based) representation of the original mesh and the tube mesh.  Boolean subtraction is trivial in such representations.  We specifically use narrow-band level sets~\cite{Museth04}, which represent the surface as the zero iso-contour of an
 approximate distance field.
 We then use marching cubes~\cite{Lorensen87} to produce the final mesh for printing.
 This strategy does incur some resampling artifacts, however so does the 3D printing, and compared to the print process, the time required to voxelize at high resolution is inconsequential.
@@ -147,21 +128,19 @@ the tube endpoints.
 \label{fig:cap}
 \end{figure}
 
-\bjoern{made this a top-level section since it's really not about the software.}
 \section{Fabrication Techniques}
 Several pragmatic concerns arise when fabricating models with hollow pipes and cavities on additive manufactuing machines. Pipes will frequently lead to overhangs (where an underlying supporting layer has a smaller footprint than the subsequent layer).
 %Beyond design, the tubes must actually be printable to be useful.  
 %When geometries contain overhangs, as there may be in designed pipes and cavities, 
-3D printers lay down support material that must be later removed from the model to allow overhangs.  This removal process can be time-intensive and challenging.  The physical fabrication process used by different machines gives rise to differing strategies for avoiding support material or easing its removal.  We will discuss techniques for fused deposition modeling (FDM) machines, suchas a Makerbot [ref] and multi-jetting machines such as an Objet [ref].
+3D printers lay down support material that must be later removed from the model to allow overhangs.  This removal process can be time-intensive and challenging.  The physical fabrication process used by different machines gives rise to differing strategies for avoiding support material or easing its removal.  We will discuss techniques for fused deposition modeling (FDM) machines, such as the Makerbot\footnote{\url{http://makerbot.com}}, and multi-jetting machines such as an Objet\footnote{\url{http://stratasys.com}}.
 
 \subsection{Fused Deposition Modeling}
-FDM machines lay down lines of extruded plastic filament on top of each other: this allows {\em stepover}, when a layer of plastic is laid slightly offset from the layer below it, and {\em bridging}, when plastic is laid across a gap between two surfaces.  For a layer to fix correctly to its supporting layer, roughly half of the filament needs to overlap.  This means that overhangs without added support material can be approximately $45^{\circ}$, and although cylinders (e.g., pipes) and spheres violate this in some places they can be printed support-free. \bjoern{Add a sentence: The models in Figure 1a were produced on a Makerbot FDM without any support structures inside the pipes.}
+FDM machines lay down lines of extruded plastic filament on top of each other: this allows {\em stepover}, when a layer of plastic is laid slightly offset from the layer below it, and {\em bridging}, when plastic is laid across a gap between two surfaces.  For a layer to fix correctly to its supporting layer, roughly half of the filament needs to overlap.  This means that overhangs without added support material can be approximately $45^{\circ}$, and although cylinders (e.g., pipes) and spheres violate this in some places they can be printed support-free. The models in \ref{fig:teaser}a were produced on a Makerbot FDM without any support structures inside the pipes.
 
-On single material hobbyist FDM printers, support structures are built using the same material as the model. Such support may be impossible to remove from internal cavities.  Meshmixer has a built-in tool for minimizing support for FDM prints; it re-orients the part to keep as much surface area as possible within the 45 degree constraint.  In future work we would like to explore a tool in which a user can select surfaces (pipes) that should be prioritized for support avoidance.  \tovi{print in parts and then assemble those parts together?}
+On single material hobbyist FDM printers, support structures are built using the same material as the model. Such support may be impossible to remove from internal cavities.  Meshmixer has a built-in tool for minimizing support for FDM prints; it re-orients the part to keep as much surface area as possible within the 45 degree constraint.  In future work we would like to explore a tool in which a user can select surfaces (pipes) that should be prioritized for support avoidance.
 
 \subsection{Multi-Jetting}
-On multi-jetting machines, bridging is not possible and stepover potential is much less, because the machine is laying down droplets of liquid that are later UV cured.  Unsupported overhangs can be approximately $14^{\circ}$ on our Objet printer.  Multi-jetting and higher-end FDM machines use a secondary support material that must be manually removed afterwards. Some support can be melted out (Projet wax material); other support can be dissolved in lye or blasted with high-pressure water. Complex pipe geometries can make water blasting impossible and other processes more labor- and time-intensive.
+On multi-jetting machines, bridging is not possible and stepover potential is much less, because the machine is laying down droplets of liquid that are later UV cured.  Unsupported overhangs can be approximately $14^{\circ}$ on our Objet printer.  Multi-jetting and higher-end FDM machines use a secondary support material that must be manually removed afterwards. Some support can be melted out (Projet wax material); other support can be dissolved in lye or blasted with high-pressure water. Complex pipe geometries can make water blasting impossible and other processes more labor- and time-intensive.  All models in \ref{fig:teaser}b required support material removal post-print: the neon sign was additionally cut into two pieces to give better access to the support.
 
 \subsection{Model Assembly}
 For especially complex geometries, models can be ``cut up'' into multiple pieces that can be assembled to avoid support deposition or at least ease material removal. This is undesirable as it means more time spent in assembly post-print, and additionally a cut pipe may not be fluid-tight any longer.  An automatic tool for this task might be beneficial, however it is outside the scope of this work.
-\bjoern{again, add a sentence about what we did for our objet models.}

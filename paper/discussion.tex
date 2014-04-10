@@ -11,8 +11,8 @@ Pipe-based outputs can address the five senses: visual, aural, haptic, and olfac
 
 \begin{figure}[h]
 \centering
-    \includegraphics[width=3.4in]{figures/placeholder/direct.jpg}
-\caption{By attaching a servo to a gate structure, it is possible to direct fluid through that pipe.  The gate not only has binary positions (a) and (b), but can direct fractional flow, as well (c).  These could be used, for example, in science exhibits.}
+    \includegraphics[width=3.4in]{figures/gates.png}
+\caption{By attaching a servo to a gate structure, it is possible to direct fluid through that pipe.  The gate not only has binary positions (a) and (b), but can direct fractional flow, as well (c).  This could be used, for example, in science exhibits.}
 \label{fig:direct}
 \end{figure}
 
@@ -26,31 +26,22 @@ Passive sound amplification and sound redirection are also possible using pipes,
 \begin{figure}[h]
 \centering
     \includegraphics[width=3.4in]{figures/placeholder/helmholz.jpg}
-\caption{This box (a) contains an enclosed Helmholz resonator, seen in the cutaway view (b).  This resonator creates a sound when air is blown through the pipe at the top, because air compresses at the small neck joint between the chamber and the pipe.  \valkyrie{need to get a test print of this that actually works}}
+\caption{Some possible pipe uses.  The printed whistle in (a) is a Helmholz resonator: it creates a sound when air is blown through the pipe at the front, because air compresses at the small neck joint between the internal chamber and the pipe.  In (b), a capacitor manufactured on a 3D printer coated post-print with copper paint.  This particular one holds a charge of \valkyrie{XX}.  (c) gives a comparison of pipe-based resistors, also filled with copper paint.  For a cylindrical wire, resistance = $\rho\frac{l}{\pi r^2}$, where $\rho$ is based on the conductivity of the medium.  In our case, because $r << l$, $resistance(B) < resistance(C) < resistance(A)$.}
 \label{fig:ocarina}
 \end{figure}
 
-\emph{Haptic} outputs are possible through compressible and incompressible fluids.  Fluids in pipes capped with flexible membranes can actuate particulates and create programmable pliability as in Jamming User Interfaces \cite{Follmer-jamming}. \bjoern{Didn't we describe the first part already? Also I'm still skeptical about jamming, maybe skip it.}
+
+\emph{Haptic} outputs are possible through compressible and incompressible fluids, as discussed, or through threadable inputs: e.g., muscle wire can be inserted in flexible pipes and actuated, similar to shape changing interfaces \cite{Coelho-shapechanging}.
 
 \emph{Olfactory} and \emph{gustatory} outputs can be created through the mixing and splitting of pipes carrying scented or flavored fluids, respectively~\cite{kaye2004making}.
 
 \subsection{Identification}
-\bjoern{this section should be about half as long as it is right now.}
-In addition to active inputs from users, pipes can be used for passive \emph{identification}.  Fully-enclosed pipes which ar enot visually apparent can change that weight, acoustic resonance, and capacitive signature of a 3D object. 
+In addition to active inputs from users, pipes can be used for passive \emph{identification}.  Fully-enclosed pipes which are not visually apparent can change the weight, acoustic resonance, or capacitive signature of a 3D object. 
 
-Each of these properties could be used for object identification. As seen in Touch \& Activate \cite{Ono-touchandactivate}, different objects have different acoustic signatures.  As such, two objects that are visually identical but have differing internal chamber geometry on their interior may be distinguished acoustically.  Thus we can recall an object's identity once its acoustic signature has been recorded.  Similarly, the Touch\'{e} system \cite{Sato-touche} relies on distinguishing capacitive signatures of objects, both in static states and as their boundary conditions are changed by human interaction. Weight could also be used as a simple metric of object identity, but would be less distinctive than acoustic or capacitive signatures.
+Each of these properties could be used for object identification. As seen in Touch \& Activate \cite{Ono-touchandactivate}, different objects have different acoustic signatures.  As such, two objects that are visually identical but have differing internal chamber geometry on their interior may be distinguished acoustically.  Thus we can recall an object's identity once its acoustic signature has been recorded.  Similarly, the Touch\'{e} system \cite{Sato-touche} relies on distinguishing \emph{capacitive} signatures of objects, both in static states and as their boundary conditions are changed by human interaction. Weight could also be used as a simple metric of object identity, but would be less distinctive than acoustic or capacitive signatures.
 
 %We have experimented with intentional encoding.  Semi-closed pipes can function as resonance chambers.  A pipe's resonant frequency can be measured by attaching a speaker and microphone to it, sweeping frequencies with the speaker, and performing a Fourier transform on the resultant signal from the microphone.  Peaks in the transformed data correspond to resonant frequencies of the object.  Intentional encoding in the case of capacitance is significantly more difficult, and we leave it to future work.  Encoding of weight is trivial by creating fully-enclosed chambers inside an object.  This is similar to Infrastructs \cite{Willis-infrastructs}.  While their technique requires access a terahertz imaging tool, audio resonance identity encoding requires only a microphone and a speaker.
-
-\begin{figure}[h]
-\centering
-    \includegraphics[width=3.4in]{figures/electronics.png}
-\caption{(a) A capacitor we manufactured on a 3D printer and coated, post-print, with copper paint.  This particular one holds a charge of xx.  (b) Comparison of theoretical printed resistors.  For a cylindrical wire, resistance = $\rho\frac{l}{\pi r^2}$, where $\rho$ is based on the conductivity of the medium.  In our case, assuming $ r << l$, resistance(B) < resistance(C) < resistance(A).  (c) A possible design for a cell phone antenna augmentation inside a cell phone case. \bjoern{skip the antenna since we haven't investigated this. If you have the capacitor and you're confident you know how to measure its charge, add it. The different conductors with different measurements are easy to do and worthwhile. Maybe combine these two with the helmholtz resonator into one smaller figure.}}
-\label{fig:electronics}
-\end{figure}
 
 \subsection{Passive Components}
 
 Printing or injecting conductive material can also be used to design passive components with particular electrical properties. For example, we printed a proof-of-concept  capacitor which features a thin printed plate with hollow cones on either side (see Figure \ref{fig:electronics}A).  After printing, we coated the inner surfaces of capacitor with copper paint.  It now can hold a charge of xx.  Similarly, tubes can be used to create \emph{resistors} in ``printed'' circuitry: a longer or thinner tube has a greater resistance than a shorter or wider one (see Figure \ref{fig:electronics}B).  Internal \emph{antenna} design is also possible, which could lead to new flexibility in, e.g., cell phone design (see Figure \ref{fig:electronics}C). Future design tools could help designers achieve desired electrical properties automatically.
-
-\valkyrie{do we want those figures of the helmholz thing and the servo redirection gate?}

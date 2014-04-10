@@ -9,4 +9,12 @@ As discussed, removal of support material can also be a challenge.  Particularly
 
 There are also area for improvement and future work with our software tool.  he design of PipeDreams was based on our prposed design space of pipes.  However, the design tool is not yet fully capable of realizing all possibilities in this design space.  In paticaulr, we did not specificalyl explore the mixing or splitting pipes.  Furthermore, since pipes are committed to the mesh one at a time, our tool does not currently optimize a network of multiple pipes. Instead, we utilize a greedy algorithm and route a single pipe at a time.  This suggests the need for a better general 3D routing algorithm with multiple traces.  Future work should also include assisting makers in the fabrication process itself by automatically cutting objects to reduce support material removal issues.  %Additionally, as mentioned there are opportunities to improve the algorithm for neon sign routing, as ours does not guarantee a shortest-path routing.
 
+This basic approach of using a discrete rod for physical simulation does have various limitations, in particular it
+cannot recover if the rod becomes tangled or unstable. 
+However we have observed these problems only when attempting to break
+the system; they did not occur in any of the cases shown in our figures.
+Another issue is parameters, as the penalty forces used in PBD do not
+correspond to physical units. We avoided serious issues here by uniformly
+scaling the initial mesh to a unit box, and tuning the parameters on several test cases.
+
 We are also eager to test our tool with users and get feedback from makers who use it in the wild. However, based on our own experiences, we believe our system could be readily utlized by makers and researchers, and serve as a useful tool for rapdily proptotyping interactive 3D objects.
