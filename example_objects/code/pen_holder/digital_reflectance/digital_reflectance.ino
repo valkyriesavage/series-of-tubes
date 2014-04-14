@@ -9,6 +9,14 @@ int PAINTBRUSH = 5;
 
 int THRESH[] = {-1, -1, 300, 300, 100, 180};
 
+int averageOver = 10;
+int lastSeveral = {
+                    {0,0,0,0,0,0,0,0,0,0},
+                    {0,0,0,0,0,0,0,0,0,0},
+                    {0,0,0,0,0,0,0,0,0,0},
+                    {0,0,0,0,0,0,0,0,0,0}
+                  };
+
 boolean debug = false;
 
 void setup(){
