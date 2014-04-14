@@ -43,11 +43,11 @@ The maze is based on an SVG file we manually created and processed with our inte
 \begin{figure}[t]
 \centering
     \includegraphics[width=3.4in]{figures/sign.png}
-\caption{A two-state animated neon sign designed using our tool.  (a) shows the input SVG files, with the eyes (non-animated) in black and the two states of the mouth in {\color{blue}blue} and {\color{gray}gray}.  (b) shows the resultant mesh when we subtracted the generated tubes, with rear exit tubes circled in {\color{blue}blue} \valkyrie{fix this with boolean magic}. In (c), we show the fabricated sign.}
+\caption{A two-state animated neon sign designed using our tool.  (a) shows the input SVG files, with the eyes (non-animated) in black and the two states of the mouth in {\color{blue}blue} and {\color{gray}gray}.  (b) shows the tubes we subtracted from the mesh, rear exit tubes circled in {\color{blue}blue}. In (c), we show the fabricated sign.}
 \label{fig:neon}
 \end{figure}
 
 Neon art is traditionally made from hand-formed glass tubes containing neon gas.  The tubes light up when a current is passed through them.  For this type of art, the path of the tubes is of crucial importance, as it determines how the sign will look.  We designed a custom neon robot head which can be animated to ``talk''. 
 The external geometry of the model was imported into \systemnamenospace, which created the associated pipes using its internal path routing tool.  We added additional endpoint-constrained tubes as exits out the rear of the model to allow us to hide the controls (see Figure \ref{fig:neon}B).  We then printed the model on the Objet using transparent material. The model was printed in two halves, cutting through the plane of the internal path, to facilitate assembly. 
 
-The pipes are threaded with electroluminescent wire which is lit in sequence, using an EL wire sequencer, to create the animation.
+The pipes are threaded with electroluminescent wire which is lit in sequence, using an sequencer, to create the animation.
