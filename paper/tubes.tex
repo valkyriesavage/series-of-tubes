@@ -23,7 +23,7 @@ Given two points, we first find a path between them using the A* search algorith
 
 Our A* pathfinding produces the \emph{shortest} path, but in many cases
 we require a smoother path to aid insertion of the desired medium, such as a threadable wire.
-In addition, the distance from the surface is not taken into account in the A* search and pipes may thus be routed along surface contours, which may cause leakage.
+In addition, the distance from the surface is not taken into account in the A* search and pipes may thus be routed along surface contours, which may cause leakage or structural deficiencies.
 
 We solve this problem via physical simulation. We create a straight virtual 
 wire (a 3D polyline or \emph{discrete rod}), and then set its initial position 
@@ -31,12 +31,12 @@ as our A* path.
 Running the physical simulation allows the wire to attempt to return to
 a straight configuration, while satisfying the user-selected endpoint position constraints.  In addition to user constraints, we require that the rod be perpendicular to the surface at its ends to prevent the terminals' shape from deforming.
 
-The wire is modelled as a \emph{discrete rod}, i.e., a 3D poly-line with a bending 
+The wire is modelled as a \emph{discrete rod}: a 3D poly-line with a bending 
 constraint between adjacent segments. Our simulation is based on an
 implementation of Position-Based Dynamics (PBD)~\cite{Muller07}, with all constraints
 modelled as penalty forces. To keep the rod inside the
-mesh, we compute a discretized distance field; we can then constrain the
-rod to stay within our offset shell, again using a simple penalty force.
+mesh, we compute a discretized distance field, then constrain the
+rod to stay within our offset shell using a simple penalty force.
 
 %In the case of multiple initial paths, we solve for each smoothed path sequentially.\bjoern{Why would we ever end up with multiple paths here? It thought we processed each path by running it through the (A*-PBD-Cutout) pipeline. So this step should only ever see one path, no?}\tovi{agree this is misleading, I think it can be removed since we talk about multiple pipes in a later paragraph}
 
@@ -47,7 +47,7 @@ Pipes are routed and cut out of the mesh serially. This prevents pipe intersecti
 a penalty force that pushes additional paths away from it.  However, we do not currently track all pipes for global optimization: we greedily select the best routing per pipe. 
 
 \subsubsection{Pipes with Multiple Endpoints}
-To allow designers to create pipes with multiple endpoints (e.g., the star topologies in Figure \ref{fig:examples}a), we use one surface position per pipe and a central fixed endpoint that the user can interactively position (see Figure~\ref{fig:boat-star}).  The user can connect several pipes, hitting a key to add each one in sequence and then positioning them with the mouse.  The pipes route as normal.
+To allow designers to create pipes with multiple endpoints (e.g., the star topologies in Figure \ref{fig:examples}a), we use one surface position per pipe and a central fixed endpoint that the user can interactively position (see Figure~\ref{fig:boat-star}).  The user can connect several pipes, hitting a key to add each in sequence and positioning them with the mouse.  The pipes route as normal.
 
 \begin{figure}[b]
 \centering
@@ -81,23 +81,23 @@ In some cases, such as for the neon sign in Figure \ref{fig:tool-process-interio
 %
 
 %In graph theory, a semi-Eulerian graph is one which has exactly two edges of odd degree.  This kind of graph supports an Euler tour: a path that travels every edge exactly once, beginning and ending at the two nodes of odd degree (in this case, the user-selected start and end nodes).  We create a graph based on the user-specified geometry data, with edges for all line segments; then add edges to connect graph components and make graph the semi-Eulerian.  We find an Euler tour on the modified graph, and thicken the path to create pipes.  
-Our technique for routing this path is inspired by work in generating continuous line illustrations from images~\cite{Wong-continuousline,Bosch-tsp}.  The interior path routing problem is a version of the Chinese Postman Problem\footnote{The CPP is also known as the route inspection problem: \url{http://en.wikipedia.org/wiki/Route_inspection_problem}}, in which we wish to traverse all edges of the graph described in the user's input, much as a postman needs to walk along every road at least once to deliver mail.  In our relaxation, we allow creation of new edges (i.e., the postman may jump from building to building in addition to using existing roads).
+Our technique for routing this path is inspired by work in generating continuous line illustrations from images~\cite{Wong-continuousline,Bosch-tsp}.  Our routing problem is a version of the Chinese Postman Problem\footnote{The CPP is also known as the route inspection problem: \url{http://en.wikipedia.org/wiki/Route_inspection_problem}}, in which we wish to traverse all edges of the user's input graph, much as a postman needs to walk along every road at least once to deliver mail.  In our relaxation, we allow creating new edges (i.e., the postman may jump from building to building in addition to using existing roads).
 %
 %If path components are disconnected, we create edges that connect them; additionally we can create edges connecting odd-degree vertices rather than simply retracing existing edges.  In the final artifact, all created edges will be blocked out by dark material so the inserted medium is not visible (see Figure \ref{fig:tool-process-interior}).  
 %We offer a short algorithm here, with a more mathematically precise definition and associated proof in supplemental materials appendix.
 
 {\bf Setup:} We first add a temporary edge that connects the user's desired start and end points, and create a full Eulerian graph.  This edge is removed at the end to yield a semi-Eulerian graph that can be threaded after printing.
 
-{\bf Connect disconnected components:} To connect disconnected subgraphs, we find minimum Euclidean distance vertex pairs that span two subgraphs, and greedily add edges to such pairs until all subgraphs are joined into a single connected graph.
+{\bf Connect disconnected components:} To connect disconnected subgraphs, we find minimum Euclidean distance vertex pairs spanning two subgraphs, and greedily add edges to such pairs until all subgraphs are joined into a single graph.
 %To connect disconnected subgraphs in the input, each disconnected subgraph's vertices and edges are contracted to a single vertex.  Each subgraph-vertex has no outgoing edges, as the expanded subgraphs are disconnected.  We then add one edge from each subgraph-vertex to each other subgraph-vertex, whose weight is the minimum Euclidean distance between any two vertices in the expanded subgraphs.  We greedily select the smallest weight edges until all subgraphs are joined into a single graph.  We re-expand the subgraphs.
 
-{\bf Eulerization:} In order to make our graph Eulerian, we consider all odd degree vertices in the connected graph and make a clique of potential edges based on distance.  We greedily add edges between the odd nodes until no odd nodes remain.  Finally, we remove our temporary edge, which changes the graph from Eulerian to semi-Eulerian.  This is a connected, semi-Eulerian graph which contains all edges in the input.
+{\bf Eulerization:} In order to make our graph Eulerian, we consider all odd degree vertices in the connected graph and make a clique of potential edges based on distance.  We greedily add edges between the odd nodes until no odd nodes remain.  Finally, we remove our temporary edge, changing the graph from Eulerian to semi-Eulerian.  This is a connected, semi-Eulerian graph which contains all edges in the input.
 A lower total weight matching may be possible by connecting components and ensuring node evenness together in a global process, as well as by using minimum-weight matching rather than greedy selection, however this optimization is not crucial for our purposes.
 
 {\bf Euler Tour:} To find an Euler tour, we use Fleury's algorithm\footnote{\url{http://en.wikipedia.org/wiki/Eulerian_path\#Fleury.27s_algorithm}}, with a modification to preserve continuity: at a given node, from multiple candidate edges, we prefer the edge(s) with the smallest angular deviation from the incoming edge (i.e., we prefer to pass straight through a node, if possible).  This minimizes turns in the final artifact, which eases support material removal and assembly.  Our EL wire in Figure \ref{fig:UIST} follows an Euler tour through the input nodes.
 
 \subsubsection{Edges that Intersect in the Plane}
-We do not currently redirect edges that intersect in the plane.  Because we have a 3-dimensional canvas in which to work, it would be possible to push overlapping paths into the third dimension.  However, we leave this to future work: for our specific applications so far, it has been unnecessary.
+We do not currently redirect edges that intersect in the plane.  Because we have a 3-dimensional canvas in which to work, it would be possible to push overlapping paths into the third dimension.  However, we leave this to future work.  For our specific applications so far, it has been unnecessary.
 
 \subsection{Mesh Modification}
 After the maker hits ``Accept'' on her preview, we must cut pipes out of the input mesh.  At this stage, we verify whether the new pipe will intersect the surface or an existing pipe, and if so display a warning message suggesting that she should consider a smaller radius.
@@ -129,7 +129,7 @@ the tube endpoints.
 Several pragmatic concerns arise when fabricating models with hollow pipes and cavities on additive manufactuing machines. Pipes will frequently lead to overhangs (where an underlying supporting layer has a smaller footprint than the subsequent layer).
 %Beyond design, the tubes must actually be printable to be useful.  
 %When geometries contain overhangs, as there may be in designed pipes and cavities, 
-To allow overhangs, 3D printers lay down support material that must be later removed from the model.  This removal process can be time-intensive and challenging.  The physical fabrication process used by different machines gives rise to differing strategies for avoiding support material or easing its removal.  We will discuss techniques for fused deposition modeling (FDM) machines, such as the Makerbot\footnote{\url{http://makerbot.com}}, multi-jetting machines such as an Objet\footnote{\url{http://stratasys.com}}, and powder-based machines such as the ZCorp\footnote{\url{http://3dsystems.com}}.  Other varities of machines, e.g., stereolithography machines such as the Form 1\footnote{\url{http://formlabs.com}}, require similar techniques to these.
+To allow overhangs, 3D printers lay down support material that must be later removed from the model.  This removal process can be time-intensive and challenging.  The physical fabrication process used by different machines gives rise to differing strategies for avoiding support material or easing its removal.  We next discuss techniques for fused deposition modeling (FDM) machines, such as the Makerbot\footnote{\url{http://makerbot.com}} and multi-jetting machines such as Objet\footnote{\url{http://stratasys.com}}, as well as powder-based (e.g., ZCorp\footnote{\url{http://3dsystems.com}}) and stereolithography (e.g., Form 1\footnote{\url{http://formlabs.com}}).
 
 \subsection{Fused Deposition Modeling}
 FDM machines lay down lines of extruded plastic filament on top of each other: this allows {\em stepover}, when a layer of plastic is laid slightly offset from the layer below it, and {\em bridging}, when plastic is laid across a gap between two surfaces.  For a layer to fix correctly to its supporting layer, roughly half of the filament needs to overlap.  This means that overhangs without added support material can be approximately $45^{\circ}$, and although cylinders (e.g., pipes) and spheres violate this in some places they can be printed support-free. The colored models in Figure \ref{fig:teaser} were produced on a Makerbot FDM without any support structures inside the pipes.
@@ -139,8 +139,8 @@ On single-material hobbyist FDM printers, support structures are built using the
 \subsection{Multi-Jetting}
 On multi-jetting machines, bridging is not possible and stepover potential is much less, because the machine is laying down droplets of liquid that are later UV cured.  Unsupported overhangs can be approximately $14^{\circ}$ on our Objet printer.  Multi-jetting and higher-end FDM machines use a secondary support material that must be manually removed afterwards. Some support can be melted out (Projet wax material); other support can be dissolved in lye or blasted with high-pressure water. Complex pipe geometries can make water blasting impossible and other processes more labor- and time-intensive.  All models in Figure \ref{fig:teaser}b required support material removal post-print: the neon sign and maze were additionally cut into two pieces to give better access to the support.
 
-\subsection{Powder-based}
-Powder-based machines have a bed of powder which is selectively fused together using glue droplets.  As each layer is completed, the bed moves down and another layer of powder is added on top.  The unfused powder functions as the support structure for the fused powder: this makes the support trivial to remove post-print, as the loose grains will simply fall out of pipes and cavities in the model.  These machines unfortunately cannot fabricate flexible or transparent materials (yet), however they can print in full-color.  We did not have access to a powder-based printer, though in future work we would like to experiment with one.
+\subsection{Powder-based and Stereolithography}
+Powder-based and stereolithography (SLA) machines work with a bed of powder or liquid, respectively.  The material at the surface is fused together via glue droplets (for powder) or a UV laser (for SLA).  The remaining powder or liquid serves as support for the model.  These types of printers are perhaps even more suitable for pipe creation than either FDM or multi-jetting printers, as the supporting liquid or loose powder is simpler to remove than structural plastic or UV cured resin.  We hope to experiment with them in the future.
 
 \subsection{Model Assembly}
 For especially complex geometries, models can be ``cut up'' into multiple pieces that can be assembled to avoid support deposition or at least ease material removal. This is undesirable as it means more time spent in assembly post-print, and additionally a cut pipe may not be fluid-tight any longer.  An automatic tool for this task might be beneficial, however it is outside the scope of this work.
