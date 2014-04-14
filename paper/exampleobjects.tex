@@ -7,7 +7,7 @@
 \end{figure*}
 
 \section{Totally Tubular Example Objects}
-To evaluate and highlight our tool's capabilities, we fabricated a set of five prototype objects designed using \systemnamenospace.  To show that our approach is printer-independent, we fabricated some on a Makerbot Replicator 2 and the rest on an Objet Connex 260.  Each prototype object explores the expansion of an existing sensing or actuation technique to the surface of 3D printed objects.
+To evaluate and highlight our tool's capabilities, we fabricated a set of six prototype objects designed using \systemnamenospace.  To show that our approach is printer-independent, we fabricated some on a Makerbot Replicator 2 and the rest on an Objet Connex 260.  Each prototype object explores the expansion of an existing sensing or actuation technique to the surface of 3D printed objects.
 %All prototypes were fabricated in a single piece, unless described otherwise. \bjoern{2 of 5 will have been fabricated otherwise -  Radio, Neon sign - both in pieces.}
 
 \subsection{Touch-sensitive Toys (open, liquid, star, endpoint)}
@@ -23,7 +23,7 @@ With inspiration from PneUIs \cite{Yao-pneui} for using gases to both provide se
 The rabbit model, the well-known Stanford Bunny\footnote{\url{http://en.wikipedia.org/wiki/Stanford_bunny}}, was downloaded from Thingiverse. We then used \systemname to add two pipes: one open pipe exiting at its mouth, and one semi-closed pipe capped at its abdomen.  We connected one pipe to each of our pump's terminals, and using a programmable power supply we mimic a rabbit's breathing pattern.  This example was printed on the Objet using a flexible material and its support material was flushed post-print.
 
 \subsection{Custom Radio (open, threadable, endpoint)}
-A custom radio (Figure \ref{fig:examples}c) shows how pipes can be used to integrate electronic components into the user-facing surface of an object. The radio includes a power and volume dial, and LED which goes on when the radio is on, and a tuner dial. An Arduino Pro Micro microcontroller, Si4703 FM tuner, and 6V (4xAA) power supply are embedded in the base of the radio. The sound is played through a single .5 Watt speaker. This shows a Midas-like \cite{Savage-midas} possibility : multiple terminals all routed back to a shared endpoint (in this case, the Arduino). \bjoern{last sentence is confusing. May not need Midas reference.}
+A custom radio (Figure \ref{fig:examples}c) shows how pipes can be used to integrate electronic components into the user-facing surface of an object. The radio includes a power and volume dial, and LED which goes on when the radio is on, and a tuner dial. An Arduino Pro Micro microcontroller, Si4703 FM tuner, and 6V (4xAA) power supply are embedded in the base of the radio. The sound is played through a single .5 Watt speaker.
 
 The radio shell was modelled in SolidWorks. We included slots on the 3D model matching the shape of the electronic components that were to be embedded. The model was then imported into \systemnamenospace, where we created a network of 8 individual open pipes (3 per potentiometer, 1 for the LED, 1 for the speaker) to connect the components to the base of the radio. We fabricated the radio itself on our Makerbot, support-free, but cut in two pieces to allow the Arduino and battery pack to be inserted. We then threaded the pipes with wires to connect the components to the microcontroller at the base of the radio. 
 
