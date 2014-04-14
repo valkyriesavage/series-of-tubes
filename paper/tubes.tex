@@ -18,18 +18,18 @@ To create endpoint-constrained pipes, in which the location and shape of exterio
 \end{figure}
 
 \subsubsection{Routing Algorithm and Physical Simulation}
-Given two points, we first find a path between them using the A* search algorithm on a voxel representation of the object~\cite{Hart-Astar}. A* finds a least-cost path through a graph of nodes given a cost function. Our graph comprises the grid of voxels as nodes, with edges between adjacent nodes; our path cost is the based on the Euclidean distance to the selected end point. In this formulation, the routed path is naturally constrained to stay within the object boundaries.
+Given two points, we first find a path between them using the A* search algorithm on a voxel representation of the object~\cite{Hart-Astar}. A* finds a least-cost path through a graph of nodes given a cost function. Our graph comprises the grid of voxels as nodes, with edges between adjacent nodes; our path cost is based on the Euclidean distance to the selected end point. In this formulation, the routed path is naturally constrained to stay within the object boundaries.
 %; for each point it tags the distance from the start (e.g., startPoint = 0, startNeighbors=1, ...).  Once the end point is reached, we backtrack through tagged points, always moving to a lower-valued point. \bjoern{find a clearer way to express this?}
 
 Our A* pathfinding produces the \emph{shortest} path, but in many cases
-we require a smoother path to aid the insertion of the desired medium, such as a threadable wire.
+we require a smoother path to aid insertion of the desired medium, such as a threadable wire.
 In addition, the distance from the surface is not taken into account in the A* search and pipes may thus be routed along surface contours, which may cause leakage.
 
 We solve this problem via physical simulation. We create a straight virtual 
 wire (a 3D polyline or \emph{discrete rod}), and then set its initial position 
 as our A* path.
 Running the physical simulation allows the wire to attempt to return to
-a straight configuration, while satisfying the user-selected endpoint position constraints.  In addition to user constraints, we require that the rod be perpendicular to the surface at its ends to prevent the terminal \emph{shape} from deforming.
+a straight configuration, while satisfying the user-selected endpoint position constraints.  In addition to user constraints, we require that the rod be perpendicular to the surface at its ends to prevent the terminals' shape from deforming.
 
 The wire is modelled as a \emph{discrete rod}, i.e., a 3D poly-line with a bending 
 constraint between adjacent segments. Our simulation is based on an
@@ -132,12 +132,12 @@ Several pragmatic concerns arise when fabricating models with hollow pipes and c
 To allow overhangs, 3D printers lay down support material that must be later removed from the model.  This removal process can be time-intensive and challenging.  The physical fabrication process used by different machines gives rise to differing strategies for avoiding support material or easing its removal.  We will discuss techniques for fused deposition modeling (FDM) machines, such as the Makerbot\footnote{\url{http://makerbot.com}}, and multi-jetting machines such as an Objet\footnote{\url{http://stratasys.com}}.
 
 \subsection{Fused Deposition Modeling}
-FDM machines lay down lines of extruded plastic filament on top of each other: this allows {\em stepover}, when a layer of plastic is laid slightly offset from the layer below it, and {\em bridging}, when plastic is laid across a gap between two surfaces.  For a layer to fix correctly to its supporting layer, roughly half of the filament needs to overlap.  This means that overhangs without added support material can be approximately $45^{\circ}$, and although cylinders (e.g., pipes) and spheres violate this in some places they can be printed support-free. The models in Figure \ref{fig:teaser}a were produced on a Makerbot FDM without any support structures inside the pipes.
+FDM machines lay down lines of extruded plastic filament on top of each other: this allows {\em stepover}, when a layer of plastic is laid slightly offset from the layer below it, and {\em bridging}, when plastic is laid across a gap between two surfaces.  For a layer to fix correctly to its supporting layer, roughly half of the filament needs to overlap.  This means that overhangs without added support material can be approximately $45^{\circ}$, and although cylinders (e.g., pipes) and spheres violate this in some places they can be printed support-free. The colored models in Figure \ref{fig:teaser} were produced on a Makerbot FDM without any support structures inside the pipes.
 
 On single-material hobbyist FDM printers, support structures are built using the same material as the model. Such support may be impossible to remove from internal cavities.  Meshmixer has a built-in tool for minimizing support for FDM prints; it re-orients the part to keep as much surface area as possible within the 45 degree constraint.  In future work we would like to explore a tool in which a user can select surfaces (pipes) that should be prioritized for support avoidance.
 
 \subsection{Multi-Jetting}
-On multi-jetting machines, bridging is not possible and stepover potential is much less, because the machine is laying down droplets of liquid that are later UV cured.  Unsupported overhangs can be approximately $14^{\circ}$ on our Objet printer.  Multi-jetting and higher-end FDM machines use a secondary support material that must be manually removed afterwards. Some support can be melted out (Projet wax material); other support can be dissolved in lye or blasted with high-pressure water. Complex pipe geometries can make water blasting impossible and other processes more labor- and time-intensive.  All models in Figure \ref{fig:teaser}b required support material removal post-print: the neon sign was additionally cut into two pieces to give better access to the support.
+On multi-jetting machines, bridging is not possible and stepover potential is much less, because the machine is laying down droplets of liquid that are later UV cured.  Unsupported overhangs can be approximately $14^{\circ}$ on our Objet printer.  Multi-jetting and higher-end FDM machines use a secondary support material that must be manually removed afterwards. Some support can be melted out (Projet wax material); other support can be dissolved in lye or blasted with high-pressure water. Complex pipe geometries can make water blasting impossible and other processes more labor- and time-intensive.  All models in Figure \ref{fig:teaser}b required support material removal post-print: the neon sign and maze were additionally cut into two pieces to give better access to the support.
 \bjoern{should we say something about stereolithography printers like the Form 1? we don't have one, but they could be ideal for our techniques since the liquid will just flow out of our tubes. However, they also generate support structure and I'm not sure how those supports differ from FDM.}
 
 \subsection{Model Assembly}
