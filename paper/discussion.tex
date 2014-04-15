@@ -2,3 +2,24 @@
 \section{Discussion}
 
 The promise of 3D printing is two-fold: it enables the manufacturing of complex objects at low volumes, and it allows for the manufacturing of geometries that are impossible to create using traditional techniques like injection molding.  Printing pipes to prototype interactive objects exploits both advantages. Prototypes by definition are low-volume parts, and pipes require complex interior geometries that are very difficult or impossible to produce using other processes. Our work has focused on routing pipes that are manually filled after a print has completed. However, the fundamental operations of 3D path routing and topology specification that our tool offers will remain relevant as 3D printing technology advances. Multi-material printers are already available; as they advance and support the embedding of additional materials (e.g., conductors), \systemname can enable designers to efficiently specify where different functional materials should be placed at design time.
+
+\subsection{Limitations and Future Work}
+While pipes provide a powerful mechanism for directing interaction to arbitrary locations on an object's surface, they do have shortcomings which warrant discussion.  In particular, they cannot replace the active elements required for a functioning interactive device: they simply redirect sensing to different locations on an object's surface.  All pipes need to, at some point, connect to a sensor, microcontroller, or pump. 
+
+Some media are difficult to insert in pipes, or may not be compatible with all types of pipes.  Threadable materials in particular can provide challenges, as they can get stuck while being fed into pipes. Our system mitagates this by minimizing the bend energy of the interior pipes, but for complex pipe geometries threading could be a challenge. 
+
+Fluids also raise unique challenges.  For example, the conductive paint we used in our designs can take multiple days to dry in long pipes. Liquids kept in the pipes can also cause discoloration due to seepage.  Furthermore, not all printers guarantee watertightness of their prints, so leakage can occur.
+
+As discussed, removal of support material can also be a challenge.  Particularly on multi-jetting printers, printing support-free is not possible for most geometries, and detaching printed support is not always trivial. In some cases we printed our models in several pieces, to avoid this problem. 
+
+There are also areas for improvement and future work with our software tool.  The design of \systemname was based on our proposed design space of pipes.  However, the design tool is not yet fully capable of realizing all possibilities in this design space.  Specifically, we did not explicitly explore the mixing or splitting of pipes, and our path-constrained cuts are strictly 2D for now.  A 2.5D SVG import using, e.g., line colors as height would be straightforward, and our described algorithm would continue to work properly.  Furthermore, since pipes are committed to the mesh one at a time, our tool does not currently optimize networks of multiple pipes. Instead, we utilize a greedy algorithm and route a single pipe at a time.  This suggests the need for a better general 3D routing algorithm with multiple traces.  Future work should also include assisting makers in the fabrication process itself by automatically cutting objects to reduce support material removal issues. %Additionally, as mentioned there are opportunities to improve the algorithm for neon sign routing, as ours does not guarantee a shortest-path routing.
+
+The basic approach of using a discrete rod for physical simulation does have various limitations, in particular it
+cannot recover if the rod becomes tangled or unstable. 
+However we have observed these problems only when attempting to break
+the system; they did not occur in any of the cases shown in our figures.
+Another issue is parameters, as the penalty forces used in PBD do not
+correspond to physical units. We avoided serious issues by uniformly
+scaling the initial mesh to a unit box, and tuning the parameters on several test cases.
+
+We are also eager to test our tool with users and get feedback from makers who use it in the wild. However, based on our own experiences, we believe our system could be readily utilized by makers and researchers, and serve as a useful tool for rapdily proptotyping interactive 3D objects.
