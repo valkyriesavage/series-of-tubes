@@ -17,36 +17,26 @@ Since each toy and each gesture has a distinct capacitive signature, we use a si
 
 The models we used for the boat was downloaded from Thingiverse, while the brain model came from researchers at one of our instutions. We then used \systemname to create the desired internal pipes. All components were fabricated on a Makerbot, support-free.  After printing, we injected copper paint (CuPro-Cote) into the interior pipes using a craft syringe.  This paint requires approximately 2 days to fully dry in this configuration (3mm diameter tubes, maximum tube length 10cm).  The resistance of the paint in this configuation is approximately $2\Omega / inch.$  Our smart base is powered by an Arduino Uno running open-source SFCS code\footnote{\url{http://www.instructables.com/id/Touche-for-Arduino-Advanced-touch-sensing}}.
 
-Identification of these objects and gestures could also be performed using active acoustic sensing \cite{Ono-touchandactivate}: the internal pipes, although not externally visually distinctive, affect the acoustic signature of the object.  Intentional identity encoding using pipes could also be accomplished through print weight modification using fully enclosed pipes.
-
 \subsection{Breathing Bunny (semi-closed, endpoint, gas)}
 
 With inspiration from PneUIs \cite{Yao-pneui} for using gases to both provide sensation to the user through openings and deform a model internally, we created a rabbit with a pair of tubes that can simulate breathing (see Figure \ref{fig:examples}b).  When the rabbit inhales through its nose, its abdomen rises, and as it exhales its abdomen falls.  For this, we used a combination air/vacuum pump (ROB-10398): one terminal creates a vacuum while the other creates positive pressure.  
 The rabbit model, the well-known Stanford Bunny\footnote{\url{http://en.wikipedia.org/wiki/Stanford_bunny}}, was downloaded from Thingiverse. We then used \systemname to add two pipes: one open pipe exiting at its mouth, and one semi-closed pipe capped at its abdomen.  We connected one pipe to each of our pump's terminals, and using a programmable power supply we mimic a rabbit's breathing pattern.  This example was printed on the Objet using flexible material; support was flushed post-print.
-
-Additional options for haptic feedback include the insertion of muscle wire into flexible printed pipes, creating shape changing interfaces \cite{Coelho-shapechanging}.
 
 \subsection{Custom Radio (open, endpoint, threadable)}
 A custom radio (Figure \ref{fig:examples}c) shows how pipes can be used to integrate electronic components into the user-facing surface of an object. The radio includes a power and volume dial, and LED which goes on when the radio is on, and a tuner dial. An Arduino Uno microcontroller, Si4703 FM tuner, and 6V (4xAA) power supply are embedded in the base of the radio. The sound is played through a single .5 Watt speaker. %\valkyrie{Tovi, if you are thinking of a Midas reference here... can you help write it?}
 
 The radio shell was modelled in SolidWorks. We included slots on the 3D model matching the shape of the electronic components that were to be embedded. The model was then imported into \systemnamenospace, where we created a network of 8 individual open pipes (3 per potentiometer, 1 for the LED, 1 for the speaker) connecting the components to the radio's base. We fabricated the radio body on our Makerbot, support-free but cut in two pieces to allow the Arduino and battery pack to be inserted. We then threaded the pipes with wires to connect the components to the microcontroller in the base.
 
-Creating aural outputs using the printed pipes directly is also a possibility: the whistle in Figure \ref{fig:speculative}a is a fully printable audio output which is based on a Helmholz resonator, and which can be activated with air pressure.
-
 \subsection{Presence-aware Pen Holder (open, endpoint, threadable)}
 Our presence-aware pen holder distinguishes which tool or tools a user has picked up (see Figure \ref{fig:examples}d).  We use a modification of the FlyEye technique described by Wimmer \cite{Wimmer-flyeye} in which an IR camera senses a user's grasp on an object, getting data from light transmitted on fiber optic cables.
 
 The penholder body was created in Solidworks. We used \systemname to add four internal open pipes connecting each pen chamber to the based on the pen holder. This prototype was built on our Makerbot support-free.  Each pipe was then threaded with Sparkfun clear core light pipe (PRT-10697), similar to fiber optic cable.  We use a single cable per pipe; our 6mm diameter light pipe, in comparison to the fine fiber optics used in the original work, can emit and receive through the same cable because the cross-sectional area is large enough to accommodate both functions. At the base of each pipe is a QRE1113 line sensor breakout board, with integrated IR emitter and receiver.   When a pen is in its appointed place, the emitted infrared light is reflected off its base and travels back to the receiver, where it registers as bright.
-
-Some passive components required in the design of the recognition circuit could in the future be created using pipes and printed or injected conductive material.  For example, we printed a proof-of-concept  capacitor which features a thin printed plate with hollow cones on either side (see Figure \ref{fig:speculative}b).  After printing, we coated the inner surfaces of capacitor with copper paint.  It now can hold a charge of \valkyrie{xx}.  Similarly, tubes can be used to create \emph{resistors} in ``printed'' circuitry: a longer or thinner tube has a greater resistance than a shorter or wider one (see Figure \ref{fig:speculative}c).
 
 \subsection{Maze (fully enclosed, path, tree, particulate)}
 
 We created a maze game with a marble that can be navigated through a maze-like path, with exits on either side of the model (Figure \ref{fig:examples}e). 
 
 The maze is based on an SVG file we manually created and processed with our internal path routing tool.  We printed the maze on the Objet using a transparent material for the top and a black material for the bottom. The final artifact was fabricated in two halves fastened together via glue, to allow removal of support material with a high-pressure water tool.  We plugged the ends of the tubes post-print with additional material to ensure the ball does not escape.
-
-Integration of our maze with, e.g., PneUIs \cite{Yao-pneui} could result in a maze that helps a user along or blocks her path.
 
 \subsection{Animated Neon Sign (open, fully constrained, threadable)}
 
@@ -62,12 +52,12 @@ The external geometry of the model was imported into \systemnamenospace, which c
 
 The pipes are threaded with electroluminescent wire which is lit in sequence, using a sequencer, to create the animation.
 
-A similar display could be created using colored liquids along with mixing and splitting topologies.  Mixing liquids in specific concentrations (e.g., for color output) could be performed using a servo-controlled gate as in Figure \ref{fig:direct}.
+\subsection{Speculative Objects and Explorations}
 
 \begin{figure}
 \centering
     \includegraphics[width=3.4in]{figures/speculative.png}
-\caption{Some possible pipe uses.  The printed whistle in (a) is a Helmholz resonator: it creates a sound when air is blown through the pipe at the front, because air compresses at the small neck joint between the internal chamber and the pipe.  In (b), a capacitor manufactured on a 3D printer coated post-print with copper paint.  This particular one holds a charge of \valkyrie{XX}.  (c) gives a comparison of pipe-based resistors, also filled with copper paint.  For a cylindrical wire, resistance is based on its length and cross-sectional area.}
+\caption{Some possible pipe uses.  The printed whistle in (a) is a Helmholz resonator: it creates a sound when air is blown through the pipe at the front, because air compresses at the small neck joint between the internal chamber and the pipe.  In (b), a capacitor manufactured on a 3D printer coated post-print with copper paint.  This particular one holds an impractically large charge of $>1F$.  (c) gives a comparison of pipe-based resistors, also filled with copper paint.  For a cylindrical wire, resistance is based on its length and cross-sectional area.}
 \label{fig:speculative}
 \end{figure}
 
@@ -77,3 +67,13 @@ A similar display could be created using colored liquids along with mixing and s
 \caption{By attaching a servo to a gate structure, it is possible to direct fluid through that pipe.  The gate not only has binary positions (a) and (b), but can direct fractional flow, as well (c).}
 \label{fig:direct}
 \end{figure}
+
+In addition to our six complete examples, we also created some smaller explorations of techniques and possibilities using pipes.
+
+Creating aural outputs using the printed pipes directly is one such possibility: the whistle in Figure \ref{fig:speculative}a is a fully printable audio output which is based on a Helmholz resonator, and which can be activated with air pressure.  
+
+Some passive components required in the design of the above circuitry could in the future be created using pipes and printed or injected conductive material.  For example, we printed a proof-of-concept  capacitor which features a thin printed plate with hollow cones on either side (see Figure \ref{fig:speculative}b).  After printing, we coated the inner surfaces of capacitor with copper paint.  It now holds an impractically large charge of $>1F$, but miniturization is possible.  Similarly, tubes can be used to create \emph{resistors} in ``printed'' circuitry: a longer or thinner tube has a greater resistance than a shorter or wider one (see Figure \ref{fig:speculative}c).
+
+Liquids can be mixed in specific concentrations (e.g., for color output) using mixing or splitting topologies along with a servo-controlled gate structure as in Figure \ref{fig:direct}.
+
+Identification of objects is possible using active acoustic sensing \cite{Ono-touchandactivate}: the internal pipes, although not externally visually distinctive, affect the acoustic signature of the object.  While this is an opportunity for record and recall identification, intentional identity encoding using pipes could also be accomplished, through print weight modification using fully enclosed pipes.
