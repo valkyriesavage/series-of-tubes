@@ -7,17 +7,17 @@ int PEN = 3;
 int PENCIL = 4;
 int PAINTBRUSH = 5;
 
-int THRESH[] = {-1, -1, 300, 300, 100, 180};
+int THRESH[] = {-1, -1, 300, 200, 159, 110};
 
-int averageOver = 10;
-int lastSeveral = {
+const int averageOver = 10;
+int lastSeveral[4][averageOver] = {
                     {0,0,0,0,0,0,0,0,0,0},
                     {0,0,0,0,0,0,0,0,0,0},
                     {0,0,0,0,0,0,0,0,0,0},
                     {0,0,0,0,0,0,0,0,0,0}
                   };
 
-boolean debug = false;
+boolean dbg = false;
 
 void setup(){
   Serial.begin(9600); 
@@ -32,44 +32,63 @@ void loop(){
   boolean bOut = absent(PAINTBRUSH);
   
   if(pOut) {
-    if(debug) Serial.println("Pen is out!");
-    else Serial.write(1);
+    //Serial.println("Pen is out!");
+    Serial.write(1);
   }
   if(mOut) {
-    if(debug) Serial.println("Marker is out!");
-    else Serial.write(2);
+    //Serial.println("Marker is out!");
+    Serial.write(2);
   }
   if(cOut) {
-    if(debug) Serial.println("Pencil is out!");
-    else Serial.write(3);
+    //Serial.println("Pencil is out!");
+    Serial.write(3);
   }
   if(bOut) {
-    if(debug) Serial.println("Paintbrush is out!");
-    else Serial.write(4);
+    //Serial.println("Paintbrush is out!");
+    Serial.write(4);
   }
   
   if(!mOut && !pOut && !cOut && !bOut) {
-    if(debug) Serial.println("A place for every thing, and every thing in its place.\n"); 
-    else Serial.write(0);
+    //Serial.println("A place for every thing, and every thing in its place.\n"); 
+    Serial.write(0);
   }
+  
   /*
-  int pen = readQD(PEN);
-  int marker = readQD(MARKER);
-  int brush = readQD(PAINTBRUSH);
-  int pencil = readQD(PENCIL);
-  Serial.print("pen: ");
-  Serial.print(pen);
-  Serial.print("\tmarker: ");
-  Serial.print(marker);
-  Serial.print("\tbrush: ");
-  Serial.print(brush);
-  Serial.print("\tpencil: ");
-  Serial.println(pencil);
+    int pen = readQD(PEN);
+    int marker = readQD(MARKER);
+    int brush = readQD(PAINTBRUSH);
+    int pencil = readQD(PENCIL);
+    Serial.print("pen: ");
+    Serial.print(pen);
+    Serial.print("\tmarker: ");
+    Serial.print(marker);
+    Serial.print("\tbrush: ");
+    Serial.print(brush);
+    Serial.print("\tpencil: ");
+    Serial.println(pencil);
   */
 }
 
+void shiftArr(int pin) {
+  for(int i = 0; i < averageOver-1; i++) {
+     lastSeveral[pin][i] = lastSeveral[pin][i+1];
+  }
+}
+
+double average(int pin, int reading) {
+  lastSeveral[pin][averageOver-1] = reading;
+  reading = 0;
+  for(int i = 0; i < averageOver; i++) {
+     reading += lastSeveral[pin][i];
+  }
+  return reading / averageOver;
+}
+
 boolean absent(int pin) {
-  return readQD(pin) > THRESH[pin]; 
+  int reading = readQD(pin);
+  shiftArr(pin);
+  reading = average(pin, reading);
+  return reading > THRESH[pin]; 
 }
 
 

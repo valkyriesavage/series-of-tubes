@@ -145,9 +145,9 @@ void loop() {
     
     volpot = map(volpot, 0, 674, 0, 16); // convert to a valid volume
     si4703_readRegisters(); //Read the current register set
-    int current_vol = si4703_registers[SYSCONFIG2] & 0x000F; //Read the current volume level
+    char current_vol = si4703_registers[SYSCONFIG2] & 0x000F; //Read the current volume level
     si4703_registers[SYSCONFIG2] &= 0xFFF0; //Clear volume bits
-    si4703_registers[SYSCONFIG2] |= 15; //Set new volume
+    si4703_registers[SYSCONFIG2] |= volpot; //Set new volume
     si4703_updateRegisters(); //Update
   
     delay(100);

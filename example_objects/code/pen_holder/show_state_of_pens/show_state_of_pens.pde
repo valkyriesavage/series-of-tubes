@@ -6,7 +6,7 @@ Serial myPort;  // The serial port
 PFont f;
 
 void setup() {
-  size(400,400);
+  size(500,500);
   // List all the available serial ports
   //println(Serial.list());
   // Open the port you are using at the rate you want:

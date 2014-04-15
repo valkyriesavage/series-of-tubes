@@ -1,11 +1,16 @@
 Graph MyArduinoGraph = new Graph(150, 80, 500, 300, color (200, 20, 20));
 
-int states = 6;
+int states = 4;
 
 float[][] gesturePoints = new float[states][2];
 float[] gestureDist = new float[states];
-String[] names = {"Brain", "Olfactory Bulb", "Motor Cortex",
-                  "Boat", "Port Side", "Bow"};
+String[] names = {"Not Present", 
+                  //"Brain", "Olfactory Bulb", "Motor Cortex",
+                  "Boat", "Port Side", "Stern"};
+                  
+
+int recentClosestCount = 50;
+int[] recentClosest = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
 void setup() {
 
@@ -29,6 +34,27 @@ void setup() {
   delay(500);
 }
 
+
+void slideMaxes(int newReading) {
+   for(int i=0; i < recentClosestCount; i++) {
+     if(i < recentClosestCount-1) {
+      recentClosest[i] = recentClosest[i+1];
+     } else {
+      recentClosest[i] = newReading;
+     } 
+   }
+}
+
+boolean consistent() {
+  int testAgainst = recentClosest[0];
+  for (int i=0; i < recentClosestCount; i++) {
+    println("" + i + ": " + recentClosest[i] + "or " + testAgainst);
+     if(recentClosest[i] != testAgainst) {
+      return false;
+     }
+   }
+   return true;
+}
 
 void draw() {
 
@@ -78,22 +104,21 @@ void draw() {
       if(gestureDist[i] < currentMaxValue || i == 0)
       {
          currentMax = i;
-        currentMaxValue =  gestureDist[i];
+         currentMaxValue =  gestureDist[i];
       }
     }
+    
+    slideMaxes(currentMax);
     totalDist=totalDist /3;
 
     for (int i = 0; i < states;i++)
     {
-      float currentAmmount = 0;
-      currentAmmount = 1-gestureDist[i]/totalDist;
-      if(currentMax == i)
+      
+      if(currentMax == i && consistent())
        {
-         fill(0,0,0);
-    //       text(names[i],50,450);
-       fill(currentAmmount*255.0f, 0, 0);
-     
-
+         /*float currentAmmount = 0;
+         currentAmmount = 1-gestureDist[i]/totalDist;*/
+         fill(255, 0, 0);
        }
        else
        {
@@ -107,7 +132,6 @@ void draw() {
       text(names[i],810,100 * (i+1)+25);
 
       fill(255, 0, 0);
-   //   rect(800,100* (i+1), max(0,currentAmmount*50),50);
     }
 
 
