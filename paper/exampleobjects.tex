@@ -7,7 +7,7 @@
 \end{figure*}
 
 \section{Totally Tubular Example Objects}
-To evaluate and highlight our tool's capabilities, we fabricated a set of six prototype objects designed using \systemnamenospace.  To show that our approach is printer-independent, we fabricated some on a Makerbot Replicator 2 and the rest on an Objet Connex 260.  Each prototype object explores the expansion of an existing sensing or actuation technique to the surface of 3D printed objects.
+To evaluate and highlight our tool's capabilities, we fabricated a set of six prototype objects designed using \systemnamenospace.  To show that our approach is printer-independent, we fabricated some on a Makerbot Replicator 2 and the rest on a Stratasys Connex 260.  Each prototype object explores the expansion of an existing sensing or actuation technique to the surface of 3D printed objects.
 %All prototypes were fabricated in a single piece, unless described otherwise. \bjoern{2 of 5 will have been fabricated otherwise -  Radio, Neon sign - both in pieces.}
 
 \subsection{Touch-sensitive Toys (open, endpoint, star, liquid)}
@@ -20,12 +20,12 @@ The model we used for the boat was downloaded from Thingiverse, while the brain 
 \subsection{Breathing Bunny (semi-closed, endpoint, gas)}
 
 With inspiration from PneUIs \cite{Yao-pneui} for using gases to both provide sensation to the user through openings and deform a model internally, we created a rabbit with a pair of tubes that can simulate breathing (see Figure \ref{fig:examples}b).  When the rabbit inhales through its nose, its abdomen rises, and as it exhales its abdomen falls.  For this, we used a combination air/vacuum pump (ROB-10398): one terminal creates a vacuum while the other creates positive pressure.  
-The rabbit model, the well-known Stanford Bunny\footnote{\url{http://en.wikipedia.org/wiki/Stanford_bunny}}, was downloaded from Thingiverse. We then used \systemname to add two pipes: one open pipe exiting at its mouth, and one semi-closed pipe capped at its abdomen.  We connected one pipe to each of our pump's terminals, and using a programmable power supply we mimic a rabbit's breathing pattern.  This example was printed on the Objet using flexible material (100\% TangoBlackPlus); support was flushed post-print.
+The rabbit model, the well-known Stanford Bunny\footnote{\url{http://en.wikipedia.org/wiki/Stanford_bunny}}, was downloaded from Thingiverse. We then used \systemname to add two pipes: one open pipe exiting at its mouth, and one semi-closed pipe capped at its abdomen.  We connected one pipe to each of our pump's terminals, and using a programmable power supply we mimic a rabbit's breathing pattern.  This example was printed on the Connex using flexible material (100\% TangoBlackPlus); support was flushed post-print.
 
 \subsection{Custom Radio (open, endpoint, threadable)}
 A custom radio (Figure \ref{fig:examples}c) shows how pipes can be used to integrate electronic components into the user-facing surface of an object. The radio includes a power and volume dial, and LED which goes on when the radio is on, and a tuner dial. An Arduino Uno microcontroller, Si4703 FM tuner, and 6V (4xAA) power supply are embedded in the base of the radio. The sound is played through a single .5 Watt speaker. %\valkyrie{Tovi, if you are thinking of a Midas reference here... can you help write it?}
 
-The radio shell was modelled in a commercial CAD tool. We included slots on the 3D model matching the shape of the electronic components that were to be embedded. The model was then imported into \systemnamenospace, where we created a network of 8 individual open pipes (3 per potentiometer, 1 for the LED, 1 for the speaker) connecting the components to the radio's base. We fabricated the radio body on our Makerbot, support-free but cut in two pieces to allow the Arduino and battery pack to be inserted. We then threaded the pipes with wires to connect the components to the microcontroller in the base.
+The radio shell was modelled in a commercial CAD tool. We included slots on the 3D model matching the shape of the electronic components that were to be embedded. The model was then imported into \systemnamenospace, where we created a network of 8 individual open pipes (3 per potentiometer, 1 for the LED, 1 for the speaker) connecting the components to the radio's base. We fabricated the radio body on our Makerbot, support-free but cut in two pieces to allow the Arduino and battery pack to be inserted. We then threaded the pipes with wires to connect the components to the microcontroller contained in the base.
 
 \subsection{Presence-aware Pen Holder (open, endpoint, threadable)}
 Our presence-aware pen holder distinguishes which tool or tools a user has picked up (see Figure \ref{fig:examples}d).  We use a modification of the FlyEye technique described by Wimmer \cite{Wimmer-flyeye} in which an IR camera senses a user's grasp on an object, getting data from light transmitted on fiber optic cables.
@@ -36,7 +36,7 @@ The penholder body was created in a commercial CAD tool. We used \systemname to 
 
 We created a maze game with a marble that can be navigated through a maze-like path, with exits on either side of the model (Figure \ref{fig:examples}e). 
 
-The maze is based on an SVG file we manually created and processed with our internal path routing tool.  We printed the maze on the Objet using a transparent material (100\% VeroClear) for the top and a black material (100\% TangoBlackPlus) for the bottom. The final artifact was fabricated in two halves fastened together via glue, to allow removal of support material with a high-pressure water tool.  We plugged the ends of the pipes post-print with additional material to ensure the ball does not escape.
+The maze is based on an SVG file we manually created and processed with our internal path routing tool.  We printed the maze on the Connex using a transparent material (100\% VeroClear) for the top and a black material (100\% TangoBlackPlus) for the bottom. The final artifact was fabricated in two halves fastened together via glue, to allow removal of support material with a high-pressure water tool.  We plugged the ends of the pipes post-print with additional material to ensure the ball does not escape.
 
 \subsection{Animated Neon Sign (open, fully constrained, threadable)}
 
@@ -48,7 +48,7 @@ The maze is based on an SVG file we manually created and processed with our inte
 \end{figure}
 
 Neon art is traditionally made from hand-formed glass tubes containing neon gas.  The tubes light up when a current is passed through them.  For this type of art, the path of the tubes is of crucial importance, as it determines how the sign will look.  We designed a custom neon robot head which can be animated to ``talk''. 
-The external geometry of the model was imported into \systemnamenospace, which created the associated pipes using its internal path routing tool.  We added additional endpoint-constrained tubes as exits out the rear of the model to allow us to hide the controls (see Figure \ref{fig:neon}b).  We then printed the model on the Objet using transparent material. The model was printed in two halves, cutting through the plane of the internal path, to facilitate assembly. 
+The external geometry of the model was imported into \systemnamenospace, which created the associated pipes using its internal path routing tool.  We added additional endpoint-constrained tubes as exits out the rear of the model to allow us to hide the controls (see Figure \ref{fig:neon}b).  We then printed the model on the Connex using transparent material. The model was printed in two halves, cutting through the plane of the internal path, to facilitate assembly. 
 
 The pipes are threaded with electroluminescent wire which is lit in sequence, using a sequencer, to create the animation.
 
