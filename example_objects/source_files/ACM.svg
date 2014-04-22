@@ -10,9 +10,9 @@
 <line fill="none" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" x1="80.302" y1="81.521" x2="80.302" y2="149.242"/>
 <line fill="none" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" x1="80.302" y1="149.242" x2="128.471" y2="149.242"/>
 <line fill="none" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" x1="161.074" y1="149.242" x2="191.432" y2="79.94"/>
-<line fill="none" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" x1="191.432" y1="79.94" x2="209.186" y2="110.01"/>
 <line fill="none" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" x1="209.186" y1="110.01" x2="230.951" y2="79.94"/>
-<line fill="none" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" x1="230.951" y1="79.94" x2="265.314" y2="169.288"/>
 <line fill="none" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" x1="29.891" y1="124.613" x2="40.828" y2="151.858"/>
 <line fill="none" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" x1="13.058" y1="81.521" x2="-3.095" y2="124.613"/>
+<line fill="none" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" x1="191.432" y1="79.94" x2="209.186" y2="110.01"/>
+<line fill="none" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" x1="230.951" y1="79.94" x2="265.314" y2="169.288"/>
 </svg>
