@@ -98,13 +98,16 @@ Our technique for routing this path is inspired by work in generating continuous
 {\bf Connect disconnected components:} To connect disconnected subgraphs, we find minimum Euclidean distance vertex pairs spanning two subgraphs, and greedily add edges to such pairs until all subgraphs are joined into a single graph.
 %To connect disconnected subgraphs in the input, each disconnected subgraph's vertices and edges are contracted to a single vertex.  Each subgraph-vertex has no outgoing edges, as the expanded subgraphs are disconnected.  We then add one edge from each subgraph-vertex to each other subgraph-vertex, whose weight is the minimum Euclidean distance between any two vertices in the expanded subgraphs.  We greedily select the smallest weight edges until all subgraphs are joined into a single graph.  We re-expand the subgraphs.
 
-{\bf Eulerization:} In order to make our graph Eulerian, we consider all odd degree vertices in the connected graph and make a clique of potential edges based on distance.  We greedily add edges between the odd nodes until no odd nodes remain.  Finally, we remove our temporary edge, changing the graph from Eulerian to semi-Eulerian.  This is a connected, semi-Eulerian graph which contains all edges in the input.
-A lower total weight matching may be possible by connecting components and ensuring node evenness together in a global process, as well as by using minimum-weight matching rather than greedy selection, however this optimization is not crucial for our purposes.
+{\bf Eulerization:} In order to make our graph Eulerian, we consider all odd-degree vertices in the connected graph and make a clique of potential edges based on distance.  We greedily add edges between odd nodes until no odd nodes remain.  Finally, we remove our temporary edge, changing the graph from Eulerian to semi-Eulerian.  This is a connected, semi-Eulerian graph that contains all edges in the input.
+A lower total weight matching is possible by connecting components and ensuring node evenness together in a global process, as well as by using minimum-weight matching rather than greedy selection, however this optimization is not crucial for our purposes.
 
 {\bf Euler Tour:} To find an Euler tour, we use Fleury's algorithm\footnote{\url{http://en.wikipedia.org/wiki/Eulerian_path\#Fleury.27s_algorithm}} with a modification to preserve continuity: at a given node, from multiple candidate edges, we prefer the edge(s) with the smallest angular deviation from the incoming edge (i.e., we prefer to pass straight through a node, if possible).  This minimizes turns in the final artifact, which eases support material removal and assembly.  Our EL wire in Figure \ref{fig:UIST} follows an Euler tour through the input nodes.
 
 \subsubsection{Edges that Intersect in the Plane}
 We do not currently redirect edges that intersect in the plane.  Because we have a 3-dimensional canvas in which to work, it would be possible to push overlapping paths into the third dimension.  However, we leave this to future work.  For our specific applications so far, it has been unnecessary.
+
+\subsubsection{Separating at the Pipe Plane}
+We allow users the choice to separate their meshes at the pipe plane, which may be necessary for support material removal (discussed later) or insertion of media: e.g., EL wire can be bent much more sharply by hand in the plane than it can by pushing from one end into a pipe.  To do this, we simply perform a plane cut after the mesh modification operation described below.
 
 \subsection{Mesh Modification}
 After the maker hits ``Accept'' on her preview, we must cut pipes out of the input mesh.  At this stage, we verify whether the new pipe will intersect the surface or an existing pipe, and if so display a warning message suggesting that she should consider a smaller radius.
@@ -134,8 +137,6 @@ the tube endpoints.
 
 \section{Fabrication Techniques}
 Several pragmatic concerns arise when fabricating models with hollow pipes and cavities on additive manufactuing machines. Pipes frequently lead to overhangs (where an underlying supporting layer has a smaller footprint than the subsequent layer).
-%Beyond design, the tubes must actually be printable to be useful.  
-%When geometries contain overhangs, as there may be in designed pipes and cavities, 
 To allow overhangs, 3D printers may lay down support material that must be later removed from the model.  The removal process can be time-intensive and challenging.  The physical fabrication process used by different machines gives rise to differing strategies for avoiding support material or easing its removal.  We next discuss techniques for fused deposition modeling (FDM) machines, such as the Makerbot\footnote{\url{http://makerbot.com}} and polyjet machines such as Stratasys Connex\footnote{\url{http://stratasys.com}}, as well as powder-based machines (e.g., ZCorp\footnote{\url{http://3dsystems.com}}) and those that use stereolithography (e.g., Form 1\footnote{\url{http://formlabs.com}}).
 
 \subsection{Fused Deposition Modeling}
@@ -150,4 +151,4 @@ On polyjet machines, bridging is not possible and stepover is more constrained, 
 Powder-based and stereolithography (SLA) machines work with a bed of powder or liquid, respectively.  The material at the surface is fused together via glue droplets (for powder) or a UV laser (for SLA).  The remaining powder or liquid serves as support for the model.  These types of printers are perhaps even more suitable for pipe creation than either FDM or multi-jetting printers, as the supporting liquid or loose powder is easier to remove than structural plastic or UV cured material.  We hope to experiment with them in the future.
 
 \subsection{Model Assembly}
-For especially complex geometries, models can be ``cut up'' into multiple pieces that can be assembled to avoid support deposition or at least ease material removal; it can also ease insertion of the desired medium. This is somewhat undesirable as it means more time spent in assembly post-print, and additionally a cut pipe may no longer be fluid-tight.  A tool aiding in or automatically performing this cutting task might be beneficial, however it is outside the scope of this work.
+For especially complex geometries, models can be ``cut up'' into multiple pieces that can be assembled to avoid support deposition or at least ease material removal; it can also ease insertion of the desired medium. This is somewhat undesirable as it means more time spent in assembly post-print, and additionally a cut pipe may no longer be fluid-tight.  Our plane cut option goes towards this, however a more advanced tool for this purpose is outside the scope of this work.
