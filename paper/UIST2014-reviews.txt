@@ -1,0 +1,372 @@
+UIST 2014 Papers
+
+Reviews of submission #2320: "A Series of Tubes: Adding Interactivity to
+3D Prints Using Internal Pipes"
+
+------------------------ Submission 2320, Review 4 ------------------------
+
+Reviewer:           primary
+
+Overall Rating
+
+   4  (Probably accept: I would argue for accepting this paper.)
+
+Expertise
+
+   3  (Knowledgeable)
+
+Summary and Contribution
+
+   This paper introduces an interactive design tool that allows users to
+   insert pipes into 3D objects. The paper starts with analyzing the design
+   space of internal pipes, and then presents two approaches for routing
+   pipes. The first approach allows to specify anchor points, and a physical
+   simulation is  used to achieve a smooth routing and ensures that pipes do
+   not intersect with each other or the surface. The second approach allows
+   to import a potentially disconnected path as an SVG graphics, and a
+   graph-based algorithm generates a single, connected path. The proposed
+   approaches are implemented in MeshMixer, a freely available 3D modeling
+   tool.
+
+   The paper presents a large number of applications, where this basic
+   technique is useful to help a designer adding interactivity to 3D printed
+   objects, such as touch sensitive toys where pipes allow to embed
+   conductive ink, a custom radio where pipes are used to embed electronics,
+   a neon sign where pipes are used to route an electroluminescent wire, and
+   several more. 
+
+The Combined Personal and Meta Review (Primary)
+
+   I enjoyed reading this paper. It addresses a relevant problem, 3D routing
+   of pipes with desired properties such as minimal bending is definitely
+   non-trivial. Furthermore, it nicely demonstrates a large number of
+   application areas, where this approach can be useful to add additional
+   functionality and interactivity to 3D printed objects. There are no big
+   surprises on the algorithmic level how the routing problem is  solved.
+   The paper handles multiple pipes in a greedy fashion, instead of looking
+   at a globally optimal solution, individual paths are computed
+   sequentially. This might lead to a sub-optimal solution, but this is the
+   first paper I am aware of that addresses this problem. I believe it will
+   inspire future research, both on the application side, but also on the
+   core problem (design tools and optimization algorithms for pipe-routing)
+   itself. Therefore, I think this paper should be accepted.
+
+   Summarizing the external reviews, all reviewers think that this paper
+   investigates an interesting problem. As R1 points out, there is
+   definitely a need for a 3D pipe-routing package on meshes. Overall,
+   reviewers agree that the paper is well written, and appreciate the large
+   number of validation examples.
+
+   Major concerns raised by the reviewers are:
+
+   - The claimed contributions have to be formulated more carefully. As R1
+   and R2 point out, prior work already uses pipes to route light, wires, or
+   other materials.
+
+   - R1 is concerned that the algorithm only tackles a relatively simple
+   subset of the routing problem that could easily done by hand. There is no
+   solution / optimization algorithm proposed for "true" 3D pipe-routing
+   with multiple pipes. The complexity of the pipe routes shown in the
+   examples are not very impressive. Also, R2 would like to have seen more
+   sophisticated routing and path optimization.
+
+   - The discussion about support material issues should be more concise.
+   (R1, R2)
+
+   - Figure 12 / Figure 13 and the section on speculative explorations do
+   not add much to the paper. It is unclear how the proposed algorithm
+   actually really helps for example designing a Helmholtz resonator. Maybe
+   the paper would be stronger without this section?
+
+
+Final Decision
+
+
+
+------------------------ Submission 2320, Review 1 ------------------------
+
+Reviewer:           external
+
+Overall Rating
+
+   2  (Probably reject: I would argue for rejecting this paper.)
+
+Expertise
+
+   4  (Expert)
+
+Summary and Contribution
+
+   The contributions of this work are threefold:
+   - Introducing a general technique for using pipes for interaction in 3D
+   printouts.
+   - Describing the design space of pipes (open pipes, closed pipes, media
+   in pipes, etc).
+   - A routing package, PipeDream, for attaching pipes and importing 2D
+   internal pipes.
+
+   The work was well-validated on several 3D printed examples.
+
+
+The Review (entered before the rebuttal period, and uneditable thereafter)
+
+   The paper is well-written, well-organized, and the examples varied and
+   professionally done.
+
+   Despite the topical nature of the work, and the clever, playful examples,
+   I feel that the contribution of this work is overstated.
+
+   The paper's first contribution is to "suggest that 3D printed interactive
+   devices can be created with redirection of active input and output via
+   pipes." This is obvious. Everyone working with 3D printing is creating
+   channels to route light, wires, conductive paint, etc. Whether they call
+   them "pipes" or something else, this is already an active area of work.
+
+   The paper's second contribution is to describe the design space of pipes.
+   Figure 2 presents a nice organization of the space, but the space itself
+   is fairly simple.
+
+   The third contribution is a pipe-routing package. There is definitely a
+   need for a 3D pipe-routing package on meshes, as more and more people are
+   threading various media through 3D prints. However, the solution
+   presented leaves much to be desired:
+   * The routing is not true 3D routing optimization. Pipe insertion is
+   serial instead of a global optimization. I don't see serial insertion as
+   a very hard problem; you could do this manually. The global optimization
+   is where computers could really help humans out in the next generation of
+   3D printing software.
+   * With respect to path-constrained pipes, again, the algorithm is
+   effectively 2-dimensional. The 3-dimensional part, overlapping paths,
+   would be a more sophisticated contribution. 
+   * With mesh modification, you do not do direct mesh booleans. The problem
+   is a hard one, but, if you are creating real software, it needs to be
+   done. Discretizing produces artifacts and is unscalable to the huge 3D
+   printing jobs we are seeing even now; meshes will only continue to grow
+   in complexity, and printers in resolution.
+
+   I think PipeDream is a great idea, and I hope the authors will continue
+   working on it until it does do true optimal 3D routing, and can provably
+   advance 3D modeling/printing capabilities.
+
+   With the current constraints on PipeDream, however, the examples shown in
+   Figure 10 have simple routing that could be done in a CAD software
+   manually without much difficulty. Although the examples are bewitchingly
+   cool, they are straightforward use of previous work or simple hacking,
+   and do not prove that the software lets you do something new. Can you
+   show a more complex example?
+
+   Page 10 is a discussion of existing fabrication techniques and
+   limitations. This page does not contribute to the paper.
+
+   Speculative Objects and Explorations: These examples show the usefulness
+   of pipes; however, you seem to be laying claim to fairly straightforward
+   ideas. An accurate whistle is created using 3D modeling - yes, it's
+   hollow, so technically it has a pipe; but showing a 3D printed model of a
+   whistle (from Thingiverse?) gives the impression that you have
+   contributed to this field. The resistor idea emerges naturally from
+   conductive paint. The liquid is a nice idea for a science exhibit - but
+   does this idea already exist made out of standard construction
+   techniques? If so, a 3D printed version is straightforward. Acoustic
+   sensing is a cool idea because it makes use of the unique potentials of
+   3D printing.
+
+Additional review comments (entered after the start of rebuttal period)
+
+
+
+------------------------ Submission 2320, Review 2 ------------------------
+
+Reviewer:           external
+
+Overall Rating
+
+   4  (Probably accept: I would argue for accepting this paper.)
+
+Expertise
+
+   4  (Expert)
+
+Summary and Contribution
+
+   This paper describes a system for generating geometric elements to form
+   tubes within the interior of 3D printed objects.  It considers algorithms
+   for routing a couple of different forms of tubes (differentiated by the
+   constraints placed on them, e.g., just the end points vs. on the path
+   itself).  The paper then goes on to illustrate a number of uses of tubes,
+   primarily for sensing.  For example, conductive paint can be poured down
+   them to form internal conductors (possibly attaching to interior
+   components).  Validation is provided by illustrating the breadth of uses
+   of the results (which I believe to be the right kind of validation for
+   this type of work). 
+
+The Review (entered before the rebuttal period, and uneditable thereafter)
+
+   While the generation of tube geometry which is the result of the work
+   presented here seems (and I guess really is) a bit mundane, I think this
+   result is actually quite interesting.  I think that’s the case because
+   a) as the paper illustrates, there’s a bit more to tube geometry than
+   would appear on the surface (i.e., the need in some instances to try to
+   minimize curvature to allow “threading”), b) there aren’t to my
+   knowledge really any tools to help with this and c) as the paper
+   illustrates, there are a surprising number of interesting and highly
+   functional uses for simple tubes within 3D printed objects.  
+
+   The paper does a good job of describing the capabilities of the system,
+   surveying the criteria across which tubes vary (openings, types of
+   constraints, types of material to be supported in the tube, tube
+   topology), and describing how the requirements differ across these.  It
+   also spells out how the system is implemented pretty well, covering the
+   details of the necessary algorithms deeply enough that one could
+   replicate this.  I was also happy with the validation done here.  It
+   illustrates the breadth of applicability of the techniques.  (And I was
+   happy to NOT see a user study here – I don’t think the usability of
+   the techniques provided here are in question (the abstractions provided
+   to the user end up very simple) so a user study would be wasting
+   everyone’s time and show us very little).
+
+   My qualms with the paper are comparatively small.  Top on the list is
+   that I would have liked to see several things on the “future work”
+   list actually done – most notably some of the more sophisticated
+   routing and path optimization.  Beyond that, I think the issues with
+   support material removal are being minimized a little more than they
+   really should be.  My own experience is that you just can’t do it on
+   Connex machines (and the stock software makes it very hard to even turn
+   the support off), there are obvious serious difficulties on hobby grade
+   FDM machines without a separate material (as in you really have to have
+   geometry that doesn’t need support), and even for professional FDM
+   machines with dissolvable support , you would need days if not weeks to
+   get the support out of a small tube with curves (e.g., Figure 10 E if you
+   didn’t slice it).  Only with photopolymer SLA and sintered powder do I
+   think there is a suitable solution for this.  This is not a show stopper
+   for me, more of a judgment call.  All of the issues are discussed.  But
+   my own feeling is that the paper would be slightly stronger if it made
+   the practical difficulties more plain for those who follow after.
+
+   Overall I like this paper.  I’m a little torn between a “4” and a
+   “5”.  I would give it a “4.5” if that was possible.  
+
+   Detailed Comments:
+
+   p1 "a novel technique involving removing material from the interior of 3D
+   models, prior to printing, to create pipes and other cavities."  It
+   doesn't seem like modeling pipes and cavities, or more general "removing
+   material" is really new.  Isn't this more about more interesting issues:
+   like path planning and providing high level functionality for this sort
+   of thing to the user / modeler (and maybe a bit about what kinds of fun
+   things you can do with tubes)?
+
+   "This subtractive approach is complementary to additive approaches " 
+   This is not a big deal, but it seems like this is bending the typical
+   meaning of these words a bit.  They are normally referring to how
+   material is manipulated during manufacture (not during design).  You are
+   still of course using a fully additive process for material deposition. 
+   I bring this up at all because in the normal usage "subtractive" implies
+   a set of limits of possible geometries which in fact are not limits on
+   your technique.   But as I say, it's a small thing and it's your call as
+   to whether you really want to stretch the words this way.  
+
+   p2 "Printed Optics [26] uses"  This seems a bit redundant with the
+   material in the second paragraph of the paper.  Seems like maybe you'd be
+   happier just having related work here?
+
+   p3 "… haptics via Jamming [3]."  It's not really clear that you are
+   providing sufficient capability to implement jamming.  Seems like you
+   need a flexible sheath rather than a rigid pipe wall to do that.  But
+   simple routing of pneumatics seems like it's useful in this regard.
+
+   p6 "The removal process can be time-intensive and challenging."  I think
+   that's a bit of an understatement.  In the work I've done with printed
+   tubes (primarily pneumatic) I've always found support issues to be the
+   biggest problem in the designs.
+
+   "although cylinders (e.g., pipes) and spheres violate this in some places
+   they can be printed support-free. "  For FDM it seems like this statement
+   should be a bit more equivocal.  In particular, your ability to
+   successfully print e.g., a horizontally oriented cylinder depends on the
+   diameter of the cylinder.   Smaller cylinders tend to work just fine, but
+   large ones will fail.   In the end it is a question of how many layers at
+   the top of the cylinder fall between > ~45deg overhang and the point
+   where you can bridge across the top, and how badly those overhang.  On
+   the other hand there is a pretty straightforward solution to this by
+   changing the geometry from a circular cylinder to a "teardrop" (see:
+   e.g., http://www.thingiverse.com/thing:122032 or
+   http://www.thingiverse.com/thing:3457).
+
+   "On polyjet machines"  Here again I think the reality is a little harsher
+   than you are really letting on, at least for the support in Connex
+   machines.  As you say water blasting is not practical and their support
+   material is not all that soluble in lye.  My experience is that there
+   really isn't any practical way to remove support from small interior
+   tubes with bends and that you in the end have to slice the models to get
+   the tube more exposed (as you allude to here and indicate was used for
+   your maze example later).  But I think this paragraph leaves the reader
+   with a bit rosier picture than that.  (Although this is addressed again
+   in the limitations section.)
+
+   p7 "ROB-10398"  You should probably indicate that that is a Sparkfun part
+   number.
+
+   p9 “References” It seems like you should really work in a reference
+   to our beloved Sen. Stevens somewhere since you pay homage to him in the
+   title :-)
+
+Additional review comments (entered after the start of rebuttal period)
+
+
+
+------------------------ Submission 2320, Review 3 ------------------------
+
+Reviewer:           external
+
+Overall Rating
+
+   5  (Definite accept: I would argue strongly for accepting this paper.)
+
+Expertise
+
+   4  (Expert)
+
+Summary and Contribution
+
+   The paper describes a new technique for 3D printing interactive artifacts
+   by embedding tubes into the printed objects. It contributes the idea
+   itself, the design space of "tube-based" techniques, explores
+   fabrication-technology specific aspects and demonstrates the technique in
+   a series of example objects.
+
+The Review (entered before the rebuttal period, and uneditable thereafter)
+
+   I really enjoyed reading this paper. It develops a novel idea that
+   greatly expands the space of interactive objects that can be produced on
+   3D printers. The idea is developed holistically: starting from a simple
+   idea, expanding to a well-motivated and non-trivial design space, and
+   demonstrating the concepts applicability across different 3D printing
+   technologies and application examples. The authors continuously expand
+   and reapply previous concepts and embed it very well into the body of
+   existing work. I find this novel and exciting work, which greatly extends
+   what we can with 3D printers.
+
+   The goal of this work to extend the range of things that can be
+   fabricated using a particular kind of digital fabrication. Laser Origami
+   (Mueller et al., CHI 2013) and "Printing Teddy Bears" (Scott E Hudson,
+   CHI 2014) are in the same spirit and should be cited. The only thing I
+   can critique really, is referring to Wikipedia as authority (regarding
+   the "Route Inspection Problem" and "Fleury's algorithm"). Please cite the
+   original sources.
+
+   As this technique would be clearly beneficial to practitioners, I would
+   be interested to know if there are plans to make this Meshmixer extension
+   available for 3rd parties?
+
+   In conclusion, this is a very well written paper that is easy to follow
+   and presents a novel technique that will benefit many communities, HCI in
+   particular (this paper tackles the HCI problem of letting users design
+   tubes, as well as easing the fabrication of interactive prototypes).
+   Overall, this work is a solid contribution, and recommend to accept the
+   paper. 
+
+Additional review comments (entered after the start of rebuttal period)
+
+
+
+

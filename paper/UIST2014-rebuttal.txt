@@ -1,0 +1,17 @@
+We would first like to thank the reviewers for their many, varied, and thoughtful comments.
+
+CONTRIBUTION CLAIM OVERREACH (R1,R2) - We appreciate that our claims may have sounded overly broad, and agree that instances of interior pipes have been used in certain applications before. We will update statements of contribution to clarify.  For example, on p1, “This paper introduces a novel technique involving removing material...” can be changed to “This paper introduces a novel tool that provides path planning and other high-level functionality to support the design of interior pipes and cavities within 3D models.”
+
+ALGORITHMIC CONTRIBUTION (1AC,R1,R2) - We understand that our system has limitations, and tried to openly describe these in our discussion section. We hope reviewers appreciate that the task of pipe routing is non-trivial and that the work we present offers a contribution to the UIST community; additionally it can serve as a stepping stone to more sophisticated future algorithmic contributions in this area. We can update our discussion section to provide additional insights and possible directions related to the specific limitations mentioned by R1. 
+
+We have considered the effectively 2D path-constrained routing problem which R2 brings up; it could be solved using a simulation similar to our endpoint-constrained condition, in which overlapping segments of the connected, Fleury-ized graph are represented as physically-based rods and pushed into the third dimension.  A globally optimum pipe solution requires defining a global pipe energy which can be minimized (based presumably on bending, pipe length, etc.), which we believe is based more on personal preference than global requirements and is outside the scope of this work. However, we will add this discussion to the limitations and future work section.
+
+COMPLEX PIPE GEOMETRIES (R1) - We realize that our focus on useful applications of the technique in the paper does not sufficiently demonstrate the capabilities of our algorithms for routing through objects with complex shapes or topologies. Our tool can indeed route pipes through complex meshes. For example, we can successfully route pipes through knots and around holes in objects (genus >0).  We are happy to add images of routing solutions for more complex geometries in our revision.
+
+SPECULATIVE OBJECTS SECTION (1AC) - In order to strengthen the paper, we are happy to either add additional examples to this section or to remove it, at the discretion of 1AC.
+
+SUPPORT MATERIAL DISCUSSION (1AC,R2) - We agree to shorten this section of the paper and more plainly identify practical difficulties for those who do follow-on work.
+
+VOXELIZATION VS. MESH BOOLEANS (R1) - The use of level sets allowed us more flexibility in, e.g., creating caps on our pipes.  We consider our particular choice orthogonal to the contributions, but this benefit of our voxelization implementation can be made more clear in a final revision.
+
+SUNDRY CORRECTIONS/SUGGESTIONS (R2) - We appreciate this careful list of small changes and will integrate into final submission.
