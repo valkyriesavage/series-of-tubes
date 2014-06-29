@@ -5,6 +5,8 @@ series\ of\ tubes.pdf
 *.log
 *.out
 *.blg
+*.fdb_latexmk
+*.fls
 *~$*.SLDPRT
 *appautosave/*
 example_objects/appautosave/*

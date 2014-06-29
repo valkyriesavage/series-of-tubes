@@ -19,7 +19,7 @@ The model we used for the boat was downloaded from Thingiverse, while the brain 
 
 \subsection{Breathing Bunny (semi-closed, endpoint, gas)}
 
-With inspiration from PneUIs \cite{Yao-pneui} for using gases to both provide sensation to the user through openings and deform a model internally, we created a rabbit with a pair of tubes that can simulate breathing (see Figure \ref{fig:examples}b).  When the rabbit inhales through its nose, its abdomen rises, and as it exhales its abdomen falls.  For this, we used a combination air/vacuum pump (ROB-10398): one terminal creates a vacuum while the other creates positive pressure.  
+With inspiration from PneUIs \cite{Yao-pneui} for using gases to both provide sensation to the user through openings and deform a model internally, we created a rabbit with a pair of tubes that can simulate breathing (see Figure \ref{fig:examples}b).  When the rabbit inhales through its nose, its abdomen rises, and as it exhales its abdomen falls.  For this, we used a combination air/vacuum pump (SparkFun ROB-10398): one terminal creates a vacuum while the other creates positive pressure.  
 The rabbit model, the well-known Stanford Bunny\footnote{\url{http://en.wikipedia.org/wiki/Stanford_bunny}}, was downloaded from Thingiverse. We then used \systemname to add two pipes: one open pipe exiting at its mouth, and one semi-closed pipe capped at its abdomen.  We connected one pipe to each of our pump's terminals, and using a programmable power supply we mimic a rabbit's breathing pattern.  This example was printed on the Connex using flexible material (100\% TangoBlackPlus); support was flushed post-print.
 
 \subsection{Custom Radio (open, endpoint, threadable)}
@@ -51,29 +51,3 @@ Neon art is traditionally made from hand-formed glass tubes containing neon gas.
 The external geometry of the model was imported into \systemnamenospace, which created the associated pipes using its internal path routing tool.  We added additional endpoint-constrained tubes as exits out the rear of the model to allow us to hide the controls (see Figure \ref{fig:neon}b).  We then printed the model on the Connex using transparent material. The model was printed in two halves, cutting through the plane of the internal path, to facilitate assembly. 
 
 The pipes are threaded with electroluminescent wire which is lit in sequence, using a sequencer, to create the animation.
-
-\subsection{Speculative Objects and Explorations}
-
-\begin{figure}
-\centering
-    \includegraphics[width=3.4in]{figures/speculative.png}
-\caption{Some possible pipe uses.  The printed whistle in (a) is a Helmholz resonator: it creates a sound when air is blown through the pipe at the front, because air compresses at the small neck joint between the internal chamber and the pipe.  (b) gives a comparison of pipe-based resistors, filled with copper paint.  For a cylindrical wire, resistance is based on its length and cross-sectional area.}
-\label{fig:speculative}
-\end{figure}
-
-\begin{figure}
-\centering
-    \includegraphics[width=3.4in]{figures/gates.png}
-\caption{By attaching a servo to a gate structure, it is possible to direct fluid through that pipe.  The gate not only has binary positions (a) and (b), but can direct fractional flow, as well (c).}
-\label{fig:direct}
-\end{figure}
-
-Our six examples showcase how PipeDream can be used to design objects that support a wide range of input and output modalities.  In addition to these six complete examples, we also created some smaller explorations of techniques and possibilities using pipes.
-
-Creating aural outputs using printed pipes is one such possibility: the whistle in Figure \ref{fig:speculative}a is a fully printable audio output based on a Helmholz resonator, which can be activated with high pressure air.  Zoran \cite{Zoran-flute} previously explored printable musical instruments, and it would be interesting to extend PipeDream to aid in the design process of such instruments.
-
-Some passive components required in the design of circuitry could in the future be created using pipes and printed or injected conductive material.  For example, tubes can be used to create \emph{resistors} in ``printed'' circuitry: a longer or thinner tube has a greater resistance than a shorter or wider one (see Figure \ref{fig:speculative}b).
-
-Liquids can be mixed in specific concentrations (e.g., for color output) using mixing or splitting topologies along with a servo-controlled gate structure as in Figure \ref{fig:direct}.  This could be used in creating interactive science exhibits about, e.g., logic gates.
-
-Identification of objects is possible using active acoustic sensing \cite{Ono-touchandactivate}: the internal pipes, although not externally visually distinctive, affect the acoustic signature of the object.  While this is an opportunity for record and recall identification, intentional identity encoding using pipes could also be accomplished, through print weight modification using fully enclosed pipes.

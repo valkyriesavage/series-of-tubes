@@ -1,0 +1,20 @@
+CONTRIBUTION CLAIM OVERREACH (R1,R2)
+We have updated our contribution claims to focus on high-level path planning rather than tubes as a technique.
+
+ALGORITHMIC CONTRIBUTION (1AC,R1,R2)
+We have updated our discussion section to include descriptions of possible solutions for the algorithmic limitations pointed out by R1, as well as outlined the larger problem of global optimization.
+
+COMPLEX PIPE GEOMETRIES (R1)
+We have added an additional figure to illustrate routing through a genus > 0 object, an object which is long and thin, and an object with many pipes that are "tangled."
+
+SPECULATIVE OBJECTS SECTION (1AC)
+We have removed this section.
+
+SUPPORT MATERIAL DISCUSSION (1AC,R2)
+We have shortened this section and clarified suggestions for future researchers to replicate our work.
+
+VOXELIZATION VS. MESH BOOLEANS (R1)
+We have added additional emphasis that voxelization allowed us flexibility for, e.g., capping.
+
+SUNDRY CORRECTIONS/SUGGESTIONS (R2)
+Again, we are very appreciative of this list, and have incorporated these changes, including a reference for Mr. Stevens.
