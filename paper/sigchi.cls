@@ -302,7 +302,7 @@
   \end{tabular} %
   \hskip 1pt % [jdf] allow break for more than 3 authors
   \begin{tabular}[t]{p{\auwidth}}%
-    \centering\baselineskip 13pt}% [jdf] added more vertical spacing
+    \centering\baselineskip 0pt}% [jdf] added more vertical spacing
 
 %  *** NOTE *** NOTE *** NOTE *** NOTE ***
 %  If you have 'font problems' then you may need

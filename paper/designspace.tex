@@ -1,7 +1,7 @@
 %!TEX root = series of tubes.tex
 
 \section{The Design Space of Pipes}
-Our review of prior art indicates the potential benifits of using interior pipes for adding interactivity to 3D printed objects, although no general-purpose tools currently exist for this purpose. To guide the design of such a tool, we now provide a design space of the types of pipes that a maker may want to utilize. We have identified four relevant dimensions of pipe design: \emph{openings}, \emph{path constraints}, \emph{topologies}, and inserted \emph{media}.  We describe the space (Figure \ref{fig:pipespace}).
+Our review of prior art indicates the potential benefits of using interior pipes for adding interactivity to 3D printed objects, although no general-purpose tools currently exist for this purpose. To guide the design of such a tool, we now provide a design space of the types of pipes that a maker may want to utilize. We have identified four relevant dimensions of pipe design: \emph{openings}, \emph{path constraints}, \emph{topologies}, and inserted \emph{media}.  We describe the space in Figure \ref{fig:pipespace}.
 
 \begin{figure}[t]
 \centering
@@ -26,15 +26,8 @@ Pipes inside solid objects can be either \emph{open} to the outside on both ends
 %
 \emph{Fully enclosed} pipes (cavities) are entirely internal.  They may be used as weight modifiers~\cite{Prevost-makeitstand} and for object identification~\cite{Willis-infrastructs} (Figure \ref{fig:openings}c).  If printed in parts and assembled post-print, enclosed pipes could hold water or particles that would otherwise fall out.
 
-%\begin{figure}
-%\centering
-%    \includegraphics[width=1.0\columnwidth]{figures/glamour/return.jpg}
-%\caption{A path-constrained open pipe with EL wire as a ``neon'' design.}
-%\label{fig:justneon}
-%\end{figure}
-
 \subsection{Path Constraints}
-Depending on the purpose of the pipe, its geometry may be constrained to specific locations within the 3D model. An \emph{endpoint-constrained} pipe requires specific start and end points, but the particular route of the internal path is irrelevant. This is the case for circuit schematics, where the electronic components have fixed locations, but many routing solutions are valid. In contrast, for a \emph{path-constrained} pipe the shape of the path is important. For example, threading electroluminescent (EL) wire through a clear pipe enables makers to emulate neon art (Figure \ref{fig:teaser}, right). A \emph{fully constrained} pipe requires specific terminals as well as a specific path. If a maker wishes the EL wire to exit the rear of the sign to hide the electronics, she can use a fully-constrained path (Figure \ref{fig:teaser}, right). Finally, an \emph{unconstrained} pipe does not need a specific path or terminal points. A cavity to modify an object's weight is an example of an unconstrained pipe (Figure \ref{fig:openings}c).
+Depending on the purpose of the pipe, its geometry may be constrained to specific locations within the 3D model. An \emph{endpoint-constrained} pipe requires specific start and end points, but the particular route of the internal path is irrelevant. This is the case for circuit schematics, where the electronic components have fixed locations, but many routing solutions are valid. In contrast, for a \emph{path-constrained} pipe the shape of the path is important. For example, threading electroluminescent (EL) wire through a clear pipe enables makers to emulate neon art (Figure \ref{fig:teaser}, right). A \emph{fully constrained} pipe requires specific terminals as well as a specific path. If a maker wishes the EL wire to exit the rear of the sign to hide the electronics, she can use a fully-constrained path (Figure \ref{fig:teaser}, right). Finally, an \emph{unconstrained} pipe does not need a specific path or terminal points. A cavity to modify an object's overall weight is an example of an unconstrained pipe (Figure \ref{fig:openings}c).
 
 \subsection{Pipe Topologies}
 Pipe network topologies enable \emph{splitting} or \emph{mixing} of media (Figure \ref{fig:pipespace}).  \emph{Star} and \emph{tree} topologies extend splitting and mixing primitives, encompassing multiple-in and multiple-out configurations; we use star topologies to create sensing locations for our touch-sensitive toys, with one terminal used for swept-frequency capacitive sensing (Figure~\ref{fig:teaser}, center).

@@ -8,7 +8,7 @@ To allow makers to design novel objects with pipe-powered interfaces, we created
 \subsection{Exterior Terminals}
 
 % Designing objects which, for example, are touch sensitive in particular areas or contain electronic components, requires precise location and sizing of pipe endpoints.  The interior of these pipes should have as large a bending radius as possible so that post-print insertion of solid or viscous media is easier.
-To create endpoint-constrained pipes, in which the location of exterior connection points matters, a brush tool is used to specify a pair of points on the mesh's surface. The system automatically routes the pipe, and displays a preview.  Using sliders, the user can independently adjust the starting and ending radii of the pipe.  This is useful for, e.g, our breathing bunny (Figure \ref{fig:examples}b), whose pipes must fit a piece of hardware on one end, but on the other end should have as large an interactive surface as possible.
+To create endpoint-constrained pipes, in which the location of exterior connection points matters, a brush tool is used to specify a pair of points on the mesh's surface (Figure \ref{fig:tool-process-exterior}a). The system automatically routes the pipe, and displays a preview.  Using sliders, the user can independently adjust the starting and ending radii of the pipe.  This is useful for, e.g, our breathing bunny (Figure \ref{fig:examples}b), whose pipes must fit a piece of hardware on one end, but on the other end should have as large an interactive surface as possible.
 
 \begin{figure}[h!]
 \centering
@@ -18,7 +18,7 @@ To create endpoint-constrained pipes, in which the location of exterior connecti
 \end{figure}
 
 \subsubsection{Routing Algorithm and Physical Simulation}
-Given two points, we first find a path between them using the A* search algorithm on a voxel representation of the object~\cite{Hart-Astar}. A* finds a least-cost path through a graph of nodes given a cost function. Our graph comprises the grid of voxels as nodes, with edges between adjacent nodes; our path cost is based on the Euclidean distance to the selected end point. In this formulation, the routed path is naturally constrained to stay within the object boundaries.
+Given two points, we first find a path between them using the A* search algorithm on a voxel representation of the object~\cite{Hart-Astar}. A* finds a least-cost path through a graph of nodes given a cost function. Our graph comprises the grid of voxels as nodes, with edges between adjacent nodes; our path cost is based on the Euclidean distance to the selected end point. In this formulation, the routed path is naturally constrained to stay within the object boundaries (Figure \ref{fig:tool-process-exterior}b).
 %; for each point it tags the distance from the start (e.g., startPoint = 0, startNeighbors=1, ...).  Once the end point is reached, we backtrack through tagged points, always moving to a lower-valued point. \bjoern{find a clearer way to express this?}
 
 Our A* pathfinding produces the \emph{shortest} path, but in many cases
@@ -29,7 +29,7 @@ We solve this problem via physical simulation. We create a straight virtual
 wire (a 3D polyline or \emph{discrete rod}), and then set its initial position 
 as our A* path.
 Running the physical simulation allows the wire to attempt to return to
-a straight configuration, while satisfying the user-selected endpoint position constraints.  In addition to user constraints, we require that the rod be perpendicular to the surface at its ends to prevent the terminals' shape from deforming.
+a straight configuration, while satisfying the user-selected endpoint position constraints.  In addition to user constraints, we require that the rod be perpendicular to the surface at its ends to prevent the terminals' shape from deforming (Figure \ref{fig:tool-process-exterior}c).
 
 The wire is modelled as a \emph{discrete rod}: a 3D poly-line with a bending 
 constraint between adjacent segments. Our simulation is based on an
@@ -45,7 +45,7 @@ PBD simulations rarely converge to a steady state, so we simply halt after a fix
 \begin{figure}[h!]
 \centering
     \includegraphics[width=3.4in]{figures/routing-tests.png}
-\caption{A set of example routings produced by our tool.  Note that because the initial state of the discrete rod is based on an A* routing, it cannot jump around holes in a genus $>0$ mesh (a) even if that would reduce overall bending.  Pipes successfully route through long, curving paths in knots (b), and multiple pipes placed in a single mesh in a tangled configuration successfully avoid each other (c).}
+\caption{\changes{A set of example routings produced by our tool.  Note that because the initial state of the discrete rod is based on an A* routing, it cannot ``jump around'' holes in a genus $>0$ mesh (a) to route on the other side, even if this would reduce overall bending.  Pipes successfully route through long, curving paths in knots (b), and multiple pipes placed in a single mesh in a tangled configuration successfully avoid each other (c).}}
 \label{fig:complex}
 \end{figure}
 
@@ -66,7 +66,7 @@ To allow designers to create pipes with multiple endpoints (e.g., the star topol
 \begin{figure}
 \centering
     \includegraphics[width=3.4in]{figures/radius.png}
-\caption{Users can interactively change the radius of their pipes using a slider (b).  PipeDream's live preview shows the real size and location of the cut before it is committed to the mesh.}
+\caption{Users can interactively change the radius of their pipes using a slider (b).  PipeDream's live preview shows the real size and location of the cut (a, c) before it is committed to the mesh.}
 \label{fig:radius}
 \end{figure}
 
@@ -74,7 +74,7 @@ To allow designers to create pipes with multiple endpoints (e.g., the star topol
 
 For path-constrained pipes, the route of the pipe must conform to a desired shape. A maker can import a vector graphics file (such as SVG) describing the path she wants for her pipes: all lines in this input file are interpreted as desired pipe components for the final artifact.  Using sliders, she can change the pipes' radius (Figure \ref{fig:radius}).  A preview is provided to show the radius and location of the cut, and the maker can align her model as appropriate.
 
-In some cases, such as for the neon sign in Figure \ref{fig:tool-process-interior}, a single path must pass through a set of disconnected path segments (i.e., all letters in the word ``UIST'' ).  \systemname leverages graph theory algorithms to generate this single path, as described below.  Without endpoint constraints, the path's exit(s) from the model are defined by the SVG: the maker can see where the path exits the model and translate the cut according to her desired outcome.
+In some cases, such as for the neon route in Figure \ref{fig:tool-process-interior} and resultant sign in Figure \ref{fig:UIST}, a single path must pass through a set of disconnected path segments (i.e., all letters in the word ``UIST'' ).  \systemname leverages graph theory algorithms to generate this single path, as described below.  Without endpoint constraints, the path's exit(s) from the model are defined by the SVG: the maker can see where the path exits the model and translate the cut according to her desired outcome.
 
 \begin{figure}[h!]
 \centering
@@ -142,6 +142,7 @@ the tube endpoints.
 \label{fig:cap}
 \end{figure}
 
+\changes{
 \section{Fabrication Techniques}
 Several pragmatic concerns arise when fabricating models with pipes and cavities. Pipes frequently lead to overhangs (where an underlying supporting layer has a smaller footprint than the subsequent layer).
 To allow overhangs, 3D printers may lay down support material that must be later removed from the model.  The removal process can be time-intensive and challenging.  The physical fabrication process used by different machines gives rise to differing strategies for avoiding support material or easing its removal.  Techniques differ for fused deposition modeling (FDM) machines, such as the Makerbot\footnote{\url{http://makerbot.com}}, polyjet machines such as Stratasys Connex\footnote{\url{http://stratasys.com}},  powder-based machines (e.g., ZCorp\footnote{\url{http://3dsystems.com}}), and those that use stereolithography (e.g., Form 1\footnote{\url{http://formlabs.com}}).
@@ -154,3 +155,4 @@ The various types of printers permit different sorts of support-free prints.  FD
 
 \subsection{Model Assembly}
 For especially complex geometries, models can be ``cut up'' into multiple pieces that can be assembled, avoiding support deposition or easing material removal; this can also ease insertion of the desired medium. This is somewhat undesirable as it means more time spent in assembly post-print, and additionally a cut pipe may no longer be fluid-tight.  Our plane cut option goes towards this, however a more advanced tool for this purpose is outside the scope of this work.
+}
