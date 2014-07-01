@@ -16,5 +16,11 @@ We have shortened this section and clarified suggestions for future researchers 
 VOXELIZATION VS. MESH BOOLEANS (R1)
 We have added additional emphasis that voxelization allowed us flexibility for, e.g., capping.
 
+REFERENCES (R3):
+We have added references to Hudson's Teddy Bears and Mueller's LaserOrigami.
+
 SUNDRY CORRECTIONS/SUGGESTIONS (R2)
 Again, we are very appreciative of this list, and have incorporated these changes, including a reference for Mr. Stevens.
+
+ANNOUNCE RELEASE OF TOOL
+We are announcing the release of PipeDream as a part of MeshMixer later this year.  This detail has been added to the discussion section.
