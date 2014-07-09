@@ -36,21 +36,21 @@ constraint between adjacent segments. Our simulation is based on an
 implementation of Position-Based Dynamics (PBD)~\cite{Muller07}, with all constraints
 modelled as penalty forces. To keep the rod inside the
 mesh, we compute a discretized distance field, then constrain the
-rod to stay within our offset shell using a simple penalty force.
+rod to stay within our offset shell using a simple penalty force. \changes{This approach can successfully route pipes through complex geometries (Figure \ref{fig:complex}).}
 
 %In the case of multiple initial paths, we solve for each smoothed path sequentially.\bjoern{Why would we ever end up with multiple paths here? It thought we processed each path by running it through the (A*-PBD-Cutout) pipeline. So this step should only ever see one path, no?}\tovi{agree this is misleading, I think it can be removed since we talk about multiple pipes in a later paragraph}
 
-PBD simulations rarely converge to a steady state, so we simply halt after a fixed number of timesteps (250). Our voxel grid currently uses a resolution of 128x128x128 voxels, which enables interactive operations, but this parameter can be adjusted for different model requirements. The simulation takes about a second for our examples, including those in Figure \ref{fig:complex}.
+PBD simulations rarely converge to a steady state, so we simply halt after a fixed number of timesteps (250). Our voxel grid currently uses a resolution of 128x128x128 voxels, which enables interactive operations, but this parameter can be adjusted for different model requirements. The simulation takes about a second for our examples.
 
 \begin{figure}[h!]
 \centering
     \includegraphics[width=3.4in]{figures/routing-tests.png}
-\caption{\changes{A set of example routings produced by our tool.  Note that there is a tradeoff between bending and length of pipes: our pipes prefer shortness, however pipes could "jump around" holes in genus $> 0$ meshes (a) to reduce bending.  Pipes successfully route through long, curving paths in knots (b), and multiple pipes placed in a single mesh in a tangled configuration successfully avoid each other (c).}}
+\caption{\changes{A set of example routings produced by our tool.  Note that there is a tradeoff between bending and length of pipes: to reduce bending, pipes may be routed through longer paths around holes in genus $> 0$ meshes (a).  Pipes successfully route through long, curving paths in knots (b), and multiple pipes placed in a single mesh in a tangled configuration successfully avoid each other (c).}}
 \label{fig:complex}
 \end{figure}
 
 \subsubsection{Multiple Pipes}
-Pipes are routed and cut out of the mesh serially. This prevents pipe intersections: once a pipe has been cut out of the mesh, it cannot be part of valid routes in any future pipe routing operation. After solving for a path, we add it as a constraint to the system, generating
+Pipes are routed and cut out of the mesh serially. \changes{This prevents pipe intersections: once a pipe has been cut out of the mesh, it cannot be part of valid routes in any future pipe routing operation (Figure~\ref{fig:complex}c)}. After solving for a path, we add it as a constraint to the system, generating
 a penalty force that pushes additional paths away from it.  However, we do not currently track all pipes for global optimization: we greedily select the best routing per pipe. 
 
 \subsubsection{Pipes with Multiple Endpoints}
@@ -154,5 +154,7 @@ The physical form of support material varies between printer types.  On single-m
 The various types of printers permit different sorts of support-free prints.  FDM allows approximately a $45^\circ$ overhang before support is required.  For polyjet machines, overhangs can be just $14^\circ$.  Reorienting a part within the bed can lead to more or less support required.  MeshMixer already has a built-in tool that reorients models to keep as much surface area as possible within the $45^\circ$ constraint imposed by FDM printers, and alternative pipe cross-section geometries (e.g., teardrop) could alleviate the need for support material to bridge the tops of pipes.  In the future, pipe routes could be optimized to minimize support material required.
 
 \subsection{Model Assembly}
-For especially complex geometries, models can be ``cut up'' into multiple pieces that can be assembled, avoiding support deposition or easing material removal; this can also ease insertion of the desired medium. This is somewhat undesirable as it means more time spent in assembly post-print, and additionally a cut pipe may no longer be fluid-tight.  Our plane cut option goes towards this, however a more advanced tool for this purpose is outside the scope of this work.
+For especially complex geometries, models can be ``cut up'' into multiple pieces that can be assembled, avoiding support deposition or easing material removal; this can also ease insertion of the desired medium. This is somewhat undesirable as it means more time spent in assembly post-print, and additionally a cut pipe may no longer be fluid-tight.  
+%Our plane cut option goes towards this, however a more advanced tool for this purpose is outside the scope of this work.
+Our plane cut option offers a simple way to slice a model; more sophisticated techniques may be necessary for internal paths that are not constrained to a plane.
 }

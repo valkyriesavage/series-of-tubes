@@ -3,7 +3,7 @@
 % Use this command to override the default ACM copyright statement (e.g. for preprints). 
 % Consult the conference website for the camera-ready copyright statement.
 
-\toappear{Submitted to UIST 2014.}
+\toappear{Waiting for final copyright text from ACM/Sheridan.}
 %% EXAMPLE BEGIN -- HOW TO OVERRIDE THE DEFAULT COPYRIGHT STRIP -- (July 22, 2013 - Paul Baumann)
 % \toappear{Permission to make digital or hard copies of all or part of this work for personal or classroom use is 	granted without fee provided that copies are not made or distributed for profit or commercial advantage and that copies bear this notice and the full citation on the first page. Copyrights for components of this work owned by others than ACM must be honored. Abstracting with credit is permitted. To copy otherwise, or republish, to post on servers or to redistribute to lists, requires prior specific permission and/or a fee. Request permissions from permissions@acm.org. \\
 % {\emph{CHI'14}}, April 26--May 1, 2014, Toronto, Canada. \\
@@ -14,14 +14,14 @@
 
 % Arabic page numbers for submission. 
 % Remove this line to eliminate page numbers for the camera ready copy
-\pagenumbering{arabic}
+%\pagenumbering{arabic}
 
 % Load basic packages
 \usepackage{balance}  % to better equalize the last page
 \usepackage{graphics} % for EPS, load graphicx instead
 \usepackage{times}    % comment if you want LaTeX's default font
 \usepackage{url}      % llt: nicely formatted URLs
-
+\usepackage{flushend} % bjoern: attempt to balance last page
 \usepackage[]{algorithm2e}
 \let\proof\relax
 \let\endproof\relax
@@ -87,8 +87,8 @@ breaklinks=true,
     \email{george.fitzmaurice@autodesk.com}\\
   \alignauthor Bj\"orn Hartmann $\star$ \\
     \email{bjoern@eecs.berkeley.edu}\\ 
-  \alignauthor $\star$ UC Berkeley EECS \\
-	           $\dagger$ Autodesk Research \\
+  \alignauthor $\dagger$ Autodesk Research \\
+             $\star$ UC Berkeley EECS \\
 }
 
 %\numberofauthors{1}
@@ -136,7 +136,7 @@ Prototyping.}
 \bibliographystyle{acm-sigchi}
 \bibliography{references}
 
-\balance
+%\balance
 
 %\input{Appendix}
 
