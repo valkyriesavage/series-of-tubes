@@ -45,7 +45,7 @@ PBD simulations rarely converge to a steady state, so we simply halt after a fix
 \begin{figure}[h!]
 \centering
     \includegraphics[width=3.4in]{figures/routing-tests.png}
-\caption{\changes{A set of example routings produced by our tool.  Note that because the initial state of the discrete rod is based on an A* routing, it cannot ``jump around'' holes in a genus $>0$ mesh (a) to route on the other side, even if this would reduce overall bending.  Pipes successfully route through long, curving paths in knots (b), and multiple pipes placed in a single mesh in a tangled configuration successfully avoid each other (c).}}
+\caption{\changes{A set of example routings produced by our tool.  Note that there is a tradeoff between bending and length of pipes: our pipes prefer shortness, however pipes could "jump around" holes in genus $> 0$ meshes (a) to reduce bending.  Pipes successfully route through long, curving paths in knots (b), and multiple pipes placed in a single mesh in a tangled configuration successfully avoid each other (c).}}
 \label{fig:complex}
 \end{figure}
 
